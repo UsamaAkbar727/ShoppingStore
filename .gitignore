@@ -1,0 +1,12 @@
+config.php
+db.php
+connection.php
+
+.vscode/
+.idea/
+
+Thumbs.db
+.DS_Store
+
+vendor/
+node_modules/
