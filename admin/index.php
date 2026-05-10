@@ -6,6 +6,7 @@ $page = $_GET['page'] ?? 'dashboard';
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
   <title>Admin Panel - fashionstore</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>

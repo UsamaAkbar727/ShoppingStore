@@ -1,12 +1,24 @@
-config.php
-db.php
-connection.php
+# Environment variables
+.env
+.env.local
+.env.*.local
 
+# Configuration files
+config.php
+configshoppingstore.php
+
+# Dependencies
+vendor/
+node_modules/
+
+# IDE settings
 .vscode/
 .idea/
 
+# OS files
 Thumbs.db
 .DS_Store
 
-vendor/
-node_modules/
+# Uploads and temporary files
+uploads/
+*.log

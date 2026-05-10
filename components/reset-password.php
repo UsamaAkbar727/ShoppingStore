@@ -1,4 +1,5 @@
 <?php
+require_once("../auth/session.php");
 include("../configshoppingstore.php");
 
 // var_dump($_GET);
@@ -8,29 +9,38 @@ include("../configshoppingstore.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $email = $_GET["email"];
-    $password =  $_GET["token"];
+    $email = $_GET["email"] ?? null;
+    $token = $_GET["token"] ?? null;
 
-    setcookie("email", $email, time() + 180, "/");
-    if (!empty($email) && !empty($password)) {
-
+    if ($email && $token) {
+        setcookie("email", $email, time() + 180, "/");
         try {
-            $user = $conn->prepare("SELECT  password FROM user WHERE email='" . $email . "'");
-            $user->execute();
-            $res = $user->fetchAll();
+            $stmt = $conn->prepare("SELECT password FROM user WHERE email = ?");
+            $stmt->execute([$email]);
+            $res = $stmt->fetch();
 
             if ($res) {
-                $dbPass = $res[0]["password"];
+                $dbPass = $res["password"];
 
-                if ($dbPass !== $password) {
-                    header("Location: /auth/login.php");
+                if ($dbPass !== $token) {
+                    header("Location: " . $base_url . "auth/login.php");
+                    exit();
                 }
+            } else {
+                header("Location: " . $base_url . "auth/login.php");
+                exit();
             }
         } catch (\Throwable $th) {
-            echo $th;
+            error_log($th->getMessage());
+            $error = "Server error";
         }
     } else {
-        $error = "Server error";
+        // If parameters are missing, we might want to redirect or show an error
+        // For now, let's just ensure we don't process further if they are missing
+        if (!isset($_GET['email']) || !isset($_GET['token'])) {
+            // Optional: header("Location: " . $base_url . "auth/login.php");
+            // exit();
+        }
     }
 }
 ?>
@@ -40,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
     <title>Reset Password</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -54,15 +66,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         <form method="POST">
             <div class="mb-4">
                 <label class="block mb-1 text-sm font-semibold text-gray-600">New Password</label>
-                <input type="password" name="new_password" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="password" name="new_password" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div class="mb-4">
                 <label class="block mb-1 text-sm font-semibold text-gray-600">Confirm New Password</label>
-                <input type="password" name="confirm_password" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="password" name="confirm_password" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition">Reset Password</button>
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition">Reset
+                Password</button>
         </form>
     </div>
 
@@ -73,25 +89,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $new_password = $_POST["new_password"];
-    $hashedPass = password_hash($new_password, PASSWORD_BCRYPT);
+    $new_password = $_POST["new_password"] ?? '';
+    $confirm_password = $_POST["confirm_password"] ?? '';
 
-    $email = $_COOKIE["email"];
-
-    $user = $conn->prepare("UPDATE user SET password='" . $hashedPass . "' WHERE email='" . $email . "'");
-    $res = $user->execute();
-
-    if ($res) {
+    if ($new_password !== $confirm_password) {
         echo '<script>
-        document.getElementById("message").classList.toggle("invisible");
-        document.getElementById("message").innerHTML = "Password sexfully updated";
-    </script>';
-
-        echo '<script>
-            setTimeout(() => {
-                window.location = "/auth/login.php"
-            }, 400);
+            document.getElementById("message").classList.remove("invisible");
+            document.getElementById("message").innerHTML = "Passwords do not match";
+            document.getElementById("message").classList.replace("bg-blue-100", "bg-red-100");
+            document.getElementById("message").classList.replace("text-blue-700", "text-red-700");
         </script>';
+    } else {
+        $hashedPass = password_hash($new_password, PASSWORD_BCRYPT);
+        $email = $_COOKIE["email"] ?? null;
+
+        if ($email) {
+            $user = $conn->prepare("UPDATE user SET password = ? WHERE email = ?");
+            $res = $user->execute([$hashedPass, $email]);
+
+            if ($res) {
+                echo '<script>
+                document.getElementById("message").classList.remove("invisible");
+                document.getElementById("message").innerHTML = "Password successfully updated";
+            </script>';
+
+                echo '<script>
+                    setTimeout(() => {
+                        window.location = "' . $base_url . 'auth/login.php";
+                    }, 2000);
+                </script>';
+            }
+        } else {
+            echo '<script>
+                document.getElementById("message").classList.remove("invisible");
+                document.getElementById("message").innerHTML = "Session expired. Please try again.";
+                document.getElementById("message").classList.replace("bg-blue-100", "bg-red-100");
+                document.getElementById("message").classList.replace("text-blue-700", "text-red-700");
+            </script>';
+        }
     }
 }
 

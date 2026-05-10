@@ -1,16 +1,9 @@
 <?php
+require_once("../auth/session.php");
+check_auth();
 include("../configshoppingstore.php");
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (!isset($_COOKIE['user_id'])) {
-    header("Location: /auth/login.php");
-    exit();
-}
-
-$user_id = $_COOKIE['user_id'];
+$user_id = $_SESSION['user_id'];
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,19 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_title = "Change Password";
+include '../components/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><?php echo $page_title; ?></title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans">
 
 <main class="py-10">
   <div class="max-w-md mx-auto bg-white rounded-lg shadow p-6">
-    <h2 class="text-2xl font-semibold text-center mb-6">Change Password</h2>
+    <h2 class="text-2xl font-semibold text-center mb-6 text-luxury">Change Password</h2>
 
     <?php if (!empty($error)): ?>
       <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
@@ -67,25 +53,25 @@ $page_title = "Change Password";
       </div>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" class="space-y-4">
 
-    <div class="mb-4">
+      <div>
         <label class="block text-gray-700 mb-2">Current Password</label>
         <input
           type="password"
           name="current_password"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold"
         >
       </div>
 
-      <div class="mb-4">
+      <div>
         <label class="block text-gray-700 mb-2">New Password</label>
         <input
           type="password"
           name="new_password"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold"
         >
       </div>
 
@@ -96,19 +82,23 @@ $page_title = "Change Password";
           type="password"
           name="confirm_password"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold"
         >
       </div>
 
-      <button
-        type="submit"
-        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition"
-      >
-        Change Password
-      </button>
+      <div class="flex gap-4 pt-2">
+          <a href="user-account.php" class="flex-1 bg-gray-200 text-gray-800 text-center py-2 rounded transition hover:bg-gray-300">Cancel</a>
+          <button
+            type="submit"
+            class="flex-1 bg-luxury hover:bg-black text-white py-2 px-4 rounded transition"
+          >
+            Update
+          </button>
+      </div>
     </form>
   </div>
 </main>
 
+<?php include '../components/footer.php'; ?>
 </body>
 </html>

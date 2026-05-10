@@ -1,3 +1,18 @@
+<?php
+require_once("auth/session.php");
+include("./configshoppingstore.php");
+
+// Decrement stock if a product id is provided
+if (isset($_GET['id'])) {
+    $product_id = (int)$_GET['id'];
+    try {
+        $update = $conn->prepare("UPDATE `product` SET `stock` = GREATEST(stock - 1, 0) WHERE id = ?");
+        $update->execute([$product_id]);
+    } catch (\Throwable $th) {
+        error_log('Stock update error: ' . $th->getMessage());
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -137,16 +152,4 @@
 
 </body>
 
-</html>
-
-<?php
-include("./configshoppingstore.php");
-$product_id = $_GET["id"];
-try {
-    $update = $conn->prepare("UPDATE `product` SET `stock` = stock - 1 WHERE id = ?");
-    $update->execute([$product_id]);
-    
-} catch (\Throwable $th) {
-    $error = "Failed to update profile.";
-}
-?>
+</html>

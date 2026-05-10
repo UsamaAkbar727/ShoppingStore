@@ -1,281 +1,224 @@
 <?php
+require_once("../auth/session.php");
+check_auth();
 include("../configshoppingstore.php");
-include("header.php");
+
+$page_title        = "Our Odyssey | FashionStore";
+$site_title        = "Our Odyssey";
+$site_description  = "Discover the essence of FashionStore—where luxury meets legacy.";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us - FashionStore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
+    <title>Our Odyssey | FashionStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: "#39189a",
-                        secondary: "#82ccee",
-                        accent: "#FAFAFA",
-                        dark: "#1a1a2e",
-                        light: "#f8f9fa",
-                        neon: "#00f0ff"
-                    },
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
                     },
-                    boxShadow: {
-                        'soft': '0 10px 30px -15px rgba(0, 0, 0, 0.1)',
-                        'glow': '0 0 20px 5px rgba(130, 204, 238, 0.5)',
-                        'neon': '0 0 15px 3px rgba(0, 240, 255, 0.7)'
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'spin-slow': 'spin 8s linear infinite',
-                        'border-glow': 'border-glow 3s ease-in-out infinite alternate'
+                    colors: {
+                        luxury: '#1a1a1a',
+                        gold: '#c5a059',
+                        silver: '#f8f9fa',
+                        accent: '#e5e7eb'
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        body { background-color: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .hero-overlay {
-            background: linear-gradient(135deg, rgba(57, 24, 154, 0.85) 0%, rgba(130, 204, 238, 0.85) 100%);
+        .hero-video-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.4;
         }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        @keyframes border-glow {
-            0% { box-shadow: 0 0 10px 2px rgba(0, 240, 255, 0.3); }
-            100% { box-shadow: 0 0 20px 5px rgba(0, 240, 255, 0.7); }
-        }
-        
-        .icon-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .icon-hover:hover {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.8));
-        }
-        
-        .team-card:hover img {
-            transform: scale(1.1);
-        }
-        
-        .neon-text {
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
-        }
-        
-        .gradient-text {
-            background: linear-gradient(45deg, #39189a, #82ccee);
+        .text-gold-gradient {
+            background: linear-gradient(to right, #c5a059, #f9dfa5, #c5a059);
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
         }
+        .section-3d { perspective: 1000px; }
+        .tilt-card { transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); transform-style: preserve-3d; }
+        .tilt-card:hover { transform: rotateY(10deg) rotateX(5deg) scale(1.02); }
         
-        .parallax-bg {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        /* Seamless Dark Header override */
+        .dark-header header {
+            background-color: rgba(10, 10, 10, 0.8) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
+        .dark-header .nav-link, .dark-header header a, .dark-header header i {
+            color: white !important;
+        }
+        .dark-header .nav-link:hover { color: #c5a059 !important; }
+        .dark-header .sticky-nav { background-color: transparent !important; }
     </style>
 </head>
 
-<body class="overflow-x-hidden">
+<body class="overflow-x-hidden dark-header">
+    <?php include("header.php"); ?>
 
-    <!-- Hero Section with Particles -->
-    <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 hero-overlay"></div>
+    <!-- Cinematic Hero -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop playsinline class="hero-video-bg">
+            <source src="https://player.vimeo.com/external/494163965.sd.mp4?s=6966cf17f7d983488820c427f7173b9875f5b66d&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#0a0a0a]"></div>
         
-        <!-- Animated particles -->
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-8 h-8 rounded-full bg-white/30 animate-float" style="animation-delay: 0.5s;"></div>
-            <div class="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-secondary/40 animate-float" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-1/4 left-1/3 w-10 h-10 rounded-full bg-white/20 animate-float" style="animation-delay: 1.5s;"></div>
-            <div class="absolute bottom-1/3 right-1/3 w-6 h-6 rounded-full bg-secondary/30 animate-float" style="animation-delay: 2s;"></div>
-        </div>
-        
-        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto" data-aos="zoom-in" data-aos-duration="1500">
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-                <span class="gradient-text">Fashion Revolution</span> <br> Starts Here
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
+            <span class="text-gold text-xs uppercase tracking-[0.8em] font-black mb-6 block">Est. 2015</span>
+            <h1 class="font-serif text-6xl md:text-8xl text-white mb-8 leading-tight">
+                The Art of <br><span class="italic text-gold-gradient">Curation</span>
             </h1>
-            <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto neon-text">
-                Where every stitch tells a story and every design empowers
+            <p class="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
+                Beyond fashion, we craft legacies. A sanctuary for those who seek the extraordinary in every detail.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#our-story" class="bg-white text-primary px-10 py-4 rounded-full font-bold shadow-xl hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 inline-flex items-center">
-                    EXPLORE OUR STORY <i class="fas fa-arrow-down ml-3 animate-bounce"></i>
-                </a>
-                <a href="/components/product.php" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105 inline-flex items-center">
-                    SHOP NOW <i class="fas fa-bolt ml-3"></i>
+            <div class="flex flex-col sm:flex-row justify-center gap-8">
+                <a href="#vision" class="px-12 py-5 bg-gold text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:shadow-[0_0_40px_rgba(197,160,89,0.4)] transition-all duration-500 transform hover:-translate-y-1">
+                    Discover Vision
                 </a>
             </div>
         </div>
         
-        <div class="absolute bottom-10 left-0 right-0 text-center">
-            <a href="#our-story" class="inline-block animate-bounce">
-                <i class="fas fa-chevron-down text-white text-2xl"></i>
-            </a>
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-gold/50 text-xl"></i>
         </div>
     </section>
 
-    <!-- Our Story Section with Parallax -->
-    <section id="our-story" class="py-28 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1920&q=80')] parallax-bg opacity-10"></div>
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
-            <div class="relative" data-aos="fade-right" data-aos-duration="1200">
-                <div class="absolute -inset-2 bg-gradient-to-r from-primary to-secondary rounded-2xl blur-lg opacity-75 animate-pulse-slow"></div>
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80" 
-                     alt="Our Story" 
-                     class="relative z-10 w-full h-auto rounded-xl shadow-2xl transform hover:scale-[1.02] transition duration-500 border-4 border-white">
-            </div>
-            <div data-aos="fade-left" data-aos-duration="1200">
-                <span class="text-secondary font-bold mb-4 inline-block text-lg tracking-widest">OUR LEGACY</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-primary mb-8 leading-tight">
-                    Redefining Fashion <br> <span class="text-secondary">Since 2015</span>
-                </h2>
-                <p class="mb-6 text-gray-700 leading-relaxed text-lg">
-                    What began as a small boutique with a passion for authentic style has blossomed into a movement. 
-                    FashionStore isn't just about clothing—it's about crafting confidence and celebrating individuality.
-                </p>
-                <p class="mb-10 text-gray-700 leading-relaxed text-lg">
-                    Our journey from a single storefront to an international brand has been fueled by innovation, 
-                    quality, and an unwavering commitment to our customers' self-expression.
-                </p>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-secondary">
-                        <div class="text-4xl font-bold text-primary mb-2">50K+</div>
-                        <div class="text-gray-600">Happy Customers</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-primary">
-                        <div class="text-4xl font-bold text-secondary mb-2">120+</div>
-                        <div class="text-gray-600">Awards Won</div>
+    <!-- Visionary Narrative -->
+    <section id="vision" class="py-32 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="relative section-3d" data-aos="fade-right">
+                    <div class="absolute -inset-4 border border-gold/20 rounded-2xl transform -rotate-3"></div>
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" 
+                         alt="Visionary" 
+                         class="relative z-10 w-full h-[600px] object-cover rounded-2xl shadow-2xl tilt-card">
+                    <div class="absolute -bottom-12 -right-12 glass p-8 rounded-2xl z-20 hidden md:block" data-aos="fade-up" data-aos-delay="400">
+                        <p class="font-serif text-4xl text-gold italic mb-1">Authentic</p>
+                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Philosophy of Design</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mission & Values Section -->
-    <section class="py-28 bg-[url('https://images.unsplash.com/photo-1467043198406-dc953a3defa0?auto=format&fit=crop&w=1920&q=80')] bg-fixed bg-cover bg-center relative">
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <span class="text-neon font-bold mb-4 inline-block text-lg tracking-widest">OUR DNA</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-20 leading-tight">
-                Core Values That <span class="gradient-text">Illuminate</span>
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="p-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-neon transition-all duration-500" data-aos="flip-up">
-                    <div class="bg-gradient-to-r from-primary to-secondary w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8">
-                        <i class="fas fa-gem text-white text-4xl icon-hover"></i>
+                
+                <div class="space-y-10" data-aos="fade-left">
+                    <div class="space-y-4">
+                        <span class="text-gold text-xs uppercase tracking-[0.6em] font-black">Our Legacy</span>
+                        <h2 class="font-serif text-5xl text-white leading-tight">Redefining the <br><span class="italic text-gold">Sartorial Experience</span></h2>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Exceptional Craftsmanship</h3>
-                    <p class="text-white/80">
-                        Precision in every detail, excellence in every stitch. We obsess over quality so you don't have to.
-                    </p>
-                </div>
-                <div class="p-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-neon transition-all duration-500" data-aos="flip-up" data-aos-delay="200">
-                    <div class="bg-gradient-to-r from-primary to-secondary w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8">
-                        <i class="fas fa-globe text-white text-4xl icon-hover"></i>
+                    
+                    <div class="space-y-6 text-gray-400 font-light leading-relaxed text-lg">
+                        <p>What began as a whisper in the heart of the fashion district has evolved into a global anthem of elegance. FashionStore isn't merely a destination; it's a commitment to the enduring beauty of quality.</p>
+                        <p>We believe that luxury is not about excess, but about the intentional selection of pieces that resonate with the soul. Our curators traverse the globe to bring you an archive that transcends seasons.</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Sustainable Future</h3>
-                    <p class="text-white/80">
-                        Eco-conscious from fabric to finish. We're committed to fashion that loves the planet back.
-                    </p>
-                </div>
-                <div class="p-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-neon transition-all duration-500" data-aos="flip-up" data-aos-delay="400">
-                    <div class="bg-gradient-to-r from-primary to-secondary w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8">
-                        <i class="fas fa-lightbulb text-white text-4xl icon-hover"></i>
+                    
+                    <div class="grid grid-cols-2 gap-12 pt-8">
+                        <div>
+                            <p class="text-4xl font-serif text-white mb-2">50K<span class="text-gold">+</span></p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-black">Adherents</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-serif text-white mb-2">120<span class="text-gold">+</span></p>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-black">Accolades</p>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Bold Innovation</h3>
-                    <p class="text-white/80">
-                        Pushing boundaries daily. We blend tradition with cutting-edge design for looks that turn heads.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section class="py-28 bg-gradient-to-br from-[#f0f9ff] to-[#e6f4ff]">
+    <!-- Core Pillars -->
+    <section class="py-32 bg-white/5 relative">
         <div class="container mx-auto px-6 text-center">
-            <span class="text-secondary font-bold mb-4 inline-block text-lg tracking-widest">CREATIVE MINDS</span>
-            <h2 class="text-4xl md:text-5xl font-bold text-primary mb-20 leading-tight">
-                Meet The <span class="gradient-text">Visionaries</span>
-            </h2>
-            <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-                <div class="group bg-white rounded-2xl shadow-xl overflow-hidden team-card transition-all duration-500 hover:shadow-2xl" data-aos="fade-up">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="/images/146018020.png" 
-                             class="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
-                             alt="Muhammad Iqbal">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 text-left">
-                            <h3 class="text-2xl font-bold text-white">Muhammad Iqbal</h3>
-                            <p class="text-secondary font-medium">Creative Director</p>
-                        </div>
+            <span class="text-gold text-xs uppercase tracking-[0.6em] font-black mb-4 block">The DNA</span>
+            <h2 class="font-serif text-5xl text-white mb-24 italic">Pillars of <span class="text-gold">Excellence</span></h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="glass p-12 rounded-3xl hover:border-gold/30 transition-all duration-500 group" data-aos="fade-up">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-10 group-hover:bg-gold group-hover:text-white transition-all duration-500">
+                        <i class="fas fa-gem text-gold text-3xl group-hover:text-white"></i>
                     </div>
-                    <div class="p-6">
-                        <div class="flex justify-center space-x-5">
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-secondary text-xl transition transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                    <h3 class="font-serif text-2xl text-white mb-6">Master Craftsmanship</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Precision in every fiber. We collaborate with generational artisans to ensure every garment is a masterpiece.</p>
+                </div>
+                
+                <div class="glass p-12 rounded-3xl hover:border-gold/30 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-10 group-hover:bg-gold group-hover:text-white transition-all duration-500">
+                        <i class="fas fa-leaf text-gold text-3xl group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-white mb-6">Conscious Luxury</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Fashion with a conscience. Our commitment to sustainability ensures that beauty never comes at a cost to the earth.</p>
+                </div>
+                
+                <div class="glass p-12 rounded-3xl hover:border-gold/30 transition-all duration-500 group" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-10 group-hover:bg-gold group-hover:text-white transition-all duration-500">
+                        <i class="fas fa-lightbulb text-gold text-3xl group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-white mb-6">Bold Innovation</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Blending heritage with the avant-garde. We utilize cutting-edge technology to redefine traditional silhouettes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Collective -->
+    <section class="py-32">
+        <div class="container mx-auto px-6 text-center">
+            <span class="text-gold text-xs uppercase tracking-[0.6em] font-black mb-4 block">The Collective</span>
+            <h2 class="font-serif text-5xl text-white mb-24 italic">Architects of <span class="text-gold">Style</span></h2>
+            
+            <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+                <div class="group relative overflow-hidden rounded-2xl aspect-[3/4]" data-aos="fade-up">
+                    <img src="/images/146018020.png" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Iqbal">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-10 text-left w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-3xl text-white mb-1">Muhammad Iqbal</h3>
+                        <p class="text-gold text-[10px] uppercase tracking-[0.3em] font-black">Creative Visionary</p>
+                        <div class="flex gap-4 mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="group bg-white rounded-2xl shadow-xl overflow-hidden team-card transition-all duration-500 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="/images/IMG_20221107_211849_611.jpg" 
-                             class="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
-                             alt="Usama JuTt">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 text-left">
-                            <h3 class="text-2xl font-bold text-white">Usama JuTt</h3>
-                            <p class="text-secondary font-medium">Head of Design</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-center space-x-5">
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-secondary text-xl transition transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                
+                <div class="group relative overflow-hidden rounded-2xl aspect-[3/4]" data-aos="fade-up" data-aos-delay="200">
+                    <img src="/images/IMG_20221107_211849_611.jpg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Usama">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-10 text-left w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-3xl text-white mb-1">Usama JuTt</h3>
+                        <p class="text-gold text-[10px] uppercase tracking-[0.3em] font-black">Head of Aesthetics</p>
+                        <div class="flex gap-4 mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="group bg-white rounded-2xl shadow-xl overflow-hidden team-card transition-all duration-500 hover:shadow-2xl" data-aos="fade-up" data-aos-delay="400">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" 
-                             class="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
-                             alt="Emma Brown">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 text-left">
-                            <h3 class="text-2xl font-bold text-white">Emma Brown</h3>
-                            <p class="text-secondary font-medium">Marketing Lead</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-center space-x-5">
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-secondary text-xl transition transform hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-primary text-xl transition transform hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                
+                <div class="group relative overflow-hidden rounded-2xl aspect-[3/4]" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Emma">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-10 text-left w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 class="font-serif text-3xl text-white mb-1">Alexander Vance</h3>
+                        <p class="text-gold text-[10px] uppercase tracking-[0.3em] font-black">Strategy Director</p>
+                        <div class="flex gap-4 mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200">
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-white hover:text-gold"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
@@ -283,42 +226,29 @@ include("header.php");
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-28 text-center bg-gradient-to-r from-primary to-secondary relative overflow-hidden" data-aos="zoom-in">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-20 left-20 w-40 h-40 rounded-full bg-white animate-float"></div>
-            <div class="absolute bottom-10 right-20 w-60 h-60 rounded-full bg-white animate-float" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/3 right-1/4 w-20 h-20 rounded-full bg-neon/30 animate-float" style="animation-delay: 1s;"></div>
+    <!-- Join the Revolution -->
+    <section class="py-32 relative overflow-hidden bg-gold">
+        <div class="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
+            <span class="text-[40rem] font-serif italic text-white font-black select-none">F</span>
         </div>
-        <div class="relative z-10 max-w-5xl mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
-                Ready For Your <span class="neon-text">Style Transformation</span>?
-            </h2>
-            <p class="text-white/90 mb-10 text-xl max-w-3xl mx-auto">
-                Join our fashion revolution and experience clothing that makes you feel unstoppable.
-            </p>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="font-serif text-5xl md:text-7xl text-white mb-10">Begin Your <span class="italic text-luxury">Transformation</span></h2>
+            <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto font-light">Join our atelier and experience the future of curated fashion.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="contact.php" class="bg-white text-primary px-12 py-5 rounded-full font-bold shadow-2xl hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-lg">
-                    CONNECT WITH US <i class="fas fa-arrow-right ml-3"></i>
-                </a>
-                <a href="/components/product.php" class="bg-transparent border-3 border-white text-white px-12 py-5 rounded-full font-bold hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-lg">
-                    SHOP THE COLLECTION <i class="fas fa-bolt ml-3"></i>
+                <a href="<?php echo $base_url; ?>components/product.php" class="px-12 py-5 bg-luxury text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-xl hover:shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all duration-500">
+                    Acquire Now
                 </a>
             </div>
         </div>
     </section>
 
-    <?php include '../components/footer.php'; ?>
+    <?php include './footer.php'; ?>
 
-    <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
-        AOS.init({
-            once: false,
-            duration: 1000,
-            easing: 'ease-in-out-quad'
-        });
+        AOS.init({ once: true, duration: 1000 });
     </script>
 </body>
 
 </html>
+l>

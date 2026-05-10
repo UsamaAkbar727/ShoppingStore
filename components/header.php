@@ -4,177 +4,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $site_title; ?></title>
-    <meta name="description" content="<?php echo $site_description; ?>">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
+    <title><?php echo isset($page_title) ? $page_title : 'FashionStore'; ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: "#3b82f6",
-                        secondary: "#1e40af",
-                        accent: "#f43f5e",
-                        dark: "#1f2937",
-                        light: "#f9fafb"
-                    },
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
                     },
-                    boxShadow: {
-                        'nav': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                        'float': '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                    colors: {
+                        luxury: '#1a1a1a',
+                        gold: '#c5a059',
+                        silver: '#e5e7eb',
+                    },
+                    animation: {
+                        'slide-down': 'slideDown 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.3s ease-in forwards',
+                    },
+                    keyframes: {
+                        slideDown: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
 
+    <?php if (!empty($page_extra_styles)) echo $page_extra_styles; ?>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        
         .nav-link {
             position: relative;
-            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
         
-        .nav-link:after {
+        .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #3b82f6;
-            transition: width 0.3s ease;
+            height: 1px;
+            bottom: -4px;
+            left: 50%;
+            background-color: #c5a059;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
         }
         
-        .nav-link:hover:after {
+        .nav-link:hover::after {
             width: 100%;
         }
+
+        .nav-link:hover {
+            color: #c5a059;
+        }
         
+        .sticky-nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
         .cart-badge {
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-size: 0.6rem;
+            line-height: 1;
+            padding: 2px 4px;
         }
-        
-        .cart-icon:hover .cart-badge {
-            transform: scale(1.1);
-            background-color: #f43f5e;
-        }
-        
-        .mobile-menu {
-            transition: max-height 0.3s ease-out;
-            overflow: hidden;
+
+        .mobile-menu-item {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1rem 0;
         }
     </style>
 </head>
 
-<body>
-<header class="bg-white shadow-nav sticky top-0 z-50 text-dark">
-    <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center py-4">
-            <!-- Logo with improved styling -->
-            <a href="../index.php" class="flex items-center text-2xl font-bold">
-                <span class="bg-primary p-2 rounded-lg text-white mr-2 transform hover:rotate-12 transition">
-                    <i class="fas fa-tshirt"></i>
-                </span>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                    FashionStore
-                </span>
-            </a>
+<body class="font-sans text-luxury">
+<header class="bg-white border-b border-gray-100 sticky top-0 z-50 sticky-nav transition-all duration-500">
 
-            <!-- Main Navigation -->
-            <nav class="hidden md:flex space-x-8 items-center">
-                <a href="/index.php" class="nav-link font-medium hover:text-primary">Home</a>
-                <a href="/components/product.php" class="nav-link font-medium hover:text-primary">Shop</a>
-                <a href="/components/about.php" class="nav-link font-medium hover:text-primary">About</a>
-                <a href="/components/contact.php" class="nav-link font-medium hover:text-primary">Contact</a>
-                
-                <!-- Search bar integrated into nav -->
-                <div class="relative ml-4">
-                    <input type="text" placeholder="Search products..." 
-                           class="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm w-64">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
-                </div>
+
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center h-20">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="md:hidden text-luxury" id="mobile-menu-button">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Brand Logo (Center on Mobile, Left on Desktop) -->
+            <div class="flex-shrink-0 absolute left-1/2 md:static transform -translate-x-1/2 md:translate-x-0">
+                <a href="<?php echo $base_url; ?>index.php" class="font-serif text-2xl md:text-3xl tracking-tighter hover:text-gold transition-colors duration-300">
+                    FASHION<span class="text-gold italic">STORE</span>
+                </a>
+            </div>
+
+            <!-- Main Navigation (Desktop Only) -->
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="<?php echo $base_url; ?>index.php" class="nav-link">Home</a>
+                <a href="<?php echo $base_url; ?>shop.php" class="nav-link">Shop</a>
+                <a href="<?php echo $base_url; ?>men.php" class="nav-link">Men</a>
+                <a href="<?php echo $base_url; ?>women.php" class="nav-link">Women</a>
+                <a href="<?php echo $base_url; ?>objects.php" class="nav-link">Objects</a>
             </nav>
 
-            <!-- Action Icons -->
-            <div class="flex items-center space-x-6">
-                <a href="/search" class="hover:text-primary transform hover:scale-110 transition">
-                    <i class="fas fa-search text-xl md:hidden"></i>
-                </a>
+            <!-- Icons (Right) -->
+            <div class="flex items-center space-x-5 md:space-x-8">
+                <!-- Search -->
+                <button class="hover:text-gold transition-colors group">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
                 
-                <?php if (!isset($_COOKIE["token"])): ?>
-                    <a href="/auth/login.php" class="hover:text-primary transform hover:scale-110 transition group relative">
-                        <i class="fas fa-user text-xl"></i>
-                        <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs bg-dark text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
-                            Login
-                        </span>
+                <!-- Account -->
+                <?php if (!isset($_SESSION["user_id"])): ?>
+                    <a href="<?php echo $base_url; ?>auth/login.php" class="hover:text-gold transition-colors group">
+                        <i class="far fa-user text-lg"></i>
                     </a>
                 <?php else: ?>
-                    <a href="/auth/user-account.php" class="hover:text-primary transform hover:scale-110 transition group relative">
-                        <i class="fas fa-user-circle text-xl"></i>
-                        <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs bg-dark text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
-                            Account
-                        </span>
+                    <a href="<?php echo $base_url; ?>auth/user-account.php" class="hover:text-gold transition-colors group">
+                        <i class="fas fa-user-circle text-lg"></i>
                     </a>
                 <?php endif; ?>
 
+                <!-- Cart -->
                 <?php
                 $totalItems = 0;
-                $userLoggedIn = false;
-                if (isset($_COOKIE['user_id'])) {
-                    $userLoggedIn = true;
-                    $user_id = (int) $_COOKIE['user_id'];
+                $user_id = $_SESSION['user_id'] ?? 0;
+                if ($user_id > 0) {
                     try {
-                        $stmt = $conn->prepare("SELECT COUNT(*) FROM cart WHERE user_id = ?");
-                        $stmt->execute([$user_id]);
-                        $totalItems = (int) $stmt->fetchColumn();
-                    } catch (\Throwable $th) {
-                        $totalItems = 0;
-                    }
+                        // Use $root_path set by session.php for a reliable absolute include
+                        if (isset($root_path) && file_exists($root_path . 'configshoppingstore.php')) {
+                            require_once($root_path . 'configshoppingstore.php');
+                        }
+                        if (isset($conn)) {
+                            $stmt = $conn->prepare("SELECT COUNT(*) FROM cart WHERE user_id = ?");
+                            $stmt->execute([$user_id]);
+                            $totalItems = (int)$stmt->fetchColumn();
+                        }
+                    } catch (\Throwable $th) {}
                 }
                 ?>
-                
-                <a href="<?php echo $userLoggedIn ? '/components/cart.php' : '/auth/login.php'; ?>" 
-                   class="hover:text-primary transform hover:scale-110 transition relative cart-icon group">
-                    <i class="fas fa-shopping-bag text-xl"></i>
+                <a href="<?php echo $base_url; ?>components/cart.php" class="relative group">
+                    <i class="fas fa-shopping-bag text-lg group-hover:text-gold transition-colors"></i>
                     <?php if ($totalItems > 0): ?>
-                        <span class="cart-badge absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        <span class="absolute -top-2 -right-2 bg-gold text-white cart-badge rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold">
                             <?php echo $totalItems; ?>
                         </span>
                     <?php endif; ?>
-                    <span class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs bg-dark text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
-                        Cart
-                    </span>
                 </a>
-
-                <button class="md:hidden focus:outline-none ml-2" id="mobile-menu-button">
-                    <i class="fas fa-bars text-2xl hover:text-primary transition"></i>
-                </button>
             </div>
         </div>
+    </div>
 
-        <!-- Mobile Menu with animation -->
-        <div class="md:hidden hidden mobile-menu max-h-0" id="mobile-menu">
-            <div class="flex flex-col space-y-4 py-4 border-t mt-2">
-                <a href="/index.php" class="nav-link font-medium hover:text-primary px-2 py-1 rounded hover:bg-gray-50">Home</a>
-                <a href="/components/product.php" class="nav-link font-medium hover:text-primary px-2 py-1 rounded hover:bg-gray-50">Shop</a>
-                <a href="/components/about.php" class="nav-link font-medium hover:text-primary px-2 py-1 rounded hover:bg-gray-50">About</a>
-                <a href="/components/contact.php" class="nav-link font-medium hover:text-primary px-2 py-1 rounded hover:bg-gray-50">Contact</a>
-                
-                <div class="relative mt-2">
-                    <input type="text" placeholder="Search..." 
-                           class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+    <!-- Mobile Navigation Overlay -->
+    <div class="fixed inset-0 bg-white z-[60] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden" id="mobile-overlay">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-12">
+                <span class="font-serif text-2xl">MENU</span>
+                <button id="close-mobile-menu">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <a href="<?php echo $base_url; ?>index.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Home</a>
+                <a href="<?php echo $base_url; ?>shop.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Shop</a>
+                <a href="<?php echo $base_url; ?>men.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Men</a>
+                <a href="<?php echo $base_url; ?>women.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Women</a>
+                <a href="<?php echo $base_url; ?>objects.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Objects</a>
+            </div>
+            
+            <div class="mt-20">
+                <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Support</p>
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="text-sm">Client Service</a>
+                    <a href="#" class="text-sm">Shipping & Returns</a>
+                    <a href="#" class="text-sm">Store Locator</a>
                 </div>
             </div>
         </div>
@@ -182,37 +195,30 @@
 </header>
 
 <script>
-    // Enhanced mobile menu toggle with animation
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('max-h-0');
-        
-        if (!menu.classList.contains('hidden')) {
-            menu.style.maxHeight = menu.scrollHeight + 'px';
-        } else {
-            menu.style.maxHeight = '0';
-        }
-        
-        // Toggle hamburger icon
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('fa-bars')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
-    
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.add('hidden');
-            menu.classList.add('max-h-0');
-            document.querySelector('#mobile-menu-button i').classList.remove('fa-times');
-            document.querySelector('#mobile-menu-button i').classList.add('fa-bars');
+    // Mobile menu logic
+    const menuBtn = document.getElementById('mobile-menu-button');
+    const closeBtn = document.getElementById('close-mobile-menu');
+    const overlay = document.getElementById('mobile-overlay');
+
+    if (menuBtn && closeBtn && overlay) {
+        menuBtn.addEventListener('click', () => {
+            overlay.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden';
         });
+
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.add('translate-x-full');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('py-1', 'shadow-sm');
+        } else {
+            header.classList.remove('py-1', 'shadow-sm');
+        }
     });
-</script>
+</script>
