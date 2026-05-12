@@ -5,17 +5,18 @@ include("configshoppingstore.php");
 include("components/product_card_user.php");
 
 $user_id = $_SESSION['user_id'] ?? 0;
-$category = "Objects";
+$category = "Accessories";
 
+$products = [];
 try {
-    $stmt = $conn->prepare("SELECT * FROM `product` WHERE category = ? ORDER BY created_at DESC");
+    $stmt = $conn->prepare("SELECT * FROM `product` WHERE category = ? ORDER BY id DESC");
     $stmt->execute([$category]);
     $products = $stmt->fetchAll();
 } catch (\Throwable $th) {
     $error = $th->getMessage();
 }
 
-$site_title = "OBJECTS & ACCESSORIES | FashionStore";
+$site_title = "ACCESSORIES | FashionStore";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +48,7 @@ $site_title = "OBJECTS & ACCESSORIES | FashionStore";
         <div class="container mx-auto max-w-7xl">
             <div class="mb-16">
                 <span class="text-gold text-xs uppercase tracking-[0.6em] font-black">Archive 03</span>
-                <h1 class="font-serif text-6xl text-white italic">Curated <span class="text-gold">Objects</span></h1>
+                <h1 class="font-serif text-6xl text-white italic">Fine <span class="text-gold">Accessories</span></h1>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <?php foreach ($products as $value): 

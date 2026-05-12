@@ -13,7 +13,7 @@ if ($category_filter !== 'All') {
     $query .= " WHERE category = ?";
     $params[] = $category_filter;
 }
-$query .= " ORDER BY created_at DESC";
+$query .= " ORDER BY id DESC";
 
 try {
     $stmt = $conn->prepare($query);
@@ -82,7 +82,7 @@ $site_title = "SHOP ALL | FashionStore";
                     <a href="shop.php?category=All" class="filter-btn px-8 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold transition-all <?php echo $category_filter === 'All' ? 'active' : 'hover:bg-white/5'; ?>">All Pieces</a>
                     <a href="shop.php?category=Men" class="filter-btn px-8 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold transition-all <?php echo $category_filter === 'Men' ? 'active' : 'hover:bg-white/5'; ?>">Men</a>
                     <a href="shop.php?category=Women" class="filter-btn px-8 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold transition-all <?php echo $category_filter === 'Women' ? 'active' : 'hover:bg-white/5'; ?>">Women</a>
-                    <a href="shop.php?category=Objects" class="filter-btn px-8 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold transition-all <?php echo $category_filter === 'Objects' ? 'active' : 'hover:bg-white/5'; ?>">Objects</a>
+                    <a href="shop.php?category=Accessories" class="filter-btn px-8 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold transition-all <?php echo $category_filter === 'Accessories' ? 'active' : 'hover:bg-white/5'; ?>">Accessories</a>
                 </div>
             </div>
 

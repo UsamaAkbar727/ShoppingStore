@@ -50,6 +50,12 @@
             text-transform: uppercase;
             font-size: 0.75rem;
             font-weight: 500;
+            color: #1a1a1a;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.text-gold {
+            color: #c5a059;
         }
         
         .nav-link::after {
@@ -64,17 +70,20 @@
             transform: translateX(-50%);
         }
         
-        .nav-link:hover::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: 100%;
         }
 
-        .nav-link:hover {
-            color: #c5a059;
+        .nav-link:hover,
+        .nav-link.active {
+            color: #c5a059 !important;
         }
         
         .sticky-nav {
             backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
 
         .cart-badge {
@@ -87,6 +96,11 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
             padding: 1rem 0;
         }
+
+        .mobile-menu-item.active {
+            color: #c5a059;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -94,6 +108,11 @@
 <header class="bg-white border-b border-gray-100 sticky top-0 z-50 sticky-nav transition-all duration-500">
 
 
+    <?php 
+    $current_page = basename($_SERVER['PHP_SELF']); 
+    $request_uri = $_SERVER['PHP_SELF'];
+    $is_admin_path = (strpos($request_uri, '/admin/') !== false);
+    ?>
     <div class="container mx-auto px-6">
         <div class="flex justify-between items-center h-20">
             <!-- Mobile Menu Toggle (Left) -->
@@ -110,11 +129,16 @@
 
             <!-- Main Navigation (Desktop Only) -->
             <nav class="hidden md:flex items-center space-x-10">
-                <a href="<?php echo $base_url; ?>index.php" class="nav-link">Home</a>
-                <a href="<?php echo $base_url; ?>shop.php" class="nav-link">Shop</a>
-                <a href="<?php echo $base_url; ?>men.php" class="nav-link">Men</a>
-                <a href="<?php echo $base_url; ?>women.php" class="nav-link">Women</a>
-                <a href="<?php echo $base_url; ?>objects.php" class="nav-link">Objects</a>
+                <a href="<?php echo $base_url; ?>index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
+                <a href="<?php echo $base_url; ?>shop.php" class="nav-link <?php echo ($current_page == 'shop.php') ? 'active' : ''; ?>">Shop</a>
+                <a href="<?php echo $base_url; ?>men.php" class="nav-link <?php echo ($current_page == 'men.php') ? 'active' : ''; ?>">Men</a>
+                <a href="<?php echo $base_url; ?>women.php" class="nav-link <?php echo ($current_page == 'women.php') ? 'active' : ''; ?>">Women</a>
+                <a href="<?php echo $base_url; ?>accessories.php" class="nav-link <?php echo ($current_page == 'accessories.php') ? 'active' : ''; ?>">Accessories</a>
+                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                    <a href="<?php echo $base_url; ?>admin/index.php" class="nav-link text-gold font-bold <?php echo ($is_admin_path) ? 'active' : ''; ?>">
+                        <i class="fas fa-user-shield mr-1"></i> Admin
+                    </a>
+                <?php endif; ?>
             </nav>
 
             <!-- Icons (Right) -->
@@ -175,11 +199,14 @@
                 </button>
             </div>
             <div class="flex flex-col space-y-2">
-                <a href="<?php echo $base_url; ?>index.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Home</a>
-                <a href="<?php echo $base_url; ?>shop.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Shop</a>
-                <a href="<?php echo $base_url; ?>men.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Men</a>
-                <a href="<?php echo $base_url; ?>women.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Women</a>
-                <a href="<?php echo $base_url; ?>objects.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase">Objects</a>
+                <a href="<?php echo $base_url; ?>index.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
+                <a href="<?php echo $base_url; ?>shop.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'shop.php') ? 'active' : ''; ?>">Shop</a>
+                <a href="<?php echo $base_url; ?>men.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'men.php') ? 'active' : ''; ?>">Men</a>
+                <a href="<?php echo $base_url; ?>women.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'women.php') ? 'active' : ''; ?>">Women</a>
+                <a href="<?php echo $base_url; ?>accessories.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'accessories.php') ? 'active' : ''; ?>">Accessories</a>
+                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                    <a href="<?php echo $base_url; ?>admin/index.php" class="mobile-menu-item text-lg font-bold tracking-widest uppercase text-gold <?php echo ($is_admin_path) ? 'active' : ''; ?>">Admin Panel</a>
+                <?php endif; ?>
             </div>
             
             <div class="mt-20">

@@ -1,150 +1,133 @@
 <?php
-require_once("../auth/session.php");
-// check_auth(); // Ensure only admins can access this (logic should be in check_auth or separate)
 include("../configshoppingstore.php");
 
-$success = false;
-$error = "";
+$message = "";
+$messageType = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $category = $_POST['category'];
-    $productName = $_POST['productName'];
-    $price = $_POST['price'];
-    $discountedPrice = !empty($_POST['discountedPrice']) ? $_POST['discountedPrice'] : null;
-    $stock = $_POST['stock'];
-    $description = $_POST['description'];
-
-    $imageName = $_FILES['productImage']['name'];
-    $imageTmp = $_FILES['productImage']['tmp_name'];
-    $uploadDir = './uploads/';
+if (isset($_POST["submit"])) {
+    $productName = $_POST["productName"];
+    $category = $_POST["category"];
+    $price = $_POST["price"];
+    $discountedPrice = $_POST["discountedPrice"];
+    $stock = $_POST["stock"];
+    $description = $_POST["description"];
     
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    $file = $_FILES["file"];
+    $fileName = time() . "_" . $file["name"];
+    $tempPath = $file["tmp_name"];
+    $uploadPath = "uploads/" . $fileName;
+
+    if (!is_dir('uploads')) {
+        mkdir('uploads', 0777, true);
     }
 
-    $genetratedName = time() . '_' . $imageName;
-    $imagePath = $uploadDir . $genetratedName;
-
-    try {
-        $stmt = $conn->prepare("INSERT INTO `product`(`category`, `productName`, `price`, `discountedPrice`, `stock`, `description`, `file`) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $res = $stmt->execute([$category, $productName, $price, $discountedPrice, $stock, $description, $genetratedName]);
-
-        if ($res) {
-            if (move_uploaded_file($imageTmp, $imagePath)) {
-                $success = true;
+    if (move_uploaded_file($tempPath, $uploadPath)) {
+        try {
+            $stmt = $conn->prepare("INSERT INTO `product` (`category`, `productName`, `price`, `discountedPrice`, `stock`, `description`, `file`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt->execute([$category, $productName, $price, $discountedPrice, $stock, $description, $fileName])) {
+                $message = "Masterpiece successfully archived in the inventory.";
+                $messageType = "success";
             }
+        } catch (Exception $e) {
+            $message = "Registry Error: " . $e->getMessage();
+            $messageType = "error";
         }
-    } catch (\Throwable $th) {
-        $error = "Error adding product: " . $th->getMessage();
+    } else {
+        $message = "Upload Failed: Could not secure the media file.";
+        $messageType = "error";
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curate New Piece | Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Inter', 'sans-serif'] },
-                    colors: { luxury: '#1a1a1a', gold: '#c5a059', silver: '#f8f9fa' }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
-        body { background-color: #0a0a0a; color: #fff; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        input, select, textarea { 
-            background: rgba(255,255,255,0.05) !important; 
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            color: white !important;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #c5a059 !important;
-            outline: none;
-        }
-    </style>
-</head>
-<body class="font-sans">
-    <div class="min-h-screen flex items-center justify-center py-20 px-6">
-        <div class="max-w-4xl w-full glass rounded-3xl overflow-hidden shadow-2xl">
-            <div class="p-12 border-b border-white/5 flex justify-between items-center">
-                <div>
-                    <h1 class="font-serif text-4xl text-white">Curate <span class="text-gold italic">New Piece</span></h1>
-                    <p class="text-gray-500 text-xs uppercase tracking-widest mt-2">Product Management Portal</p>
+<div class="max-w-4xl mx-auto space-y-12">
+    <!-- Header -->
+    <div class="space-y-2">
+        <h2 class="font-serif text-5xl text-white">Add New Item</h2>
+        <p class="text-gray-500 text-sm tracking-[0.2em] uppercase font-bold">Register a new piece in the collection</p>
+    </div>
+
+    <!-- Feedback Message -->
+    <?php if ($message): ?>
+        <div class="p-6 rounded-2xl <?php echo $messageType == 'success' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'; ?> border flex items-center gap-4">
+            <i class="fas <?php echo $messageType == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'; ?>"></i>
+            <span class="text-sm font-bold tracking-wide"><?php echo $message; ?></span>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST" enctype="multipart/form-data" class="glass-dark p-10 md:p-16 rounded-[40px] luxury-shadow space-y-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Basic Info -->
+            <div class="space-y-6">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-gold font-black border-l-2 border-gold pl-4">Identification</p>
+                
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Product Name</label>
+                    <input type="text" name="productName" required placeholder="e.g. Silk Velvet Gown"
+                           class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all">
                 </div>
-                <a href="products.php" class="text-xs uppercase tracking-widest text-gray-400 hover:text-gold transition-colors">View All Products</a>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Category</label>
+                    <select name="category" required class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all appearance-none">
+                        <option value="Men" class="bg-luxury">Men</option>
+                        <option value="Women" class="bg-luxury">Women</option>
+                        <option value="Accessories" class="bg-luxury">Accessories</option>
+                    </select>
+                </div>
             </div>
 
-            <form class="p-12 space-y-8" method="POST" enctype="multipart/form-data">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Commercial Info -->
+            <div class="space-y-6">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-gold font-black border-l-2 border-gold pl-4">Valuation</p>
+                
+                <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Category</label>
-                        <select name="category" required class="w-full px-6 py-4 rounded-xl text-sm">
-                            <option value="">Select Category</option>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Objects">Objects</option>
-                        </select>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Retail Price ($)</label>
+                        <input type="number" step="0.01" name="price" required placeholder="0.00"
+                               class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all">
                     </div>
-
                     <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Product Name</label>
-                        <input type="text" name="productName" required placeholder="e.g. Silk Velvet Gown" class="w-full px-6 py-4 rounded-xl text-sm">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Base Price (USD)</label>
-                        <input type="number" name="price" step="0.01" required placeholder="0.00" class="w-full px-6 py-4 rounded-xl text-sm">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Discounted Price (Optional)</label>
-                        <input type="number" name="discountedPrice" step="0.01" placeholder="0.00" class="w-full px-6 py-4 rounded-xl text-sm">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Initial Stock</label>
-                        <input type="number" name="stock" required placeholder="0" class="w-full px-6 py-4 rounded-xl text-sm">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Product Image</label>
-                        <input type="file" name="productImage" required class="w-full px-6 py-4 rounded-xl text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-gold file:text-white hover:file:bg-opacity-80">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Discounted ($)</label>
+                        <input type="number" step="0.01" name="discountedPrice" placeholder="Optional"
+                               class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all">
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] uppercase tracking-widest font-black text-gray-500">Description</label>
-                    <textarea name="description" rows="4" required placeholder="Enter the story behind this piece..." class="w-full px-6 py-4 rounded-xl text-sm"></textarea>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Initial Stock Level</label>
+                    <input type="number" name="stock" required placeholder="10"
+                           class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all">
                 </div>
-
-                <div class="pt-6">
-                    <button type="submit" class="w-full py-6 bg-gold text-white text-[10px] font-black uppercase tracking-[0.5em] rounded-xl hover:shadow-[0_0_40px_rgba(197,160,89,0.3)] transition-all transform hover:-translate-y-1">
-                        Add to Collection
-                    </button>
-                </div>
-            </form>
-
-            <?php if ($success): ?>
-                <div class="p-6 bg-green-500/10 border-t border-green-500/20 text-green-500 text-center text-xs uppercase tracking-widest font-bold">
-                    Piece successfully added to the digital archives.
-                </div>
-            <?php endif; ?>
-            <?php if ($error): ?>
-                <div class="p-6 bg-red-500/10 border-t border-red-500/20 text-red-500 text-center text-xs uppercase tracking-widest font-bold">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
+            </div>
         </div>
-    </div>
-</body>
-</html>
+
+        <!-- Media & Narrative -->
+        <div class="space-y-6">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-gold font-black border-l-2 border-gold pl-4">Media & Narrative</p>
+            
+            <div class="space-y-2">
+                <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Product Narrative (Description)</label>
+                <textarea name="description" rows="4" required placeholder="Tell the story of this piece..."
+                          class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-gold transition-all"></textarea>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Primary Visual (Image)</label>
+                <div class="relative group">
+                    <input type="file" name="file" required id="file-upload" class="hidden">
+                    <label for="file-upload" class="flex flex-col items-center justify-center w-full h-40 bg-white/5 border-2 border-dashed border-white/10 rounded-2xl cursor-pointer group-hover:border-gold/50 transition-all">
+                        <i class="fas fa-cloud-upload-alt text-gray-600 text-3xl mb-4 group-hover:text-gold transition-colors"></i>
+                        <span class="text-xs text-gray-500 uppercase tracking-widest font-bold">Click to upload media</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-6">
+            <button type="submit" name="submit" class="w-full py-6 bg-gold text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-2xl hover:shadow-[0_0_40px_rgba(197,160,89,0.3)] transition-all">
+                Finalize Registry
+            </button>
+        </div>
+    </form>
+</div>

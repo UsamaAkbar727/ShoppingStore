@@ -7,8 +7,9 @@ include("components/product_card_user.php");
 $user_id = $_SESSION['user_id'] ?? 0;
 $category = "Women";
 
+$products = [];
 try {
-    $stmt = $conn->prepare("SELECT * FROM `product` WHERE category = ? ORDER BY created_at DESC");
+    $stmt = $conn->prepare("SELECT * FROM `product` WHERE category = ? ORDER BY id DESC");
     $stmt->execute([$category]);
     $products = $stmt->fetchAll();
 } catch (\Throwable $th) {

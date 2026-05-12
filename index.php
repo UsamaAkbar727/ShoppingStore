@@ -33,7 +33,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
 $res_arr = [];
 try {
-    $stmt = $conn->prepare("SELECT * FROM `product` ORDER BY created_at DESC");
+    $stmt = $conn->prepare("SELECT * FROM `product` ORDER BY id DESC");
     $stmt->execute();
     $res_arr = $stmt->fetchAll();
 } catch (\Throwable $th) {
@@ -365,11 +365,11 @@ try {
                         </div>
                     </a>
                     <!-- 3D Category Card -->
-                    <a href="objects.php" class="group relative aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl tilt-card">
+                    <a href="accessories.php" class="group relative aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl tilt-card">
                         <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accessories" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-700"></div>
                         <div class="absolute inset-0 flex flex-col items-center justify-end p-16 text-white category-card">
-                            <h3 class="font-serif text-4xl mb-4 group-hover:translate-y-[-20px] transition-transform duration-700">Objects</h3>
+                            <h3 class="font-serif text-4xl mb-4 group-hover:translate-y-[-20px] transition-transform duration-700">Accessories</h3>
                             <div class="h-[1px] w-0 bg-gold group-hover:w-full transition-all duration-700"></div>
                         </div>
                     </a>

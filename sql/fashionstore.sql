@@ -19,9 +19,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `fullname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
+  `isBlock` varchar(30) NOT NULL DEFAULT '0',
+  `expire` varchar(200) NOT NULL DEFAULT '',
+  `file` varchar(200) NOT NULL DEFAULT 'default.png',
   `role` enum('user', 'admin') DEFAULT 'user',
-  `profile_image` varchar(255) DEFAULT 'default_user.png',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -109,4 +110,3 @@ INSERT IGNORE INTO `user` (`fullname`, `email`, `password`, `role`) VALUES
 ('Admin User', 'admin@fashionstore.com', '$2y$10$FpaVkSoZSzhwFqvhkmqN9uxt3h10YR128d2TlTYqI1ramqyZX26cq', 'admin');
 
 COMMIT;
-

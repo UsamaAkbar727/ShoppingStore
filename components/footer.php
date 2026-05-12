@@ -131,7 +131,7 @@
                         Developed <span class="text-red-500 mx-1 animate-pulse">❤️</span> by JuTt Tech Solutions
                     </p>
                     <p class="text-[8px] uppercase tracking-[0.2em] text-gray-700 mt-1 font-light">
-                        &copy; <?php echo date('Y'); ?> FASHIONSTORE | ALL RIGHTS RESERVED
+                        &copy; <?php echo date('Y'); ?> FASHIONSTORE <a href="<?php echo $base_url; ?>admin/login.php" class="cursor-default hover:text-gold transition-colors">|</a> ALL RIGHTS RESERVED
                     </p>
                 </div>
             </div>

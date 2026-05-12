@@ -20,7 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (password_verify($password, $user_data["password"])) {
                     $_SESSION['user_id']   = $user_data['id'];
                     $_SESSION['user_name'] = $user_data['fullname'];
-                    $_SESSION['user_role'] = $user_data['role'] ?? 'user'; // fallback if column missing
+                    $_SESSION['user_role'] = $user_data['role'] ?? 'user'; 
+                    
+                    if ($_SESSION['user_role'] === 'admin') {
+                        $_SESSION['admin_logged_in'] = true;
+                    }
                     
                     setcookie("token",   $user_data["password"], time() + 86400, "/");
                     setcookie("user_id", $user_data["id"],       time() + 86400, "/");

@@ -1,69 +1,72 @@
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          primary: "#3b82f6",
-          secondary: "#1e40af"
-        }
-      }
-    }
-  }
-</script>
-
-
 <?php 
 function print_card($src, $categoryName, $productName, $description, $productPrice, $discountedPrice, $stock, $productId){
-
-    $adddiscountPrice = "<span class='text-lg font-bold text-blue-600'>".$productPrice."</span>";
-    $originalPrice = "";
-
-    if($discountedPrice){
-        $adddiscountPrice = '<span class="text-lg font-bold text-blue-600">'.$discountedPrice.'</span>';
-        $originalPrice = '<span class="text-sm text-gray-400 line-through ml-2">'.$productPrice.'</span>';
-    }
-
-    echo '<div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 w-full max-w-sm m-4 border border-gray-100">
-  <div class="relative">
-    <img src="'.$src.'" alt="Product Image" class="w-full h-64 object-cover" loading="lazy">
+    global $base_url;
     
-    <div class="absolute top-3 left-3 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-      '.$categoryName.'
+    // Determine the actual image source
+    // In admin/products.php, $src is passed as "uploads/".$value["file"]
+    // Since we are in admin/, this is correct.
+    
+    $finalPrice = $discountedPrice ?: $productPrice;
+    $hasDiscount = ($discountedPrice > 0 && $discountedPrice < $productPrice);
+?>
+<div class="glass-dark rounded-3xl overflow-hidden border border-white/5 hover:border-gold/30 transition-all duration-500 luxury-shadow group flex flex-col h-full">
+    <!-- Image Wrapper -->
+    <div class="relative aspect-[4/5] overflow-hidden">
+        <img src="<?php echo $src; ?>" alt="<?php echo $productName; ?>" 
+             class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 opacity-80 group-hover:opacity-100">
+        
+        <!-- Status Badges -->
+        <div class="absolute top-4 left-4 flex flex-col gap-2">
+            <span class="px-3 py-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[8px] font-black uppercase tracking-widest text-white">
+                <?php echo $categoryName; ?>
+            </span>
+            <?php if ($hasDiscount): ?>
+            <span class="px-3 py-1 bg-gold text-black rounded-full text-[8px] font-black uppercase tracking-widest">
+                Special Offer
+            </span>
+            <?php endif; ?>
+        </div>
+
+        <!-- Stock Indicator -->
+        <div class="absolute bottom-4 right-4">
+            <div class="px-3 py-1 bg-black/60 backdrop-blur-md rounded-lg border border-white/10">
+                <p class="text-[8px] text-gray-400 uppercase tracking-widest font-bold">Qty: <span class="<?php echo $stock > 0 ? 'text-green-400' : 'text-red-400'; ?>"><?php echo $stock; ?></span></p>
+            </div>
+        </div>
+
+        <!-- Overlay Actions -->
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4 backdrop-blur-sm">
+            <a href="index.php?page=editproduct&id=<?php echo $productId; ?>" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-gold transition-colors">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a href="delete-product.php?id=<?php echo $productId; ?>" 
+               onclick="return confirm('Archive this masterpiece permanently?')"
+               class="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
     </div>
 
-    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
-      <span class="bg-white text-primary px-4 py-2 rounded-full font-medium transition duration-300 shadow-md">
-        <i class="fas fa-cog mr-2"></i> Admin Panel
-      </span>
+    <!-- Product Info -->
+    <div class="p-6 flex flex-col flex-grow space-y-4">
+        <div class="space-y-1">
+            <h3 class="font-serif text-xl text-white truncate"><?php echo $productName; ?></h3>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest line-clamp-1"><?php echo $description; ?></p>
+        </div>
+        
+        <div class="pt-4 border-t border-white/5 flex justify-between items-end mt-auto">
+            <div>
+                <?php if ($hasDiscount): ?>
+                    <p class="text-[10px] line-through text-gray-600 mb-1">$<?php echo number_format($productPrice, 2); ?></p>
+                <?php endif; ?>
+                <p class="text-xl font-serif text-gold italic">$<?php echo number_format($finalPrice, 2); ?></p>
+            </div>
+            <div class="flex gap-2">
+                <span class="w-2 h-2 rounded-full <?php echo $stock > 0 ? 'bg-green-500' : 'bg-red-500'; ?> animate-pulse"></span>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="p-4">
-    <h2 class="text-lg font-bold text-gray-800 mb-1">'.$productName.'</h2>
-
-    <p class="text-sm text-gray-600 mb-3">'.$description.'</p>
-
-    <div class="flex items-center justify-between mb-2">
-      <div>
-        '.$adddiscountPrice.'
-        '.$originalPrice.'
-      </div>
-      <span class="text-sm text-green-600 font-medium">Stock: <strong>'.$stock.'</strong></span>
-    </div>
-
-    <div class="grid grid-cols-2 gap-3 mt-4">
-      <a href="edit-product.php?id='.$productId.'" class="bg-yellow-400 hover:bg-yellow-500 text-white py-2 rounded-lg text-center font-semibold transition duration-300">
-        <i class="fas fa-edit mr-1"></i> Edit
-      </a>
-      <a href="delete-product.php?id='.$productId.'" onclick="return confirm(\'Are you sure you want to delete this product?\')" class="bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-center font-semibold transition duration-300">
-        <i class="fas fa-trash-alt mr-1"></i> Delete
-      </a>
-    </div>
-  </div>
-</div>';
+</div>
+<?php
 }
 ?>
