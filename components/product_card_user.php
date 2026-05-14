@@ -12,7 +12,7 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
         ? '<button class="flex-grow bg-white/10 text-gold py-4 px-4 text-[8px] font-black uppercase tracking-[0.2em] rounded-xl cursor-default backdrop-blur-md border border-white/5">In Archive</button>'
         : '<button onclick="addToCartAjax(' . $id . ')" id="cart-btn-' . $id . '" class="flex-grow bg-white text-luxury py-4 px-4 text-[8px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-gold hover:text-white transition-all duration-500 text-center shadow-lg">Add to Bag</button>';
 
-    $wishlistIcon   = $iswishlisted ? 'fas fa-heart text-gold' : 'far fa-heart';
+    $wishlistIcon = $iswishlisted ? 'fas fa-heart text-gold' : 'far fa-heart';
     $wishlistAction = $iswishlisted ? 'unwishlist' : 'wishlist';
 
     echo '
@@ -33,8 +33,8 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
             
             <!-- Stock Badge -->
             <div class="absolute top-4 left-4">
-                <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ' . ((int)$stock > 0 ? 'bg-white/10 text-white' : 'bg-red-500/20 text-red-500') . ' backdrop-blur-md border border-white/10">
-                    ' . ((int)$stock > 0 ? 'Limited' : 'Exhausted') . '
+                <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ' . ((int) $stock > 0 ? 'bg-white/10 text-white' : 'bg-red-500/20 text-red-500') . ' backdrop-blur-md border border-white/10">
+                    ' . ((int) $stock > 0 ? 'Limited' : 'Exhausted') . '
                 </span>
             </div>
         </a>
@@ -58,9 +58,10 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
                 
                 <div class="flex gap-4">
                     ' . $cartBtn . '
-                    <a href="' . $base_url . 'checkout.php?direct_id=' . $id . '&qty=1" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm">
+                    <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=1" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm">
                         <i class="fas fa-bolt text-xs group-hover/icon:scale-110 transition-transform"></i>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -91,4 +92,4 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
     </script>
     ';
 }
-?>
+?>

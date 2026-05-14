@@ -126,13 +126,20 @@ try {
         .section-3d {
             transform-style: preserve-3d;
             transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.2s ease;
+            /* Default visible to prevent blank page if JS fails or observer is delayed */
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Initial state before reveal animation */
+        .section-3d:not(.active).is-revealing {
             transform: rotateX(5deg) translateY(100px) translateZ(-100px);
             opacity: 0;
         }
 
         .section-3d.active {
-            transform: rotateX(0deg) translateY(0) translateZ(0);
-            opacity: 1;
+            transform: rotateX(0deg) translateY(0) translateZ(0) !important;
+            opacity: 1 !important;
         }
 
         /* Card Tilt Effect */
@@ -471,22 +478,25 @@ try {
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
-                threshold: 0.05,
-                rootMargin: '0px 0px -100px 0px'
+                threshold: 0.1,
+                rootMargin: '0px'
             };
+
+            const sections = document.querySelectorAll('.section-3d');
+            
+            // Add revealing class via JS to enable animation
+            // This ensures content is visible if JS is disabled
+            sections.forEach(el => el.classList.add('is-revealing'));
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                    } else {
-                        // Optional: remove class to animate again on scroll up
-                        // entry.target.classList.remove('active');
                     }
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.section-3d').forEach(el => observer.observe(el));
+            sections.forEach(el => observer.observe(el));
 
             // Simple parallax effect for floating model
             window.addEventListener('scroll', () => {

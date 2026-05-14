@@ -250,5 +250,4 @@ $site_description  = "Discover the essence of FashionStore—where luxury meets 
     </script>
 </body>
 
-</html>
-l>
+</html>

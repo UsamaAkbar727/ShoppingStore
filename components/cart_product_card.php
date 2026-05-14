@@ -3,7 +3,7 @@ function print_cart_card_user($src, $category, $name, $description, $price, $dis
 {
     global $base_url;
     $finalPrice = $discountedPrice ?: $price;
-    
+
     echo '<div class="glass rounded-2xl overflow-hidden group transition-all duration-500 hover:shadow-[0_20px_50px_rgba(197,160,89,0.2)] flex flex-col h-full">';
     echo '  <div class="relative aspect-[4/5] overflow-hidden">';
     echo '    <img src="' . $src . '" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" alt="' . $name . '">';
@@ -30,7 +30,8 @@ function print_cart_card_user($src, $category, $name, $description, $price, $dis
     echo '      <a href="?action=uncart&id=' . $id . '" class="py-4 border border-red-500/30 text-red-500 text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500">';
     echo '        <i class="fas fa-trash-alt mr-2"></i> Remove';
     echo '      </a>';
-    echo '      <a href="' . $base_url . 'checkout.php?direct_id=' . $id . '&qty=' . $qty . '" class="py-4 bg-gold text-white text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:shadow-[0_10px_20px_rgba(197,160,89,0.3)] transition-all duration-500 shadow-lg">';
+    echo '      <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=' . $qty . '" class="py-4 bg-gold text-white text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:shadow-[0_10px_20px_rgba(197,160,89,0.3)] transition-all duration-500 shadow-lg">';
+
     echo '        <i class="fas fa-shopping-bag mr-2"></i> Acquire';
     echo '      </a>';
     echo '    </div>';

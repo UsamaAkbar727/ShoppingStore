@@ -1,110 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php 
+$current_page = basename($_SERVER['PHP_SELF']); 
+$request_uri = $_SERVER['PHP_SELF'];
+$is_admin_path = (strpos($request_uri, '/admin/') !== false);
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
-    <title><?php echo isset($page_title) ? $page_title : 'FashionStore'; ?></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        luxury: '#1a1a1a',
-                        gold: '#c5a059',
-                        silver: '#e5e7eb',
-                    },
-                    animation: {
-                        'slide-down': 'slideDown 0.5s ease-out forwards',
-                        'fade-in': 'fadeIn 0.3s ease-in forwards',
-                    },
-                    keyframes: {
-                        slideDown: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+<style>
+    .nav-link {
+        position: relative;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #1a1a1a;
+        transition: all 0.3s ease;
+    }
 
-    <?php if (!empty($page_extra_styles)) echo $page_extra_styles; ?>
+    .nav-link.text-gold {
+        color: #c5a059;
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -4px;
+        left: 50%;
+        background-color: #c5a059;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-50%);
+    }
+    
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: 100%;
+    }
 
-    <style>
-        .nav-link {
-            position: relative;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #1a1a1a;
-            transition: all 0.3s ease;
-        }
+    .nav-link:hover,
+    .nav-link.active {
+        color: #c5a059 !important;
+    }
+    
+    .sticky-nav {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
 
-        .nav-link.text-gold {
-            color: #c5a059;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -4px;
-            left: 50%;
-            background-color: #c5a059;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-50%);
-        }
-        
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
+    .cart-badge {
+        font-size: 0.6rem;
+        line-height: 1;
+        padding: 2px 4px;
+    }
 
-        .nav-link:hover,
-        .nav-link.active {
-            color: #c5a059 !important;
-        }
-        
-        .sticky-nav {
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
+    .mobile-menu-item {
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 1rem 0;
+    }
 
-        .cart-badge {
-            font-size: 0.6rem;
-            line-height: 1;
-            padding: 2px 4px;
-        }
+    .mobile-menu-item.active {
+        color: #c5a059;
+        font-weight: 600;
+    }
+</style>
 
-        .mobile-menu-item {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 1rem 0;
-        }
-
-        .mobile-menu-item.active {
-            color: #c5a059;
-            font-weight: 600;
-        }
-    </style>
-</head>
-
-<body class="font-sans text-luxury">
 <header class="bg-white border-b border-gray-100 sticky top-0 z-50 sticky-nav transition-all duration-500">
 
 

@@ -5,8 +5,7 @@ check_auth();
 include("./cart_product_card.php");
 include("../configshoppingstore.php");
 
-// FIXED: Secure user_id retrieval and prepared statement
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'] ?? 0;
 $res_arr = [];
 
 if ($user_id > 0) {
@@ -18,10 +17,10 @@ if ($user_id > 0) {
             WHERE cart.user_id = ?");
         $stmt->execute([$user_id]);
         $res_arr = $stmt->fetchAll();
-        
     } catch (\Throwable $th) {
+        // Do not break UI: log the real error and show safe empty-state UI.
         error_log($th->getMessage());
-        echo "<div class='text-red-500 p-4'>An error occurred while loading your cart.</div>";
+        $res_arr = [];
     }
 } else {
     header("Location: " . $base_url . "auth/login.php");
