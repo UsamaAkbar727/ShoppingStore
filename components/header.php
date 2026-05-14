@@ -7,12 +7,13 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 <style>
     .nav-link {
         position: relative;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.15em;
         text-transform: uppercase;
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.7rem;
+        font-weight: 600;
         color: #1a1a1a;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0.5rem 0;
     }
 
     .nav-link.text-gold {
@@ -23,108 +24,188 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
         content: '';
         position: absolute;
         width: 0;
-        height: 1px;
-        bottom: -4px;
-        left: 50%;
-        background-color: #c5a059;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translateX(-50%);
+        height: 1.5px;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(90deg, #c5a059, #f9dfa5);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .nav-link:hover::after,
     .nav-link.active::after {
         width: 100%;
     }
-
+    
     .nav-link:hover,
     .nav-link.active {
         color: #c5a059 !important;
+        text-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
+    }
+
+    /* Dropdown Aesthetics */
+    .nav-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        min-width: 220px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(197, 160, 89, 0.1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 1.5rem 0;
+        z-index: 100;
+        border-radius: 4px;
+    }
+
+    .nav-dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    .dropdown-item {
+        display: block;
+        padding: 0.8rem 2rem;
+        color: #1a1a1a;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(197, 160, 89, 0.05);
+        color: #c5a059;
+        padding-left: 2.5rem;
     }
     
     .sticky-nav {
-        backdrop-filter: blur(10px);
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        backdrop-filter: blur(15px);
+        background-color: rgba(255, 255, 255, 0.85);
+        border-bottom: 1px solid rgba(0,0,0,0.03);
     }
 
     .cart-badge {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
         line-height: 1;
-        padding: 2px 4px;
+        padding: 0;
+        box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3);
+    }
+
+    .icon-btn {
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .icon-btn:hover {
+        color: #c5a059;
+        transform: translateY(-2px);
     }
 
     .mobile-menu-item {
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        padding: 1.25rem 0;
+        letter-spacing: 0.2em;
+        transition: all 0.3s ease;
     }
 
     .mobile-menu-item.active {
         color: #c5a059;
-        font-weight: 600;
+        font-weight: 700;
+    }
+
+    /* Dark Header Dropdown Support */
+    .dark-header .dropdown-menu {
+        background: rgba(10, 10, 10, 0.98) !important;
+        backdrop-filter: blur(20px) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important;
+    }
+
+    .dark-header .dropdown-item {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .dark-header .dropdown-item:hover {
+        background: rgba(197, 160, 89, 0.1) !important;
+        color: #c5a059 !important;
     }
 </style>
 
-<header class="bg-white border-b border-gray-100 sticky top-0 z-50 sticky-nav transition-all duration-500">
-
-
-    <?php 
-    $current_page = basename($_SERVER['PHP_SELF']); 
-    $request_uri = $_SERVER['PHP_SELF'];
-    $is_admin_path = (strpos($request_uri, '/admin/') !== false);
-    ?>
-    <div class="container mx-auto px-6">
-        <div class="flex justify-between items-center h-20">
-            <!-- Mobile Menu Toggle (Left) -->
-            <button class="md:hidden text-luxury" id="mobile-menu-button">
+<header class="bg-white sticky top-0 z-50 sticky-nav transition-all duration-500">
+    <div class="container mx-auto px-8">
+        <div class="flex justify-between items-center h-24">
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-luxury icon-btn" id="mobile-menu-button">
                 <i class="fas fa-bars text-xl"></i>
             </button>
 
-            <!-- Brand Logo (Center on Mobile, Left on Desktop) -->
+            <!-- Brand Logo -->
             <div class="flex-shrink-0 absolute left-1/2 md:static transform -translate-x-1/2 md:translate-x-0">
-                <a href="<?php echo $base_url; ?>index.php" class="font-serif text-2xl md:text-3xl tracking-tighter hover:text-gold transition-colors duration-300">
-                    FASHION<span class="text-gold italic">STORE</span>
+                <a href="<?php echo $base_url; ?>index.php" class="font-serif text-2xl md:text-3xl tracking-tighter text-luxury hover:text-gold transition-all duration-500 group">
+                    FASHION<span class="text-gold italic group-hover:ml-1 transition-all duration-500">STORE</span>
                 </a>
             </div>
 
-            <!-- Main Navigation (Desktop Only) -->
-            <nav class="hidden md:flex items-center space-x-10">
+            <!-- Main Navigation -->
+            <nav class="hidden md:flex items-center space-x-12">
                 <a href="<?php echo $base_url; ?>index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
                 <a href="<?php echo $base_url; ?>shop.php" class="nav-link <?php echo ($current_page == 'shop.php') ? 'active' : ''; ?>">Shop</a>
-                <a href="<?php echo $base_url; ?>men.php" class="nav-link <?php echo ($current_page == 'men.php') ? 'active' : ''; ?>">Men</a>
-                <a href="<?php echo $base_url; ?>women.php" class="nav-link <?php echo ($current_page == 'women.php') ? 'active' : ''; ?>">Women</a>
-                <a href="<?php echo $base_url; ?>accessories.php" class="nav-link <?php echo ($current_page == 'accessories.php') ? 'active' : ''; ?>">Accessories</a>
+                
+                <!-- Collections Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link flex items-center">
+                        Collections <i class="fas fa-chevron-down ml-2 text-[8px] opacity-50"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="<?php echo $base_url; ?>men.php" class="dropdown-item">Men's Edition</a>
+                        <a href="<?php echo $base_url; ?>women.php" class="dropdown-item">Women's Archive</a>
+                        <a href="<?php echo $base_url; ?>accessories.php" class="dropdown-item">The Accessories</a>
+                    </div>
+                </div>
+
+                <a href="<?php echo $base_url; ?>components/about.php" class="nav-link <?php echo ($current_page == 'about.php') ? 'active' : ''; ?>">About</a>
+                <a href="<?php echo $base_url; ?>components/contact.php" class="nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact</a>
+
                 <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                     <a href="<?php echo $base_url; ?>admin/index.php" class="nav-link text-gold font-bold <?php echo ($is_admin_path) ? 'active' : ''; ?>">
-                        <i class="fas fa-user-shield mr-1"></i> Admin
+                        <i class="fas fa-shield-halved mr-1"></i> Admin
                     </a>
                 <?php endif; ?>
             </nav>
 
-            <!-- Icons (Right) -->
-            <div class="flex items-center space-x-5 md:space-x-8">
-                <!-- Search -->
-                <button class="hover:text-gold transition-colors group">
+            <!-- Icons -->
+            <div class="flex items-center space-x-6 md:space-x-10">
+                <button class="icon-btn group text-luxury">
                     <i class="fas fa-search text-lg"></i>
                 </button>
                 
-                <!-- Account -->
                 <?php if (!isset($_SESSION["user_id"])): ?>
-                    <a href="<?php echo $base_url; ?>auth/login.php" class="hover:text-gold transition-colors group">
+                    <a href="<?php echo $base_url; ?>auth/login.php" class="icon-btn text-luxury">
                         <i class="far fa-user text-lg"></i>
                     </a>
                 <?php else: ?>
-                    <a href="<?php echo $base_url; ?>auth/user-account.php" class="hover:text-gold transition-colors group">
+                    <a href="<?php echo $base_url; ?>auth/user-account.php" class="icon-btn text-luxury">
                         <i class="fas fa-user-circle text-lg"></i>
                     </a>
                 <?php endif; ?>
 
-                <!-- Cart -->
                 <?php
                 $totalItems = 0;
+                $wishlistCount = 0;
                 $user_id = $_SESSION['user_id'] ?? 0;
                 if ($user_id > 0) {
                     try {
-                        // Use $root_path set by session.php for a reliable absolute include
                         if (isset($root_path) && file_exists($root_path . 'configshoppingstore.php')) {
                             require_once($root_path . 'configshoppingstore.php');
                         }
@@ -132,14 +213,29 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
                             $stmt = $conn->prepare("SELECT COUNT(*) FROM cart WHERE user_id = ?");
                             $stmt->execute([$user_id]);
                             $totalItems = (int)$stmt->fetchColumn();
+
+                            $stmtW = $conn->prepare("SELECT COUNT(*) FROM wishlist WHERE user_id = ?");
+                            $stmtW->execute([$user_id]);
+                            $wishlistCount = (int)$stmtW->fetchColumn();
                         }
                     } catch (\Throwable $th) {}
                 }
                 ?>
-                <a href="<?php echo $base_url; ?>components/cart.php" class="relative group">
-                    <i class="fas fa-shopping-bag text-lg group-hover:text-gold transition-colors"></i>
+                <!-- Wishlist -->
+                <a href="<?php echo $base_url; ?>wishlist.php" class="relative icon-btn text-luxury">
+                    <i class="far fa-heart text-lg"></i>
+                    <?php if ($wishlistCount > 0): ?>
+                        <span class="absolute -top-2 -right-2 bg-gold text-white cart-badge rounded-full w-4 h-4 flex items-center justify-center font-bold border border-white" style="font-size: 0.5rem;">
+                            <?php echo $wishlistCount; ?>
+                        </span>
+                    <?php endif; ?>
+                </a>
+
+                <!-- Cart -->
+                <a href="<?php echo $base_url; ?>components/cart.php" class="relative icon-btn text-luxury">
+                    <i class="fas fa-shopping-bag text-lg"></i>
                     <?php if ($totalItems > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-gold text-white cart-badge rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold">
+                        <span class="absolute -top-2 -right-2 bg-gold text-white cart-badge rounded-full w-5 h-5 flex items-center justify-center font-bold border-2 border-white">
                             <?php echo $totalItems; ?>
                         </span>
                     <?php endif; ?>
@@ -149,31 +245,39 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
     </div>
 
     <!-- Mobile Navigation Overlay -->
-    <div class="fixed inset-0 bg-white z-[60] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden" id="mobile-overlay">
-        <div class="p-8">
-            <div class="flex justify-between items-center mb-12">
-                <span class="font-serif text-2xl">MENU</span>
-                <button id="close-mobile-menu">
+    <div class="fixed inset-0 bg-white z-[60] transform translate-x-full transition-transform duration-700 cubic-bezier(0.16, 1, 0.3, 1) md:hidden" id="mobile-overlay">
+        <div class="p-10 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-16">
+                <span class="font-serif text-3xl tracking-tighter">FASHION<span class="text-gold italic">STORE</span></span>
+                <button id="close-mobile-menu" class="icon-btn">
                     <i class="fas fa-times text-2xl"></i>
                 </button>
             </div>
-            <div class="flex flex-col space-y-2">
-                <a href="<?php echo $base_url; ?>index.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
-                <a href="<?php echo $base_url; ?>shop.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'shop.php') ? 'active' : ''; ?>">Shop</a>
-                <a href="<?php echo $base_url; ?>men.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'men.php') ? 'active' : ''; ?>">Men</a>
-                <a href="<?php echo $base_url; ?>women.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'women.php') ? 'active' : ''; ?>">Women</a>
-                <a href="<?php echo $base_url; ?>accessories.php" class="mobile-menu-item text-lg font-light tracking-widest uppercase <?php echo ($current_page == 'accessories.php') ? 'active' : ''; ?>">Accessories</a>
+            
+            <div class="flex flex-col space-y-4 overflow-y-auto">
+                <a href="<?php echo $base_url; ?>index.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Home</a>
+                <a href="<?php echo $base_url; ?>shop.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'shop.php') ? 'active' : ''; ?>">Shop</a>
+                
+                <div class="py-4 space-y-4">
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-gray-400 font-black">Collections</p>
+                    <a href="<?php echo $base_url; ?>men.php" class="block text-lg uppercase tracking-widest pl-4">Men</a>
+                    <a href="<?php echo $base_url; ?>women.php" class="block text-lg uppercase tracking-widest pl-4">Women</a>
+                    <a href="<?php echo $base_url; ?>accessories.php" class="block text-lg uppercase tracking-widest pl-4">Accessories</a>
+                </div>
+
+                <a href="<?php echo $base_url; ?>components/about.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'about.php') ? 'active' : ''; ?>">Our Odyssey</a>
+                <a href="<?php echo $base_url; ?>components/contact.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">The Atelier</a>
+                
                 <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
-                    <a href="<?php echo $base_url; ?>admin/index.php" class="mobile-menu-item text-lg font-bold tracking-widest uppercase text-gold <?php echo ($is_admin_path) ? 'active' : ''; ?>">Admin Panel</a>
+                    <a href="<?php echo $base_url; ?>admin/index.php" class="mobile-menu-item text-xl uppercase text-gold">Management</a>
                 <?php endif; ?>
             </div>
             
-            <div class="mt-20">
-                <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Support</p>
-                <div class="flex flex-col space-y-4">
-                    <a href="#" class="text-sm">Client Service</a>
-                    <a href="#" class="text-sm">Shipping & Returns</a>
-                    <a href="#" class="text-sm">Store Locator</a>
+            <div class="mt-auto pt-10 border-t border-gray-100">
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fab fa-facebook-f text-xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fab fa-pinterest-p text-xl"></i></a>
                 </div>
             </div>
         </div>
@@ -181,7 +285,6 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 </header>
 
 <script>
-    // Mobile menu logic
     const menuBtn = document.getElementById('mobile-menu-button');
     const closeBtn = document.getElementById('close-mobile-menu');
     const overlay = document.getElementById('mobile-overlay');
@@ -198,13 +301,116 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
         });
     }
 
-    // Header scroll effect
     window.addEventListener('scroll', () => {
         const header = document.querySelector('header');
-        if (window.scrollY > 50) {
-            header.classList.add('py-1', 'shadow-sm');
+        if (window.scrollY > 20) {
+            header.classList.add('py-0', 'shadow-lg');
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
         } else {
-            header.classList.remove('py-1', 'shadow-sm');
+            header.classList.remove('py-0', 'shadow-lg');
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
         }
     });
+
+    // Global AJAX Functions
+    function updateNavbarBadge(selector, increment) {
+        let badgeContainer = document.querySelector(selector);
+        if (!badgeContainer) return;
+
+        let badge = badgeContainer.querySelector('.cart-badge');
+        if (!badge) {
+            // Create badge if it doesn't exist
+            badge = document.createElement('span');
+            badge.className = "absolute -top-2 -right-2 bg-gold text-white cart-badge rounded-full w-5 h-5 flex items-center justify-center font-bold border-2 border-white";
+            badge.style.fontSize = "0.55rem";
+            badge.innerText = "0";
+            badgeContainer.appendChild(badge);
+        }
+
+        let currentCount = parseInt(badge.innerText) || 0;
+        let newCount = currentCount + increment;
+        
+        if (newCount <= 0) {
+            badge.remove();
+        } else {
+            badge.innerText = newCount;
+            // Add a little pop animation
+            badge.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.3)' },
+                { transform: 'scale(1)' }
+            ], { duration: 300 });
+        }
+    }
+
+    async function addToCartAjax(id) {
+        const btn = document.getElementById("cart-btn-" + id);
+        if (!btn) return;
+        
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch("<?php echo $base_url; ?>add-to-cart.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "id=" + id + "&qty=1"
+            });
+            const data = await res.json();
+            if (data.success) {
+                // Success: Update button state
+                btn.innerHTML = "In Archive";
+                btn.className = "flex-grow bg-white/10 text-gold py-4 px-4 text-[8px] font-black uppercase tracking-[0.2em] rounded-xl cursor-default backdrop-blur-md border border-white/5";
+                btn.onclick = null;
+                btn.disabled = false;
+                
+                // Update navbar cart count
+                updateNavbarBadge('a[href*="cart.php"]', 1);
+            } else {
+                alert(data.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        } catch (e) { 
+            console.error(e);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    async function toggleWishlistAjax(id, btn) {
+        const icon = btn.querySelector("i");
+        if (!icon) return;
+        
+        const isAdding = icon.classList.contains("far");
+        const action = isAdding ? "wishlist" : "unwishlist";
+        
+        const originalClass = icon.className;
+        icon.className = "fas fa-spinner fa-spin text-[12px]";
+
+        try {
+            const res = await fetch("<?php echo $base_url; ?>toggle-wishlist.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "id=" + id + "&action=" + action
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (isAdding) {
+                    icon.className = "fas fa-heart text-gold text-[12px]";
+                    updateNavbarBadge('a[href*="wishlist.php"]', 1);
+                } else {
+                    icon.className = "far fa-heart text-[12px]";
+                    updateNavbarBadge('a[href*="wishlist.php"]', -1);
+                }
+            } else {
+                alert(data.message);
+                icon.className = originalClass;
+            }
+        } catch (e) { 
+            console.error(e);
+            icon.className = originalClass;
+        }
+    }
 </script>

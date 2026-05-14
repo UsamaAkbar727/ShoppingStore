@@ -22,11 +22,9 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
             <img src="' . $imagePath . '" alt="' . $name . '" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
             
             <!-- Wishlist Button -->
-            <object>
-                <a href="' . $base_url . 'index.php?action=' . $wishlistAction . '&id=' . $id . '" class="absolute top-4 right-4 w-10 h-10 bg-black/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-gold hover:text-white transition-all duration-500 z-10">
-                    <i class="' . $wishlistIcon . ' text-[12px]"></i>
-                </a>
-            </object>
+            <button onclick="event.preventDefault(); toggleWishlistAjax(' . $id . ', this)" class="absolute top-4 right-4 w-10 h-10 bg-black/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-gold hover:text-white transition-all duration-500 z-10">
+                <i class="' . $wishlistIcon . ' text-[12px]"></i>
+            </button>
 
             <!-- Discount Badge -->
             ' . ($discountPercent > 0 ? '<div class="absolute bottom-4 left-4 bg-gold text-white text-[8px] px-3 py-1 font-black tracking-widest uppercase rounded-full backdrop-blur-md shadow-lg">' . $discountPercent . '% Rare</div>' : '') . '
@@ -58,38 +56,13 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
                 
                 <div class="flex gap-4">
                     ' . $cartBtn . '
-                    <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=1" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm">
+                    <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=1" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm" title="Quick Checkout">
                         <i class="fas fa-bolt text-xs group-hover/icon:scale-110 transition-transform"></i>
                     </a>
-
                 </div>
             </div>
         </div>
     </div>
-    <script>
-    if (typeof addToCartAjax !== "function") {
-        async function addToCartAjax(id) {
-            const btn = document.getElementById("cart-btn-" + id);
-            try {
-                const res = await fetch("' . $base_url . 'add-to-cart.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: "id=" + id + "&qty=1"
-                });
-                const data = await res.json();
-                if (data.success) {
-                    if(btn) {
-                        btn.innerHTML = "In Archive";
-                        btn.className = "flex-grow bg-white/10 text-gold py-4 px-4 text-[8px] font-black uppercase tracking-[0.2em] rounded-xl cursor-default backdrop-blur-md border border-white/5";
-                        btn.onclick = null;
-                    }
-                } else {
-                    alert(data.message);
-                }
-            } catch (e) { console.error(e); }
-        }
-    }
-    </script>
     ';
 }
 ?>

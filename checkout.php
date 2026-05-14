@@ -57,9 +57,27 @@ try {
         'cancel_url' => $YOUR_DOMAIN . '/cancel.php',
     ]);
 
-    echo json_encode(['id' => $checkout_session->id]);
+    // Redirect to the Stripe Checkout URL directly
+    if ($checkout_session->url) {
+        header("Location: " . $checkout_session->url);
+        exit;
+    } else {
+        echo json_encode(['id' => $checkout_session->id]);
+    }
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
+    // For local development without a valid Stripe key, allow a mock redirect for testing
+    if (strpos($e->getMessage(), 'Invalid API Key') !== false || strpos($e->getMessage(), 'YOUR_STRIPE_KEY') !== false) {
+        $mock_success_url = $YOUR_DOMAIN . '/success.php?id=' . urlencode((string) $product_id) . '&mock=true';
+        header("Location: " . $mock_success_url);
+        exit;
+    }
+
+    echo "
+    <div style='font-family:sans-serif; text-align:center; padding: 50px;'>
+        <h2 style='color: #c5a059;'>Checkout Configuration Needed</h2>
+        <p>Stripe API key is not configured or invalid.</p>
+        <p style='color: #666;'>Error: " . $e->getMessage() . "</p>
+        <a href='index.php' style='color: #c5a059; text-decoration: none;'>Return to Store</a>
+    </div>";
 }
 ?>

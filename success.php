@@ -147,8 +147,20 @@ if (isset($_GET['id'])) {
         <p>Thank you! Your payment has been processed securely and confirmed.</p>
         <div class="countdown">You will be redirected in <span id="countdown">5</span> seconds...</div>
         <a href="index.php">🏠 Return to Homepage</a>
-
     </div>
+
+    <script>
+        let count = 5;
+        const countdownElement = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            count--;
+            countdownElement.textContent = count;
+            if (count <= 0) {
+                clearInterval(timer);
+                window.location.href = 'index.php';
+            }
+        }, 1000);
+    </script>
 
 </body>
 
