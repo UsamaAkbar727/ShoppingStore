@@ -49,7 +49,7 @@ $page_title = "Edit Profile";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/shopping-bag.png">
+    <?php include '../components/favicon.php'; ?>
     <title><?php echo $page_title; ?> | FashionStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
