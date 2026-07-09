@@ -115,27 +115,61 @@ if ($user_id > 0) {
                         Explore Collection
                     </a>
                 </div>
-            <?php else: ?>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-fade-up" style="animation-delay: 0.2s;">
-                    <?php
-                    foreach ($res_arr as $value) {
-                        $imgPath = (strpos($value["file"], 'http') === 0) 
-                            ? htmlspecialchars($value["file"]) 
-                            : $base_url . "admin/uploads/" . htmlspecialchars($value["file"]);
+            <?php else: 
+                $subtotal = 0;
+                foreach ($res_arr as $value) {
+                    $itemPrice = $value["discountedPrice"] ?: $value["price"];
+                    $subtotal += $itemPrice * $value["cart_qty"];
+                }
+                $shipping = $subtotal > 1000 ? 0 : 150;
+                $grandTotal = $subtotal + $shipping;
+            ?>
+                <div class="flex flex-col lg:flex-row gap-12 items-start animate-fade-up" style="animation-delay: 0.2s;">
+                    <!-- Cart Items Grid -->
+                    <div class="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <?php
+                        foreach ($res_arr as $value) {
+                            $imgPath = (strpos($value["file"], 'http') === 0) 
+                                ? htmlspecialchars($value["file"]) 
+                                : $base_url . "admin/uploads/" . htmlspecialchars($value["file"]);
 
-                        print_cart_card_user(
-                            $imgPath,
-                            htmlspecialchars($value["category"]),
-                            htmlspecialchars($value["productName"]),
-                            htmlspecialchars($value["description"]),
-                            htmlspecialchars($value["price"]),
-                            htmlspecialchars($value["discountedPrice"]),
-                            htmlspecialchars($value["stock"]),
-                            (int)$value["id"],
-                            (int)$value["cart_qty"]
-                        );
-                    }
-                    ?>
+                            print_cart_card_user(
+                                $imgPath,
+                                htmlspecialchars($value["category"]),
+                                htmlspecialchars($value["productName"]),
+                                htmlspecialchars($value["description"]),
+                                htmlspecialchars($value["price"]),
+                                htmlspecialchars($value["discountedPrice"]),
+                                htmlspecialchars($value["stock"]),
+                                (int)$value["id"],
+                                (int)$value["cart_qty"]
+                            );
+                        }
+                        ?>
+                    </div>
+
+                    <!-- Order Summary Card -->
+                    <div class="w-full lg:w-1/4 glass rounded-3xl p-8 space-y-6 sticky top-32">
+                        <h3 class="font-serif text-2xl text-white">Summary</h3>
+                        <div class="space-y-4 pt-4 border-t border-white/10 text-xs uppercase tracking-wider">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Subtotal</span>
+                                <span class="text-white">$<?php echo number_format($subtotal, 2); ?></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Shipping</span>
+                                <span class="text-white"><?php echo $shipping > 0 ? '$' . number_format($shipping, 2) : 'Complimentary'; ?></span>
+                            </div>
+                            <div class="flex justify-between items-center pt-4 border-t border-white/10 text-sm font-bold">
+                                <span>Total</span>
+                                <span class="text-gold font-serif text-lg">$<?php echo number_format($grandTotal, 2); ?></span>
+                            </div>
+                        </div>
+                        
+                        <a href="<?php echo $base_url; ?>checkout.php" class="block w-full py-5 bg-gold text-white text-[10px] font-black uppercase tracking-[0.3em] text-center rounded-xl hover:shadow-[0_10px_20px_rgba(197,160,89,0.3)] transition-all duration-500 shadow-lg">
+                            Checkout Entire Archive
+                        </a>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>

@@ -18,11 +18,11 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
     echo '
     <div class="glass rounded-2xl overflow-hidden group transition-all duration-500 hover:shadow-[0_20px_50px_rgba(197,160,89,0.2)] flex flex-col h-full">
         <!-- Product Image -->
-        <a href="' . $detailsUrl . '" class="relative overflow-hidden aspect-[4/5] block">
+        <div onclick="window.location.href=\'' . $detailsUrl . '\'" class="relative overflow-hidden aspect-[4/5] block cursor-pointer">
             <img src="' . $imagePath . '" alt="' . $name . '" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110">
             
             <!-- Wishlist Button -->
-            <button onclick="event.preventDefault(); toggleWishlistAjax(' . $id . ', this)" class="absolute top-4 right-4 w-10 h-10 bg-black/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-gold hover:text-white transition-all duration-500 z-10">
+            <button onclick="event.stopPropagation(); toggleWishlistAjax(' . $id . ', this)" class="absolute top-4 right-4 w-10 h-10 bg-black/20 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-gold hover:text-white transition-all duration-500 z-10">
                 <i class="' . $wishlistIcon . ' text-[12px]"></i>
             </button>
 
@@ -35,13 +35,13 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
                     ' . ((int) $stock > 0 ? 'Limited' : 'Exhausted') . '
                 </span>
             </div>
-        </a>
+        </div>
 
         <!-- Product Info -->
         <div class="p-8 flex flex-col flex-grow space-y-4">
             <div class="space-y-1">
                 <span class="text-[10px] uppercase tracking-[0.3em] text-gold font-black">' . htmlspecialchars($category) . '</span>
-                <a href="' . $detailsUrl . '"><h3 class="font-serif text-2xl text-white leading-tight group-hover:text-gold transition-colors duration-500">' . htmlspecialchars($name) . '</h3></a>
+                <div onclick="window.location.href=\'' . $detailsUrl . '\'" class="cursor-pointer"><h3 class="font-serif text-2xl text-white leading-tight group-hover:text-gold transition-colors duration-500">' . htmlspecialchars($name) . '</h3></div>
             </div>
             
             <p class="text-sm text-gray-400 font-light leading-relaxed flex-grow line-clamp-2">' . htmlspecialchars($description) . '</p>
@@ -56,9 +56,9 @@ function print_card_user($imagePath, $category, $name, $description, $price, $di
                 
                 <div class="flex gap-4">
                     ' . $cartBtn . '
-                    <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=1" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm" title="Quick Checkout">
+                    <button onclick="window.location.href=\'' . $base_url . 'checkout.php?product_id=' . $id . '&qty=1\'" class="w-14 h-14 flex items-center justify-center border border-white/10 text-white rounded-xl hover:bg-gold hover:border-gold transition-all duration-500 group/icon shadow-sm" title="Quick Checkout">
                         <i class="fas fa-bolt text-xs group-hover/icon:scale-110 transition-transform"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

@@ -70,6 +70,10 @@ $site_title = "SHOP ALL | FashionStore";
 
     <main class="pt-32 pb-20 px-6">
         <div class="container mx-auto max-w-7xl">
+            <!-- Back Button -->
+            <a href="index.php" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-12 group">
+                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Back to Home
+            </a>
             <!-- Page Header -->
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                 <div class="space-y-4">

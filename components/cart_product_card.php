@@ -27,13 +27,12 @@ function print_cart_card_user($src, $category, $name, $description, $price, $dis
     echo '      </div>';
     echo '    </div>';
     echo '    <div class="pt-6 grid grid-cols-2 gap-4">';
-    echo '      <a href="?action=uncart&id=' . $id . '" class="py-4 border border-red-500/30 text-red-500 text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500">';
+    echo '      <button onclick="window.location.href=\'?action=uncart&id=' . $id . '\'" class="py-4 border border-red-500/30 text-red-500 text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:bg-red-500 hover:text-white transition-all duration-500">';
     echo '        <i class="fas fa-trash-alt mr-2"></i> Remove';
-    echo '      </a>';
-    echo '      <a href="' . $base_url . 'checkout.php?product_id=' . $id . '&qty=' . $qty . '" class="py-4 bg-gold text-white text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:shadow-[0_10px_20px_rgba(197,160,89,0.3)] transition-all duration-500 shadow-lg">';
-
+    echo '      </button>';
+    echo '      <button onclick="window.location.href=\'' . $base_url . 'checkout.php?product_id=' . $id . '&qty=' . $qty . '\'" class="py-4 bg-gold text-white text-[8px] font-black uppercase tracking-widest text-center rounded-xl hover:shadow-[0_10px_20px_rgba(197,160,89,0.3)] transition-all duration-500 shadow-lg">';
     echo '        <i class="fas fa-shopping-bag mr-2"></i> Acquire';
-    echo '      </a>';
+    echo '      </button>';
     echo '    </div>';
     echo '  </div>';
     echo '</div>';

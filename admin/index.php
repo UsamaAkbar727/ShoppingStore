@@ -77,9 +77,14 @@ $page = $_GET['page'] ?? 'dashboard';
         
         <!-- Top Navigation -->
         <header class="h-24 flex items-center justify-between px-10 border-b border-white/5 bg-luxury/50 backdrop-blur-xl">
-            <div>
-                <h1 class="text-xs font-black uppercase tracking-[0.5em] text-gray-500">System <span class="text-gold">Status</span></h1>
-                <p class="font-serif text-xl italic text-white capitalize"><?php echo str_replace('addproduct', 'Add Product', $page); ?></p>
+            <div class="flex items-center gap-6">
+                <a href="../index.php" class="text-gray-500 hover:text-gold transition-colors text-sm" title="Back to Shop">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+                <div>
+                    <h1 class="text-xs font-black uppercase tracking-[0.5em] text-gray-500">System <span class="text-gold">Status</span></h1>
+                    <p class="font-serif text-xl italic text-white capitalize"><?php echo str_replace('addproduct', 'Add Product', $page); ?></p>
+                </div>
             </div>
             
             <div class="flex items-center gap-8">

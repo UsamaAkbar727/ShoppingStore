@@ -36,14 +36,13 @@ function print_card($src, $categoryName, $productName, $description, $productPri
 
         <!-- Overlay Actions -->
         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4 backdrop-blur-sm">
-            <a href="index.php?page=editproduct&id=<?php echo $productId; ?>" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-gold transition-colors">
+            <button onclick="window.location.href='index.php?page=editproduct&id=<?php echo $productId; ?>'" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-gold transition-colors">
                 <i class="fas fa-edit"></i>
-            </a>
-            <a href="delete-product.php?id=<?php echo $productId; ?>" 
-               onclick="return confirm('Archive this masterpiece permanently?')"
+            </button>
+            <button onclick="if(confirm('Archive this masterpiece permanently?')) { window.location.href='delete-product.php?id=<?php echo $productId; ?>'; }" 
                class="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
                 <i class="fas fa-trash"></i>
-            </a>
+            </button>
         </div>
     </div>
 

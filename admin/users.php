@@ -79,15 +79,15 @@ try {
                         <td class="px-8 py-6 text-right">
                             <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <?php if ($user['isBlock'] == '1'): ?>
-                                    <a href="index.php?id=<?php echo $user['id']; ?>&action=unblock" 
+                                    <button onclick="window.location.href='index.php?id=<?php echo $user['id']; ?>&action=unblock'" 
                                        class="px-4 py-2 bg-green-500/10 text-green-400 text-[8px] font-black uppercase tracking-widest rounded-lg border border-green-500/20 hover:bg-green-500 hover:text-white transition-all">
                                         Authorize
-                                    </a>
+                                    </button>
                                 <?php else: ?>
-                                    <a href="index.php?id=<?php echo $user['id']; ?>&action=block" 
+                                    <button onclick="window.location.href='index.php?id=<?php echo $user['id']; ?>&action=block'" 
                                        class="px-4 py-2 bg-red-500/10 text-red-400 text-[8px] font-black uppercase tracking-widest rounded-lg border border-red-500/20 hover:bg-red-500 hover:text-white transition-all">
                                         Restrict
-                                    </a>
+                                    </button>
                                 <?php endif; ?>
                             </div>
                         </td>

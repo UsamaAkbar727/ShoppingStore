@@ -104,31 +104,9 @@
         <div class="pt-8 border-t border-white/5 flex flex-col items-center gap-8">
             <!-- Signature / Credit - Centered -->
             <div class="flex flex-col items-center gap-4">
-                <!-- JuTt Tech Solutions Logo Recreated & Centered -->
-                <div
-                    class="bg-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-4 group hover:scale-105 transition-transform duration-500">
-                    <div class="w-12 h-12 flex items-center justify-center">
-                        <svg viewBox="0 0 100 100" class="w-full h-full">
-                            <!-- Outer Pin/Circle Line -->
-                            <path
-                                d="M50 10 C28 10 10 28 10 50 C10 65 20 80 35 90 L50 98 L65 90 C80 80 90 65 90 50 C90 28 72 10 50 10 Z"
-                                fill="none" stroke="#1e4a8d" stroke-width="6" />
-                            <!-- Specific 'J' Shape from Image -->
-                            <path d="M45 35 H60 M55 35 V65 C55 72 48 78 40 78 C32 78 28 72 28 68" fill="none"
-                                stroke="#1e4a8d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-col">
-                        <span
-                            class="text-[#1e4a8d] font-sans font-black text-2xl tracking-tight leading-none">JuTt</span>
-                        <span class="text-gray-500 font-sans text-[8px] tracking-[0.4em] font-bold mt-1 uppercase">Tech
-                            Solutions</span>
-                    </div>
-                </div>
-
                 <div class="text-center">
                     <p class="text-[11px] uppercase tracking-[0.4em] text-gray-400 font-medium">
-                        Developed <span class="text-red-500 mx-1 animate-pulse">❤️</span> by JuTt Tech Solutions
+                        Developed <span class="text-red-500 mx-1 animate-pulse">❤️</span> by USAMA JATT
                     </p>
                     <p class="text-[8px] uppercase tracking-[0.2em] text-gray-700 mt-1 font-light">
                         &copy; <?php echo date('Y'); ?> FASHIONSTORE <a href="<?php echo $base_url; ?>admin/login.php" class="cursor-default hover:text-gold transition-colors">|</a> ALL RIGHTS RESERVED

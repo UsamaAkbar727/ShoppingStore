@@ -61,7 +61,11 @@ $site_title = "YOUR FAVORITES | FashionStore";
     <?php include 'components/header.php'; ?>
 
     <main class="pt-32 pb-20 px-6 min-h-screen">
-        <div class="container mx-auto max-w-7xl">
+         <div class="container mx-auto max-w-7xl">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-12 group">
+                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Go Back
+            </a>
             <div class="mb-16 space-y-4">
                 <span class="text-gold text-xs uppercase tracking-[0.6em] font-black">Personal Archive</span>
                 <h1 class="font-serif text-6xl text-white italic">Your <span class="text-gold">Favorites</span></h1>

@@ -13,7 +13,7 @@ try {
     $stmt->execute([$user_id]);
     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $order_stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC");
+    $order_stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
     $order_stmt->execute([$user_id]);
     $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (\Throwable $th) {
@@ -87,6 +87,10 @@ try {
 
     <main class="min-h-screen pt-32 pb-20 px-6">
         <div class="container mx-auto max-w-5xl">
+            <!-- Back Button -->
+            <a href="../index.php" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-8 group">
+                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Back to Store
+            </a>
             <!-- Breadcrumbs -->
             <nav class="flex mb-12 text-[10px] uppercase tracking-[0.4em] text-gray-500 animate-fade-up" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-4">
@@ -151,19 +155,68 @@ try {
 
                 <?php if (!empty($orders)): ?>
                     <div class="grid gap-6">
-                        <?php foreach ($orders as $order): ?>
+                        <?php foreach ($orders as $order): 
+                            // Fetch items for this order
+                            $items_stmt = $conn->prepare("
+                                SELECT oi.*, p.productName, p.file 
+                                FROM order_items oi 
+                                JOIN product p ON oi.product_id = p.id 
+                                WHERE oi.order_id = ?
+                            ");
+                            $items_stmt->execute([$order['id']]);
+                            $items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            $total_qty = array_sum(array_column($items, 'quantity'));
+                            
+                            // Get first product image for display
+                            $first_item = $items[0] ?? null;
+                            $imgPath = "";
+                            if ($first_item) {
+                                $imgPath = (strpos($first_item["file"], 'http') === 0) 
+                                    ? htmlspecialchars($first_item["file"]) 
+                                    : $base_url . "admin/uploads/" . htmlspecialchars($first_item["file"]);
+                            }
+
+                            // Build summary names
+                            $item_names = [];
+                            foreach ($items as $it) {
+                                $item_names[] = htmlspecialchars($it['productName']) . " (x" . $it['quantity'] . ")";
+                            }
+                            $item_summary = implode(", ", $item_names);
+                            if (strlen($item_summary) > 60) {
+                                $item_summary = substr($item_summary, 0, 57) . "...";
+                            }
+                        ?>
                             <div class="glass rounded-2xl p-8 hover:border-gold/30 transition-all duration-500 group">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
                                     <div class="flex items-center gap-8">
-                                        <div class="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-500 border border-white/5">
-                                            <i class="fas fa-shopping-bag text-2xl"></i>
+                                        <div class="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border border-white/5 bg-white/5">
+                                            <?php if ($imgPath): ?>
+                                                <img src="<?php echo $imgPath; ?>" class="w-full h-full object-cover" alt="Order product">
+                                            <?php else: ?>
+                                                <div class="w-full h-full flex items-center justify-center text-gold">
+                                                    <i class="fas fa-shopping-bag text-2xl"></i>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                         <div>
-                                            <h3 class="font-serif text-2xl text-white group-hover:text-gold transition-colors duration-300 mb-2"><?= htmlspecialchars($order['product_name'] ?? 'Luxury Artifact') ?></h3>
-                                            <div class="flex items-center gap-4">
-                                                <span class="text-[10px] text-gray-500 uppercase tracking-widest"><?= htmlspecialchars($order['order_date'] ?? 'Ancient Era') ?></span>
+                                            <h3 class="font-serif text-xl text-white group-hover:text-gold transition-colors duration-300 mb-2">
+                                                #FS-<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
+                                            </h3>
+                                            <div class="text-[11px] text-gray-400 font-light mb-2 max-w-md line-clamp-1">
+                                                <?php echo $item_summary; ?>
+                                            </div>
+                                            <div class="flex items-center flex-wrap gap-4">
+                                                <span class="text-[9px] text-gray-500 uppercase tracking-widest"><?php echo htmlspecialchars($order['created_at'] ?? 'Ancient Era'); ?></span>
                                                 <span class="w-1 h-1 bg-gold/30 rounded-full"></span>
-                                                <span class="text-[10px] text-gold uppercase tracking-widest font-black">Verified Purchase</span>
+                                                <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest 
+                                                    <?php 
+                                                        if ($order['status'] === 'delivered') echo 'bg-green-500/20 text-green-400';
+                                                        elseif ($order['status'] === 'cancelled') echo 'bg-red-500/20 text-red-400';
+                                                        else echo 'bg-gold/20 text-gold';
+                                                    ?>">
+                                                    <?php echo htmlspecialchars($order['status'] ?? 'pending'); ?>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -171,11 +224,11 @@ try {
                                     <div class="flex items-center justify-between md:justify-end gap-16 border-t md:border-t-0 pt-6 md:pt-0 border-white/5">
                                         <div class="text-right">
                                             <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 font-black">Quantity</p>
-                                            <p class="text-xl font-serif text-white"><?= (int)($order['quantity'] ?? 1) ?></p>
+                                            <p class="text-xl font-serif text-white"><?php echo $total_qty; ?></p>
                                         </div>
                                         <div class="text-right">
                                             <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 font-black">Investment</p>
-                                            <p class="font-serif text-2xl text-white italic">RS <?= number_format($order['total_amount'] ?? 0) ?></p>
+                                            <p class="font-serif text-2xl text-white italic">$<?php echo number_format($order['total'], 2); ?></p>
                                         </div>
                                         <div class="hidden md:block">
                                             <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all duration-500">
@@ -194,7 +247,7 @@ try {
                         </div>
                         <h3 class="font-serif text-3xl text-white mb-4">The archives are vacant</h3>
                         <p class="text-gray-500 text-sm mb-12 max-w-xs mx-auto font-light leading-relaxed">Begin your sartorial journey by exploring our curated collections of excellence.</p>
-                        <a href="<?php echo $base_url; ?>components/product.php" class="inline-block px-12 py-5 bg-gold text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-xl hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] transition-all duration-500">
+                        <a href="<?php echo $base_url; ?>shop.php" class="inline-block px-12 py-5 bg-gold text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-xl hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] transition-all duration-500">
                             Discover Collection
                         </a>
                     </div>

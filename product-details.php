@@ -55,6 +55,11 @@ $site_title = $product['productName'] . " | FashionStore";
 
     <main class="pt-40 pb-20 px-6">
         <div class="container mx-auto max-w-7xl">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-12 group">
+                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Return to Collection
+            </a>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
                 <!-- Product Image -->
                 <div class="relative group">

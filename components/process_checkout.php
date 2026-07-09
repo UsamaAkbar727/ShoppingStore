@@ -1,6 +1,7 @@
 <?php
-session_start();
-include("configshoppingstore.php"); // apna config path correct karo
+require_once("../auth/session.php");
+check_auth();
+include("../configshoppingstore.php");
 
 // Flash message helper
 function set_flash($type, $text) {
@@ -11,28 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullname       = trim($_POST['fullname'] ?? '');
     $address        = trim($_POST['address'] ?? '');
     $city           = trim($_POST['city'] ?? '');
-    $postal         = trim($_POST['postal'] ?? '');
+    $postal_code    = trim($_POST['postal'] ?? $_POST['postal_code'] ?? '');
     $phone          = trim($_POST['phone'] ?? '');
     $payment_method = $_POST['payment_method'] ?? 'cod';
 
     // Validation
     if (empty($fullname) || empty($address) || empty($phone)) {
         set_flash("danger", "⚠ Please fill in all required fields.");
-        header("Location: checkout.php");
+        header("Location: ../checkout.php");
         exit;
     }
 
-    // Check login
-    $user_id = $_COOKIE['user_id'] ?? null;
+    $user_id = $_SESSION['user_id'] ?? null;
     if (!$user_id) {
         set_flash("danger", "🔑 Please log in to place an order.");
-        header("Location: login.php");
+        header("Location: ../auth/login.php");
         exit;
     }
 
     // Fetch cart
     $stmt = $conn->prepare("
-        SELECT c.product_id, c.qty, p.price
+        SELECT c.product_id, c.quantity as qty, p.price
         FROM cart c
         JOIN product p ON p.id = c.product_id
         WHERE c.user_id = ?
@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Create order
     $orderStmt = $conn->prepare("
-        INSERT INTO orders (user_id, fullname, address, city, postal, phone, payment_method, subtotal, shipping, total, status, created_at)
+        INSERT INTO orders (user_id, fullname, address, city, postal_code, phone, payment_method, subtotal, shipping, total, status, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
     ");
-    $orderStmt->execute([$user_id, $fullname, $address, $city, $postal, $phone, $payment_method, $subtotal, $shipping, $total]);
+    $orderStmt->execute([$user_id, $fullname, $address, $city, $postal_code, $phone, $payment_method, $subtotal, $shipping, $total]);
     $order_id = $conn->lastInsertId();
 
     // Order items
@@ -66,6 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
     foreach ($cartItems as $item) {
         $itemStmt->execute([$order_id, $item['product_id'], $item['qty'], $item['price']]);
+        
+        // Update stock
+        $conn->prepare("UPDATE product SET stock = GREATEST(stock - ?, 0) WHERE id = ?")
+             ->execute([$item['qty'], $item['product_id']]);
     }
 
     // Clear cart
@@ -73,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Success message
     set_flash("success", "✅ Your order has been placed successfully!");
-    header("Location: checkout.php");
+    header("Location: ../success.php?order_id=" . $order_id);
     exit;
 
 } else {
     set_flash("danger", "❌ Invalid request method.");
-    header("Location: checkout.php");
+    header("Location: ../checkout.php");
     exit;
 }

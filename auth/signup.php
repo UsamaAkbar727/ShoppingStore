@@ -86,15 +86,38 @@ $page_title = "Join FashionStore | Luxury Experience";
 
         .luxury-card {
             background: white;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
-        .input-group input:focus~label,
-        .input-group input:not(:placeholder-shown)~label {
-            transform: translateY(-24px) scale(0.85);
-            color: #c5a059;
+        /* ── Standard labelled inputs ── */
+        .field-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 7px;
         }
+
+        .luxury-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.93rem;
+            background: #fafafa;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            outline: none;
+            color: #1a1a1a;
+        }
+        .luxury-input:focus {
+            border-color: #c5a059;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(197,160,89,0.13);
+        }
+        .luxury-input::placeholder { color: #c0c0c0; }
 
         .luxury-btn {
             background: #1a1a1a;
@@ -141,8 +164,12 @@ $page_title = "Join FashionStore | Luxury Experience";
             </div>
 
             <!-- Right Side: Signup Form -->
-            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
-                <div class="mb-10 text-center md:text-left">
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white relative">
+                <!-- Close Button -->
+                <a href="../index.php" class="absolute top-6 right-8 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-gold transition">
+                    <i class="fas fa-times mr-1"></i> Close
+                </a>
+                <div class="mb-8 text-center md:text-left">
                     <h2 class="font-serif text-3xl text-luxury mb-2">Create Account</h2>
                     <p class="text-gray-500 text-sm">Join the elite world of FashionStore</p>
                 </div>
@@ -162,43 +189,42 @@ $page_title = "Join FashionStore | Luxury Experience";
                     </div>
                 <?php endif; ?>
 
-                <form method="POST" class="space-y-8">
-                    <div class="relative input-group">
-                        <input type="text" id="name" name="name" required placeholder=" "
-                            class="peer w-full py-2 bg-transparent border-b-2 border-gray-200 focus:border-gold outline-none transition-colors duration-300">
-                        <label for="name"
-                            class="absolute left-0 top-2 text-gray-400 pointer-events-none transition-all duration-300">Full
-                            Name</label>
+                <form method="POST" class="space-y-5">
+                    <!-- Full Name -->
+                    <div>
+                        <label for="name" class="field-label">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe"
+                            class="luxury-input"
+                            value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
                     </div>
 
-                    <div class="relative input-group">
-                        <input type="email" id="email" name="email" required placeholder=" "
-                            class="peer w-full py-2 bg-transparent border-b-2 border-gray-200 focus:border-gold outline-none transition-colors duration-300">
-                        <label for="email"
-                            class="absolute left-0 top-2 text-gray-400 pointer-events-none transition-all duration-300">Email
-                            Address</label>
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="field-label">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="you@example.com"
+                            class="luxury-input"
+                            value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     </div>
 
-                    <div class="relative input-group">
-                        <input type="password" id="password" name="password" required minlength="6" placeholder=" "
-                            class="peer w-full py-2 bg-transparent border-b-2 border-gray-200 focus:border-gold outline-none transition-colors duration-300">
-                        <label for="password"
-                            class="absolute left-0 top-2 text-gray-400 pointer-events-none transition-all duration-300">Password</label>
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="field-label">Password</label>
+                        <input type="password" id="password" name="password" required minlength="6" placeholder="••••••••"
+                            class="luxury-input">
                     </div>
 
-                    <div class="pt-4">
+                    <div class="pt-2">
                         <button type="submit"
-                            class="w-full py-4 luxury-btn font-semibold tracking-widest uppercase text-sm shadow-xl hover:shadow-2xl transition-all">
+                            class="w-full py-3.5 luxury-btn font-semibold tracking-widest uppercase text-sm rounded-xl shadow-md hover:shadow-xl transition-all">
                             Create Account
                         </button>
                     </div>
 
-                    <div class="mt-8 text-center">
+                    <div class="text-center pt-2">
                         <p class="text-sm text-gray-500">
                             Already have an account?
                             <a href="login.php"
-                                class="text-luxury font-bold hover:text-gold transition border-b-2 border-gold ml-1">Sign
-                                In</a>
+                                class="text-luxury font-bold hover:text-gold transition border-b border-gold ml-1">Sign In</a>
                         </p>
                     </div>
                 </form>
