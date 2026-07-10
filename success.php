@@ -1,10 +1,12 @@
 <?php
 require_once("auth/session.php");
+check_auth();
 include("./configshoppingstore.php");
 
 $order_id = (int)($_GET['order_id'] ?? 0);
 $order = null;
 $order_items = [];
+$error_msg = "";
 
 if ($order_id > 0) {
     try {
@@ -14,8 +16,34 @@ if ($order_id > 0) {
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($order) {
+            // Verify order ownership
+            if ((int)$order['user_id'] !== (int)$_SESSION['user_id']) {
+                header("HTTP/1.1 403 Forbidden");
+                die("Access Denied: You do not own this order.");
+            }
+
             // If the order is pending, process the successful acquisition (stock & cart)
             if ($order['status'] === 'pending') {
+                // If payment method is Stripe, verify session
+                if ($order['payment_method'] === 'stripe') {
+                    $session_id = $_GET['session_id'] ?? '';
+                    if (empty($session_id)) {
+                        throw new \Exception("Verification failed: Session ID is missing.");
+                    }
+
+                    require_once 'vendor/autoload.php';
+                    $stripe_key = getenv('STRIPE_SECRET_KEY');
+                    if (empty($stripe_key) || $stripe_key === 'YOUR_STRIPE_KEY') {
+                        throw new \Exception("Verification failed: Stripe key is not configured.");
+                    }
+
+                    \Stripe\Stripe::setApiKey($stripe_key);
+                    $session = \Stripe\Checkout\Session::retrieve($session_id);
+                    if ($session->payment_status !== 'paid') {
+                        throw new \Exception("Verification failed: Payment status is " . $session->payment_status);
+                    }
+                }
+
                 $conn->beginTransaction();
 
                 // 1. Update order status to 'processing'
@@ -35,7 +63,6 @@ if ($order_id > 0) {
                 }
 
                 // 4. Clear user's cart (since they have placed a successful order)
-                // Note: We clear the entire cart because they just checked out
                 $clearCart = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
                 $clearCart->execute([$order['user_id']]);
 
@@ -56,6 +83,7 @@ if ($order_id > 0) {
         if (isset($conn) && $conn->inTransaction()) {
             $conn->rollBack();
         }
+        $error_msg = $th->getMessage();
         error_log('Success confirmation error: ' . $th->getMessage());
     }
 }
@@ -65,7 +93,7 @@ if ($order_id > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acquisition Successful | FashionStore</title>
+    <title><?php echo empty($error_msg) ? 'Acquisition Successful' : 'Acquisition Failed'; ?> | FashionStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -95,7 +123,7 @@ if ($order_id > 0) {
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         .checkmark-circle {
-            stroke: #c5a059;
+            stroke: <?php echo empty($error_msg) ? '#c5a059' : '#ef4444'; ?>;
             stroke-width: 2;
             fill: none;
             stroke-dasharray: 166;
@@ -105,7 +133,7 @@ if ($order_id > 0) {
         }
         .checkmark-check {
             transform-origin: 50% 50%;
-            stroke: #c5a059;
+            stroke: <?php echo empty($error_msg) ? '#c5a059' : '#ef4444'; ?>;
             stroke-width: 2;
             stroke-dasharray: 48;
             stroke-dashoffset: 48;
@@ -124,20 +152,32 @@ if ($order_id > 0) {
         <div class="container mx-auto max-w-2xl text-center">
             
             <div class="glass rounded-3xl p-8 md:p-16 space-y-10">
-                <!-- Checkmark Animation -->
+                <!-- Checkmark or Cross Animation -->
                 <div class="flex justify-center">
                     <svg class="w-24 h-24" viewBox="0 0 52 52">
                         <circle class="checkmark-circle" cx="26" cy="26" r="25" />
-                        <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        <?php if (empty($error_msg)): ?>
+                            <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        <?php else: ?>
+                            <path class="checkmark-check" d="M16 16l20 20M36 16L16 36" />
+                        <?php endif; ?>
                     </svg>
                 </div>
 
                 <div class="space-y-4">
-                    <span class="text-gold text-xs uppercase tracking-[0.6em] font-black">Acquisition Confirmed</span>
-                    <h1 class="font-serif text-5xl text-white">Payment Successful</h1>
-                    <p class="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
-                        Thank you for your investment. Your dynamic requisition order has been securely registered in the atelier archive.
-                    </p>
+                    <?php if (empty($error_msg)): ?>
+                        <span class="text-gold text-xs uppercase tracking-[0.6em] font-black">Acquisition Confirmed</span>
+                        <h1 class="font-serif text-5xl text-white">Payment Successful</h1>
+                        <p class="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                            Thank you for your investment. Your dynamic requisition order has been securely registered in the atelier archive.
+                        </p>
+                    <?php else: ?>
+                        <span class="text-red-500 text-xs uppercase tracking-[0.6em] font-black">Acquisition Errored</span>
+                        <h1 class="font-serif text-5xl text-white">Verification Failed</h1>
+                        <p class="text-red-400 text-sm max-w-md mx-auto leading-relaxed font-semibold">
+                            <?php echo htmlspecialchars($error_msg); ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
 
                 <?php if ($order): ?>

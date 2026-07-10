@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=
+      - DB_NAME=fashionstore
+      - STRIPE_SECRET_KEY=YOUR_STRIPE_KEY
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor # Keep container's vendor folder separate from host's mount
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=fashionstore
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/fashionstore.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:

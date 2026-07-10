@@ -2,21 +2,22 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+require_once(__DIR__ . '/config/load_env.php');
 require 'vendor/autoload.php';
 
-function sendEmail($toEmail, $toName,$subject,$body) {
+function sendEmail($toEmail, $toName, $subject, $body) {
     $mail = new PHPMailer(true);
 
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';            
+        $mail->Host       = getenv('SMTP_HOST') ?: 'smtp.gmail.com';            
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'usamaakbarjaatt@gmail.com';      
-        $mail->Password   = 'hpsghyasekholzrw';        
+        $mail->Username   = getenv('SMTP_USER') ?: 'placeholder@gmail.com';      
+        $mail->Password   = getenv('SMTP_PASS') ?: '';        
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Port       = getenv('SMTP_PORT') ?: 587;
 
-        $mail->setFrom('usamaakbarjaatt@gmail.com', 'http://localhost:3000/index.php');
+        $mail->setFrom(getenv('SMTP_USER') ?: 'placeholder@gmail.com', 'FashionStore Atelier');
         $mail->addAddress($toEmail, $toName);
 
         // Content
@@ -32,3 +33,4 @@ function sendEmail($toEmail, $toName,$subject,$body) {
         return false;
     }
 }
+

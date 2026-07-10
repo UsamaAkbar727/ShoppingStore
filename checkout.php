@@ -104,7 +104,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 $YOUR_DOMAIN = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $base_url;
                 
                 try {
-                    \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY') ?: 'YOUR_STRIPE_KEY');
+                    $stripe_key = getenv('STRIPE_SECRET_KEY');
+                    if (empty($stripe_key) || $stripe_key === 'YOUR_STRIPE_KEY') {
+                        throw new \Exception("Stripe is not configured on this server yet. Please use Cash on Delivery or configure your keys.");
+                    }
+
+                    \Stripe\Stripe::setApiKey($stripe_key);
 
                     $line_items = [];
                     foreach ($checkout_items as $item) {
@@ -149,13 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                         exit;
                     }
                 } catch (\Exception $stripe_err) {
-                    // Fallback mock check if Stripe API key is default/invalid
-                    if (strpos($stripe_err->getMessage(), 'Invalid API Key') !== false || strpos($stripe_err->getMessage(), 'YOUR_STRIPE_KEY') !== false) {
-                        header("Location: success.php?order_id=" . $order_id . "&mock=true");
-                        exit;
-                    } else {
-                        throw $stripe_err;
-                    }
+                    throw $stripe_err;
                 }
             }
         } catch (\Throwable $err) {

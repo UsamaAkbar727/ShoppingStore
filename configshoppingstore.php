@@ -1,9 +1,10 @@
 <?php
+require_once(__DIR__ . '/config/load_env.php');
 
-$hostname = 'localhost';
-$username = 'root';
-$passward = null;
-$dbname   = 'fashionstore';
+$hostname = getenv('DB_HOST') ?: 'localhost';
+$username = getenv('DB_USER') ?: 'root';
+$passward = getenv('DB_PASS') !== false ? getenv('DB_PASS') : null;
+$dbname   = getenv('DB_NAME') ?: 'fashionstore';
 
 try {
     $conn = new PDO("mysql:host=" . $hostname . ";dbname=" . $dbname, $username, $passward);
@@ -11,3 +12,4 @@ try {
 } catch (PDOException $err) {
     die($err);
 }
+

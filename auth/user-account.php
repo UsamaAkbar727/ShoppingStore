@@ -187,7 +187,7 @@ try {
                                 $item_summary = substr($item_summary, 0, 57) . "...";
                             }
                         ?>
-                            <div class="glass rounded-2xl p-8 hover:border-gold/30 transition-all duration-500 group">
+                            <a href="order-details.php?order_id=<?php echo $order['id']; ?>" class="glass rounded-2xl p-8 hover:border-gold/30 transition-all duration-500 group block">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
                                     <div class="flex items-center gap-8">
                                         <div class="w-20 h-20 rounded-2xl overflow-hidden shrink-0 border border-white/5 bg-white/5">
@@ -237,7 +237,7 @@ try {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         <?php endforeach; ?>
                     </div>
                 <?php else: ?>
