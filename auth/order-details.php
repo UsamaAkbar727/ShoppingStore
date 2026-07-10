@@ -40,6 +40,20 @@ if ($order_id > 0) {
 } else {
     $error_msg = "Invalid order identifier.";
 }
+
+// Timeline configuration
+$status = $order['status'] ?? 'pending';
+$steps = [
+    'pending' => ['label' => 'Order Placed', 'icon' => 'fa-shopping-bag'],
+    'processing' => ['label' => 'Processing', 'icon' => 'fa-cog'],
+    'shipped' => ['label' => 'Shipped', 'icon' => 'fa-truck'],
+    'delivered' => ['label' => 'Delivered', 'icon' => 'fa-check-circle']
+];
+$step_keys = array_keys($steps);
+$current_index = array_search($status, $step_keys);
+if ($current_index === false) {
+    $current_index = -1;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,9 +84,10 @@ if ($order_id > 0) {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
         body { background-color: #0a0a0a; color: #fff; }
         .glass {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         
         .dark-header header {
@@ -82,6 +97,7 @@ if ($order_id > 0) {
         .dark-header .nav-link, .dark-header header a, .dark-header header i {
             color: white !important;
         }
+        .dark-header .nav-link:hover { color: #c5a059 !important; }
     </style>
 </head>
 <body class="font-sans overflow-x-hidden dark-header">
@@ -95,120 +111,143 @@ if ($order_id > 0) {
             </a>
 
             <?php if (!empty($error_msg)): ?>
-                <div class="p-8 glass rounded-3xl text-center border-red-500/20 text-red-400">
+                <div class="p-8 glass rounded-3xl text-center border border-red-500/20 text-red-400">
                     <i class="fas fa-exclamation-triangle text-4xl mb-4 text-red-500"></i>
                     <p class="text-lg uppercase tracking-wider font-semibold"><?php echo htmlspecialchars($error_msg); ?></p>
                 </div>
             <?php else: ?>
                 
                 <!-- ORDER INFORMATION AND SUMMARY -->
-                <div class="glass rounded-3xl p-8 md:p-12 space-y-8 mb-10">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-6">
+                <div class="glass rounded-3xl p-8 md:p-12 space-y-10 mb-10">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-8">
                         <div>
                             <span class="text-gold text-[10px] uppercase tracking-[0.6em] font-black block mb-2">Acquisition Record</span>
-                            <h1 class="font-serif text-3xl md:text-4xl text-white">Order #FS-<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></h1>
-                            <p class="text-xs text-gray-400 mt-1 uppercase tracking-wider">Registered: <?php echo htmlspecialchars($order['created_at']); ?></p>
+                            <h1 class="font-serif text-4xl text-white">Order #FS-<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></h1>
+                            <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Registered: <?php echo htmlspecialchars($order['created_at']); ?></p>
                         </div>
                         <div class="text-left md:text-right">
                             <span class="text-[10px] uppercase tracking-widest text-gray-500 font-black block mb-2">Acquisition Status</span>
-                            <span class="px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest bg-gold/20 text-gold border border-gold/30">
+                            <span class="px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-gold/15 text-gold border border-gold/30">
                                 <?php echo htmlspecialchars($order['status']); ?>
                             </span>
                         </div>
                     </div>
 
-                    <!-- Client shipping details -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-                        <div class="space-y-3">
-                            <h3 class="font-serif text-xl text-white italic">Consignee Details</h3>
-                            <div class="text-gray-400 space-y-1">
-                                <p class="text-white font-bold"><?php echo htmlspecialchars($order['fullname']); ?></p>
-                                <p><?php echo htmlspecialchars($order['phone']); ?></p>
-                                <p><?php echo htmlspecialchars($order['address']); ?></p>
-                                <p><?php echo htmlspecialchars($order['city']) . ", " . htmlspecialchars($order['postal_code']); ?></p>
+                    <!-- Requisition Timeline -->
+                    <?php if ($status === 'cancelled'): ?>
+                        <div class="p-6 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-4 text-red-400 text-xs uppercase tracking-widest font-black">
+                            <i class="fas fa-ban text-lg text-red-500 animate-pulse"></i> This acquisition dossier has been cancelled.
+                        </div>
+                    <?php else: ?>
+                        <div class="py-6 border-b border-white/5">
+                            <h3 class="font-serif text-lg text-white italic mb-8">Requisition Route Progress</h3>
+                            <div class="relative flex items-center justify-between px-4 md:px-12">
+                                <!-- Background Line -->
+                                <div class="absolute left-12 right-12 top-5 h-[2px] bg-white/5 -z-10"></div>
+                                <!-- Active Fill Line -->
+                                <div class="absolute left-12 top-5 h-[2px] bg-gold transition-all duration-700 -z-10" 
+                                     style="width: calc(<?php echo ($current_index / 3) * 100; ?>% - 24px);"></div>
+                                
+                                <?php foreach ($steps as $key => $step): 
+                                    $idx = array_search($key, $step_keys);
+                                    $is_active = $idx <= $current_index;
+                                    $is_current = $idx === $current_index;
+                                ?>
+                                    <div class="flex flex-col items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 bg-[#0a0a0a]
+                                            <?php 
+                                                if ($is_current) echo 'border-gold text-gold shadow-[0_0_15px_rgba(197,160,89,0.3)] scale-110';
+                                                elseif ($is_active) echo 'border-gold/60 text-gold/80';
+                                                else echo 'border-white/10 text-gray-600';
+                                            ?>">
+                                            <i class="fas <?php echo $step['icon']; ?> text-xs"></i>
+                                        </div>
+                                        <span class="text-[9px] uppercase tracking-widest font-black text-center transition-colors duration-500
+                                            <?php echo $is_active ? 'text-gold font-bold' : 'text-gray-600'; ?>">
+                                            <?php echo $step['label']; ?>
+                                        </span>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-                        <div class="space-y-3">
-                            <h3 class="font-serif text-xl text-white italic">Financial Registry</h3>
-                            <div class="text-gray-400 space-y-2">
+                    <?php endif; ?>
+
+                    <!-- Client shipping details -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-sm pt-4">
+                        <div class="space-y-4">
+                            <h3 class="font-serif text-2xl text-white italic border-b border-white/5 pb-2">Consignee Details</h3>
+                            <div class="text-gray-400 space-y-1 text-xs uppercase tracking-wider leading-relaxed">
+                                <p class="text-white font-bold text-sm tracking-normal capitalize mb-1"><?php echo htmlspecialchars($order['fullname']); ?></p>
+                                <p><i class="fas fa-phone text-gold/70 w-5"></i> <?php echo htmlspecialchars($order['phone']); ?></p>
+                                <p><i class="fas fa-map-marker-alt text-gold/70 w-5"></i> <?php echo htmlspecialchars($order['address']); ?></p>
+                                <p><i class="fas fa-city text-gold/70 w-5"></i> <?php echo htmlspecialchars($order['city']) . ", " . htmlspecialchars($order['postal_code']); ?></p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="font-serif text-2xl text-white italic border-b border-white/5 pb-2">Financial Registry</h3>
+                            <div class="text-gray-400 space-y-3 text-xs uppercase tracking-widest">
                                 <div class="flex justify-between border-b border-white/5 pb-2">
                                     <span>Payment Method:</span>
-                                    <span class="text-white font-semibold uppercase"><?php echo htmlspecialchars($order['payment_method']); ?></span>
+                                    <span class="text-white font-semibold uppercase"><?php echo htmlspecialchars($order['payment_method'] === 'cod' ? 'Cash on Delivery' : 'Credit Card (Stripe)'); ?></span>
                                 </div>
                                 <div class="flex justify-between border-b border-white/5 pb-2">
                                     <span>Subtotal:</span>
-                                    <span class="text-white font-semibold">$<?php echo number_format($order['subtotal'], 2); ?></span>
+                                    <span class="text-white font-semibold font-serif text-sm">$<?php echo number_format($order['subtotal'], 2); ?></span>
                                 </div>
                                 <div class="flex justify-between border-b border-white/5 pb-2">
                                     <span>Shipping Cost:</span>
-                                    <span class="text-white font-semibold">$<?php echo number_format($order['shipping'], 2); ?></span>
+                                    <span class="text-white font-semibold font-serif text-sm">$<?php echo number_format($order['shipping'], 2); ?></span>
                                 </div>
-                                <div class="flex justify-between text-base font-bold text-gold pt-2">
-                                    <span>Grand Total:</span>
-                                    <span>$<?php echo number_format($order['total'], 2); ?></span>
+                                <div class="flex justify-between text-sm font-bold text-gold pt-2">
+                                    <span class="font-sans">Grand Total:</span>
+                                    <span class="font-serif text-base">$<?php echo number_format($order['total'], 2); ?></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ==========================================
-                     LEARNING ZONE (USER TASK)
-                     ==========================================
-                     DEAR USER: Here is where you come in! 
-                     Below is the container for order items.
-                     We have fetched all the order items into the array `$order_items`.
-                     
-                     YOUR TASK:
-                     1. Write a PHP foreach loop to loop through the `$order_items` array.
-                     2. Inside the loop, display each product card.
-                     3. Include: Product Image, Category, Product Name, Quantity (Qty), and individual Price.
-                     4. Style it using Tailwind CSS to match the luxury dark aesthetic of the store.
-                     
-                     HELPFUL DATA STRUCTURE:
-                     Each `$item` in `$order_items` contains:
-                     - `$item['productName']` (String) - Name of the product
-                     - `$item['quantity']` (Int) - Quantity ordered
-                     - `$item['price']` (Float) - Price at purchase time
-                     - `$item['category']` (String) - Product category (Men, Women, etc.)
-                     - `$item['file']` (String) - Product image filename
-                     
-                     Let's start your custom code block below!
-                     ========================================== -->
+                <!-- Acquisition Items Display -->
                 <div class="glass rounded-3xl p-8 md:p-12 space-y-8">
-                    <h2 class="font-serif text-2xl text-white italic border-b border-white/10 pb-4">Acquisition Inventory</h2>
+                    <h2 class="font-serif text-3xl text-white italic border-b border-white/10 pb-4">Acquisition Inventory</h2>
                     
                     <div class="grid gap-6">
-                        <!-- START: USER WORKSPACE -->
-                        
                         <?php if (empty($order_items)): ?>
-                            <p class="text-gray-500 italic">No items found for this order.</p>
+                            <p class="text-gray-500 italic">No items registered for this order dossier.</p>
                         <?php else: ?>
                             <?php foreach ($order_items as $item): 
                                 $imgPath = (strpos($item["file"], 'http') === 0) 
                                     ? htmlspecialchars($item["file"]) 
                                     : $base_url . "admin/uploads/" . htmlspecialchars($item["file"]);
                             ?>
-                                <!-- Example Card (You can redesign or modify this card to practice!) -->
-                                <div class="flex items-center gap-6 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-gold/30 transition-all duration-300">
-                                    <div class="w-20 h-24 rounded-xl overflow-hidden shrink-0 border border-white/5">
-                                        <img src="<?php echo $imgPath; ?>" alt="<?php echo htmlspecialchars($item['productName']); ?>" class="w-full h-full object-cover">
+                                <div class="flex flex-col sm:flex-row items-center gap-6 p-6 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-gold/30 transition-all duration-500 group">
+                                    <!-- Image container with luxury border hover effect -->
+                                    <div class="w-24 h-32 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-white/5 relative">
+                                        <img src="<?php echo $imgPath; ?>" alt="<?php echo htmlspecialchars($item['productName']); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                                     </div>
-                                    <div class="flex-grow">
-                                        <span class="text-[9px] text-gold uppercase tracking-[0.2em] font-semibold block mb-1"><?php echo htmlspecialchars($item['category']); ?></span>
-                                        <h4 class="font-serif text-lg text-white font-bold leading-tight"><?php echo htmlspecialchars($item['productName']); ?></h4>
-                                        <p class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Quantity: <?php echo $item['quantity']; ?></p>
+                                    
+                                    <!-- Product Info -->
+                                    <div class="flex-grow text-center sm:text-left space-y-2">
+                                        <span class="text-[9px] text-gold uppercase tracking-[0.3em] font-black block"><?php echo htmlspecialchars($item['category']); ?></span>
+                                        <h4 class="font-serif text-xl text-white font-bold group-hover:text-gold transition-colors duration-300"><?php echo htmlspecialchars($item['productName']); ?></h4>
+                                        <p class="text-xs text-gray-500 line-clamp-1 max-w-md font-light"><?php echo htmlspecialchars($item['description'] ?? 'No detail description provided in collection archives.'); ?></p>
+                                        <div class="pt-2 flex items-center justify-center sm:justify-start gap-4">
+                                            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                                                Qty: <?php echo $item['quantity']; ?>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="text-right">
-                                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Unit Price</p>
-                                        <p class="font-serif text-lg text-white">$<?php echo number_format($item['price'], 2); ?></p>
-                                        <p class="text-sm text-gold font-bold mt-1">Total: $<?php echo number_format($item['price'] * $item['quantity'], 2); ?></p>
+                                    
+                                    <!-- Price details -->
+                                    <div class="text-center sm:text-right shrink-0 min-w-[120px] pt-4 sm:pt-0 border-t sm:border-t-0 border-white/5 w-full sm:w-auto">
+                                        <p class="text-[9px] text-gray-500 uppercase tracking-widest mb-1 font-bold">Unit Investment</p>
+                                        <p class="font-serif text-base text-white mb-2">$<?php echo number_format($item['price'], 2); ?></p>
+                                        <p class="text-[9px] text-gold uppercase tracking-widest mb-1 font-bold">Total Details</p>
+                                        <p class="font-serif text-xl text-gold italic font-bold">$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></p>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-
-                        <!-- END: USER WORKSPACE -->
                     </div>
                 </div>
 
