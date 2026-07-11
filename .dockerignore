@@ -1,0 +1,13 @@
+.git
+vendor
+.vscode
+.idea
+uploads
+.env
+.env.local
+.env.*.local
+*.log
+Dockerfile
+docker-compose.yml
+docker-compose.yaml
+db_data
