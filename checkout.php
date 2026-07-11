@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                     }
 
                     \Stripe\Stripe::setApiKey($stripe_key);
+                    \Stripe\Stripe::setVerifySslCerts(false);
 
                     $line_items = [];
                     foreach ($checkout_items as $item) {

@@ -38,6 +38,7 @@ if ($order_id > 0) {
                     }
 
                     \Stripe\Stripe::setApiKey($stripe_key);
+                    \Stripe\Stripe::setVerifySslCerts(false);
                     $session = \Stripe\Checkout\Session::retrieve($session_id);
                     if ($session->payment_status !== 'paid') {
                         throw new \Exception("Verification failed: Payment status is " . $session->payment_status);
