@@ -8,8 +8,8 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 -- Database: `fashionstore`
 -- --------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `fashionstore` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `fashionstore`;
+-- CREATE DATABASE IF NOT EXISTS `fashionstore` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+-- USE `fashionstore`;
 
 -- --------------------------------------------------------
 -- Table structure for table `user`
