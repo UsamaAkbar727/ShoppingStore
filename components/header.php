@@ -378,6 +378,36 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             scroll-snap-align: start !important;
         }
         
+        /* Show small detail images inside concept slides on mobile */
+        .concept-slide .absolute.hidden.md\:block {
+            display: block !important;
+            top: -1.5rem !important;
+            left: -1.5rem !important;
+            border-width: 6px !important;
+            width: 40% !important;
+            height: auto !important;
+            aspect-ratio: 1/1 !important;
+        }
+
+        /* Trust Features section 2x2 layout on mobile */
+        section.py-20.bg-white .grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 1.5rem 1rem !important;
+        }
+        section.py-20.bg-white .tilt-card {
+            margin-bottom: 0 !important;
+            padding: 0.5rem !important;
+        }
+        section.py-20.bg-white .tilt-card .w-16 {
+            width: 3.5rem !important;
+            height: 3.5rem !important;
+        }
+        section.py-20.bg-white .tilt-card h5 {
+            font-size: 8px !important;
+            letter-spacing: 0.1em !important;
+        }
+        
         /* General layout grid fixes */
         .grid {
             gap: 1.25rem !important;
@@ -545,12 +575,13 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 
     if (menuBtn && closeBtn && overlay) {
         menuBtn.addEventListener('click', () => {
-            overlay.classList.remove('translate-x-full');
+            overlay.style.setProperty('transform', 'translateX(0)', 'important');
+            overlay.style.setProperty('display', 'block', 'important');
             document.body.style.overflow = 'hidden';
         });
 
         closeBtn.addEventListener('click', () => {
-            overlay.classList.add('translate-x-full');
+            overlay.style.setProperty('transform', 'translateX(100%)', 'important');
             document.body.style.overflow = 'auto';
         });
     }
