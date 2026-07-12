@@ -140,6 +140,137 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
         background: rgba(197, 160, 89, 0.1) !important;
         color: #c5a059 !important;
     }
+
+    /* Global Mobile Responsiveness Styles */
+    @media (max-width: 768px) {
+        /* Header modifications */
+        header .h-24 {
+            height: 4.5rem !important;
+        }
+        header .container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        /* Prevent logo and icons overlap on mobile */
+        header .flex-shrink-0.absolute {
+            position: relative !important;
+            left: 0 !important;
+            transform: none !important;
+            margin-left: 0.5rem !important;
+            flex-grow: 1;
+        }
+        header a.text-2xl {
+            font-size: 1.15rem !important;
+        }
+        header .flex.items-center.space-x-6 {
+            space-x: 0 !important;
+            gap: 0.75rem !important;
+        }
+        header .flex.items-center.space-x-6 a, 
+        header .flex.items-center.space-x-6 button {
+            padding: 0.25rem !important;
+        }
+        header .flex.items-center.space-x-6 i {
+            font-size: 0.95rem !important;
+        }
+
+        /* Hero text size scaling to prevent screen break */
+        .text-7xl, .text-8xl, .text-9xl, 
+        h1.text-7xl, h1.text-8xl, h1.text-9xl {
+            font-size: 2.5rem !important;
+            line-height: 1.1 !important;
+        }
+        h1.text-7xl span, h1.text-8xl span, h1.text-9xl span {
+            font-size: 2.5rem !important;
+            margin-top: 0.25rem !important;
+        }
+        .text-6xl, h2.text-6xl {
+            font-size: 2rem !important;
+            line-height: 1.2 !important;
+        }
+        .text-5xl, h2.text-5xl {
+            font-size: 1.75rem !important;
+        }
+        
+        /* Reduce excessively large padding/margins on mobile */
+        .py-40, section.py-40 {
+            padding-top: 3.5rem !important;
+            padding-bottom: 3.5rem !important;
+        }
+        .py-32, section.py-32 {
+            padding-top: 2.5rem !important;
+            padding-bottom: 2.5rem !important;
+        }
+        .py-24, section.py-24 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        .py-20, section.py-20 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        .my-20 {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+        .gap-32, .gap-20, .gap-16 {
+            gap: 1.25rem !important;
+        }
+        
+        /* Fix page container padding */
+        .container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        .px-8, .px-20, .px-24, .px-32 {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+
+        /* 3D Concept Slides Fixes */
+        .min-h-\[750px\], .min-h-\[650px\], .min-h-\[550px\] {
+            min-height: auto !important;
+        }
+        .concept-slide {
+            position: relative !important;
+            display: none !important;
+            height: auto !important;
+            gap: 1.5rem !important;
+        }
+        .concept-slide.active {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        
+        /* 3D Hero Slider tweaks */
+        section.h-screen {
+            height: auto !important;
+            min-height: 500px !important;
+            padding-top: 6rem !important;
+            padding-bottom: 4rem !important;
+        }
+        .hero-slide {
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            opacity: 0 !important;
+            height: auto !important;
+        }
+        .hero-slide.active {
+            opacity: 1 !important;
+            position: relative !important;
+        }
+        
+        /* General layout grid fixes */
+        .grid {
+            gap: 1.25rem !important;
+        }
+
+        /* Float preview elements hide on tiny screens */
+        .slide-animate-5 {
+            display: none !important;
+        }
+    }
 </style>
 
 <header class="bg-white sticky top-0 z-50 sticky-nav transition-all duration-500">
