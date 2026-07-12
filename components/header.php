@@ -5,6 +5,11 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 ?>
 
 <style>
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+    }
+
     .nav-link {
         position: relative;
         letter-spacing: 0.15em;
@@ -194,6 +199,29 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             font-size: 0.95rem !important;
         }
 
+        /* Mobile Overlay Menu Styling (Dark theme to prevent text visibility issues) */
+        #mobile-overlay {
+            background-color: #0a0a0a !important;
+            color: #ffffff !important;
+        }
+        #mobile-overlay a {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        #mobile-overlay a:hover {
+            color: #c5a059 !important;
+        }
+        #mobile-overlay .mobile-menu-item {
+            color: rgba(255, 255, 255, 0.9) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 1rem 0 !important;
+        }
+        #mobile-overlay .mobile-menu-item.active {
+            color: #c5a059 !important;
+        }
+        #mobile-overlay button, #mobile-overlay i {
+            color: #ffffff !important;
+        }
+
         /* Hero text size scaling to prevent screen break */
         .text-7xl, .text-8xl, .text-9xl, 
         h1.text-7xl, h1.text-8xl, h1.text-9xl {
@@ -264,9 +292,10 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
         
         /* 3D Hero Slider fixes: keep absolute positioning to overlap, but fix width & layout */
         section.h-screen {
-            height: 100vh !important;
-            min-height: 520px !important;
+            height: auto !important;
+            min-height: 800px !important; /* Increased height to fit both text and image */
             display: block !important;
+            padding-top: 5rem !important;
         }
         .hero-slide {
             position: absolute !important;
@@ -302,6 +331,16 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             margin: 0 !important;
         }
         
+        /* Hero Section Slide Right-Side Image Show on Mobile */
+        .slide-animate-5 {
+            display: block !important;
+            margin-top: 2rem !important;
+            width: 100% !important;
+            max-width: 300px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        
         /* Fix the buttons wrapping and text overlapping in Hero slide */
         .hero-slide .flex.gap-8 {
             gap: 0.5rem !important;
@@ -323,15 +362,25 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             justify-content: center !important;
             height: auto !important;
         }
+
+        /* Main Page Products Horizontal Scroll Layout */
+        #products .grid {
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            gap: 1rem !important;
+            padding-bottom: 1.5rem !important;
+            scrollbar-width: thin !important;
+            scroll-padding: 1rem !important;
+        }
+        #products .grid .tilt-card {
+            flex: 0 0 280px !important;
+            scroll-snap-align: start !important;
+        }
         
         /* General layout grid fixes */
         .grid {
             gap: 1.25rem !important;
-        }
-
-        /* Float preview elements hide on tiny screens */
-        .slide-animate-5 {
-            display: none !important;
         }
     }
 </style>
