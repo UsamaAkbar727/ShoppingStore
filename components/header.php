@@ -201,8 +201,14 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 
         /* Mobile Overlay Menu Styling (Dark theme to prevent text visibility issues) */
         #mobile-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            height: 100vh !important;
+            width: 100vw !important;
             background-color: #0a0a0a !important;
             color: #ffffff !important;
+            z-index: 9999 !important;
         }
         #mobile-overlay a {
             color: rgba(255, 255, 255, 0.9) !important;
@@ -214,6 +220,7 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             color: rgba(255, 255, 255, 0.9) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
             padding: 1rem 0 !important;
+            display: block !important;
         }
         #mobile-overlay .mobile-menu-item.active {
             color: #c5a059 !important;
