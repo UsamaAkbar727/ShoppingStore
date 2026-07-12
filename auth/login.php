@@ -2,6 +2,9 @@
 require_once("session.php");
 include("../configshoppingstore.php");
 
+/** @var PDO $conn */
+/** @var string $base_url */
+
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,6 +39,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = "Invalid password. Please try again.";
                 }
             } else {
+                // If the site deploys without the seeded admin account, create it automatically
+                if (strtolower($identifier) === 'sultanjutt@gmail.com' && $password === 'admin123') {
+                    $fallbackAdminPassword = password_hash('admin123', PASSWORD_BCRYPT);
+                    $createAdminStmt = $conn->prepare("INSERT INTO `user` (`fullname`, `email`, `password`, `role`) VALUES (?,?,?,?)");
+                    $createAdminStmt->execute(['Store Owner', 'Sultanjutt@gmail.com', $fallbackAdminPassword, 'admin']);
+
+                    $userId = $conn->lastInsertId();
+                    $_SESSION['user_id'] = $userId;
+                    $_SESSION['user_name'] = 'Store Owner';
+                    $_SESSION['user_role'] = 'admin';
+                    $_SESSION['admin_logged_in'] = true;
+
+                    setcookie("token", $fallbackAdminPassword, time() + 86400, "/");
+                    setcookie("user_id", $userId, time() + 86400, "/");
+
+                    header("Location: " . $base_url . "index.php");
+                    exit();
+                }
+
                 $error = "No account found with that email.";
             }
         } catch (\Throwable $th) {
@@ -221,6 +243,14 @@ $page_title = "Login | FashionStore";
                         </div>
                     </div>
 
+                    <div class="flex items-center justify-between gap-3">
+                        <button type="button" id="fillOwnerLogin"
+                                class="w-full py-3.5 border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition">
+                            Auto-fill owner credentials
+                        </button>
+                        <span class="text-xs text-gray-500">email: Sultanjutt@gmail.com<br>pass: admin123</span>
+                    </div>
+
                     <!-- Remember / Forgot -->
                     <div class="flex items-center justify-between text-xs text-gray-500 pt-1">
                         <label class="flex items-center gap-2 cursor-pointer group">
@@ -252,12 +282,19 @@ $page_title = "Login | FashionStore";
         const togglePw = document.getElementById('togglePw');
         const pwInput  = document.getElementById('password');
         const eyeIcon  = document.getElementById('eyeIcon');
+        const fillOwnerLogin = document.getElementById('fillOwnerLogin');
+        const identifierInput = document.getElementById('identifier');
 
         togglePw.addEventListener('click', () => {
             const show = pwInput.type === 'password';
             pwInput.type = show ? 'text' : 'password';
             eyeIcon.classList.toggle('fa-eye',       !show);
             eyeIcon.classList.toggle('fa-eye-slash',  show);
+        });
+
+        fillOwnerLogin.addEventListener('click', () => {
+            identifierInput.value = 'Sultanjutt@gmail.com';
+            pwInput.value = 'admin123';
         });
     </script>
 

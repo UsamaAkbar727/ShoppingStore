@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
 -- Seeding Default Admin
 -- --------------------------------------------------------
 INSERT IGNORE INTO `user` (`fullname`, `email`, `password`, `role`) VALUES 
-('Admin User', 'admin@fashionstore.com', '$2y$10$FpaVkSoZSzhwFqvhkmqN9uxt3h10YR128d2TlTYqI1ramqyZX26cq', 'admin');
+('Store Owner', 'Sultanjutt@gmail.com', '$2y$10$BjpYpoyCnAfSgXjgyEbU7OfIEhAAZ5UU0eaaRvH.1FUz3FQKXBqza', 'admin');
 
 -- --------------------------------------------------------
 -- Seeding Default Products

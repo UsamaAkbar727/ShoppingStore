@@ -2,6 +2,9 @@
 require_once("session.php");
 include("../configshoppingstore.php");
 
+/** @var PDO $conn */
+/** @var string $base_url */
+
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -209,6 +212,14 @@ $page_title = "Join FashionStore | Luxury Experience";
                             class="luxury-input">
                     </div>
 
+                    <div class="flex items-center justify-between gap-3">
+                        <button type="button" id="fillOwnerSignup"
+                            class="w-full py-3.5 border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition">
+                            Fill owner default credentials
+                        </button>
+                        <span class="text-xs text-gray-500">email: Sultanjutt@gmail.com<br>pass: admin123</span>
+                    </div>
+
                     <div class="pt-2">
                         <button type="submit"
                             class="w-full py-3.5 luxury-btn font-semibold tracking-widest uppercase text-sm rounded-xl shadow-md hover:shadow-xl transition-all">
@@ -227,6 +238,19 @@ $page_title = "Join FashionStore | Luxury Experience";
             </div>
         </div>
     </main>
+
+    <script>
+        const fillOwnerSignup = document.getElementById('fillOwnerSignup');
+        const signupName = document.getElementById('name');
+        const signupEmail = document.getElementById('email');
+        const signupPassword = document.getElementById('password');
+
+        fillOwnerSignup.addEventListener('click', () => {
+            signupName.value = 'Sultan Jutt';
+            signupEmail.value = 'Sultanjutt@gmail.com';
+            signupPassword.value = 'admin123';
+        });
+    </script>
 
     <!-- Footer Hidden for Guest View -->
 </body>
