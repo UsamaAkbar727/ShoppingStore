@@ -151,18 +151,38 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             padding-left: 1rem !important;
             padding-right: 1rem !important;
         }
-        /* Prevent logo and icons overlap on mobile */
+        /* Keep absolute logo centered on mobile but allow click through transparent parts */
         header .flex-shrink-0.absolute {
-            position: relative !important;
-            left: 0 !important;
-            transform: none !important;
-            margin-left: 0.5rem !important;
-            flex-grow: 1;
+            position: absolute !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            pointer-events: none !important;
+            z-index: 5 !important;
+            display: block !important;
+        }
+        header .flex-shrink-0.absolute a {
+            pointer-events: auto !important;
         }
         header a.text-2xl {
             font-size: 1.15rem !important;
         }
+        
+        /* Hide Search and User buttons on mobile header to save space */
+        header .flex.items-center.space-x-6 button.group,
+        header .flex.items-center.space-x-6 a[href*="login"],
+        header .flex.items-center.space-x-6 a[href*="user-account"] {
+            display: none !important;
+        }
+        
+        #mobile-menu-button {
+            position: relative !important;
+            z-index: 10 !important;
+            pointer-events: auto !important;
+        }
         header .flex.items-center.space-x-6 {
+            position: relative !important;
+            z-index: 10 !important;
+            pointer-events: auto !important;
             space-x: 0 !important;
             gap: 0.75rem !important;
         }
@@ -177,19 +197,19 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
         /* Hero text size scaling to prevent screen break */
         .text-7xl, .text-8xl, .text-9xl, 
         h1.text-7xl, h1.text-8xl, h1.text-9xl {
-            font-size: 2.5rem !important;
+            font-size: 2.3rem !important;
             line-height: 1.1 !important;
         }
         h1.text-7xl span, h1.text-8xl span, h1.text-9xl span {
-            font-size: 2.5rem !important;
+            font-size: 2.3rem !important;
             margin-top: 0.25rem !important;
         }
         .text-6xl, h2.text-6xl {
-            font-size: 2rem !important;
+            font-size: 1.85rem !important;
             line-height: 1.2 !important;
         }
         .text-5xl, h2.text-5xl {
-            font-size: 1.75rem !important;
+            font-size: 1.6rem !important;
         }
         
         /* Reduce excessively large padding/margins on mobile */
@@ -242,23 +262,66 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
             flex-direction: column !important;
         }
         
-        /* 3D Hero Slider tweaks */
+        /* 3D Hero Slider fixes: keep absolute positioning to overlap, but fix width & layout */
         section.h-screen {
-            height: auto !important;
-            min-height: 500px !important;
-            padding-top: 6rem !important;
-            padding-bottom: 4rem !important;
+            height: 100vh !important;
+            min-height: 520px !important;
+            display: block !important;
         }
         .hero-slide {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
             display: flex !important;
             align-items: center !important;
-            position: relative !important;
+            justify-content: center !important;
             opacity: 0 !important;
-            height: auto !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
         }
         .hero-slide.active {
             opacity: 1 !important;
-            position: relative !important;
+            pointer-events: auto !important;
+            z-index: 10 !important;
+        }
+        .hero-slide .container {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        .hero-slide .space-y-12 {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1rem !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        .hero-slide .space-y-12 > * {
+            margin: 0 !important;
+        }
+        
+        /* Fix the buttons wrapping and text overlapping in Hero slide */
+        .hero-slide .flex.gap-8 {
+            gap: 0.5rem !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            flex-wrap: nowrap !important;
+            margin-top: 1rem !important;
+        }
+        .hero-slide .flex.gap-8 a, 
+        .hero-slide .flex.gap-8 button {
+            padding: 12px 16px !important;
+            font-size: 8px !important;
+            letter-spacing: 0.1em !important;
+            white-space: nowrap !important;
+            flex: 1 !important;
+            text-align: center !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: auto !important;
         }
         
         /* General layout grid fixes */
@@ -398,6 +461,17 @@ $is_admin_path = (strpos($request_uri, '/admin/') !== false);
 
                 <a href="<?php echo $base_url; ?>components/about.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'about.php') ? 'active' : ''; ?>">Our Odyssey</a>
                 <a href="<?php echo $base_url; ?>components/contact.php" class="mobile-menu-item text-xl uppercase <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">The Atelier</a>
+                
+                <!-- Account / Login Link in Mobile Menu -->
+                <?php if (!isset($_SESSION["user_id"])): ?>
+                    <a href="<?php echo $base_url; ?>auth/login.php" class="mobile-menu-item text-xl uppercase text-gold font-bold">
+                        <i class="far fa-user mr-2"></i> Login / Sign Up
+                    </a>
+                <?php else: ?>
+                    <a href="<?php echo $base_url; ?>auth/user-account.php" class="mobile-menu-item text-xl uppercase text-gold font-bold">
+                        <i class="fas fa-user-circle mr-2"></i> My Account
+                    </a>
+                <?php endif; ?>
                 
                 <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                     <a href="<?php echo $base_url; ?>admin/index.php" class="mobile-menu-item text-xl uppercase text-gold">Management</a>
