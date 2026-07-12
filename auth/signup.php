@@ -165,10 +165,6 @@ $page_title = "Join FashionStore | Luxury Experience";
 
             <!-- Right Side: Signup Form -->
             <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white relative">
-                <!-- Close Button -->
-                <a href="../index.php" class="absolute top-6 right-8 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-gold transition">
-                    <i class="fas fa-times mr-1"></i> Close
-                </a>
                 <div class="mb-8 text-center md:text-left">
                     <h2 class="font-serif text-3xl text-luxury mb-2">Create Account</h2>
                     <p class="text-gray-500 text-sm">Join the elite world of FashionStore</p>
