@@ -10,14 +10,14 @@ function sendEmail($toEmail, $toName, $subject, $body) {
 
     try {
         $mail->isSMTP();
-        $mail->Host       = getenv('SMTP_HOST') ?: 'smtp.gmail.com';            
+        $mail->Host       = safe_getenv('SMTP_HOST', 'smtp.gmail.com');            
         $mail->SMTPAuth   = true;
-        $mail->Username   = getenv('SMTP_USER') ?: 'placeholder@gmail.com';      
-        $mail->Password   = getenv('SMTP_PASS') ?: '';        
+        $mail->Username   = safe_getenv('SMTP_USER', 'placeholder@gmail.com');      
+        $mail->Password   = safe_getenv('SMTP_PASS', '');        
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = getenv('SMTP_PORT') ?: 587;
+        $mail->Port       = safe_getenv('SMTP_PORT', 587);
 
-        $mail->setFrom(getenv('SMTP_USER') ?: 'placeholder@gmail.com', 'FashionStore Atelier');
+        $mail->setFrom(safe_getenv('SMTP_USER', 'placeholder@gmail.com'), 'FashionStore Atelier');
         $mail->addAddress($toEmail, $toName);
 
         // Content

@@ -32,7 +32,7 @@ if ($order_id > 0) {
                     }
 
                     require_once 'vendor/autoload.php';
-                    $stripe_key = getenv('STRIPE_SECRET_KEY');
+                    $stripe_key = safe_getenv('STRIPE_SECRET_KEY');
                     if (empty($stripe_key) || $stripe_key === 'YOUR_STRIPE_KEY') {
                         throw new \Exception("Verification failed: Stripe key is not configured.");
                     }

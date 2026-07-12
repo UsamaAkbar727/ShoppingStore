@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 $YOUR_DOMAIN = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $base_url;
                 
                 try {
-                    $stripe_key = getenv('STRIPE_SECRET_KEY');
+                    $stripe_key = safe_getenv('STRIPE_SECRET_KEY');
                     if (empty($stripe_key) || $stripe_key === 'YOUR_STRIPE_KEY') {
                         throw new \Exception("Stripe is not configured on this server yet. Please use Cash on Delivery or configure your keys.");
                     }
