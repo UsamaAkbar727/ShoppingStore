@@ -152,14 +152,14 @@ $page_title = "Join FashionStore | Luxury Experience";
     <main class="flex-grow flex items-center justify-center p-6 bg-transparent">
         <div class="max-w-4xl w-full flex flex-col md:flex-row-reverse luxury-card rounded-2xl overflow-hidden">
             <!-- Left Side: Aesthetic Image -->
-            <div class="hidden md:block w-1/2 bg-luxury relative overflow-hidden">
+            <div class="w-full h-48 md:h-auto md:w-1/2 bg-luxury relative overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80"
                     alt="Fashion Collection"
                     class="absolute inset-0 w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-[2000ms]">
                 <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-12">
-                    <h1 class="font-serif text-4xl text-white mb-4">Timeless Elegance.</h1>
-                    <p class="text-white/70 text-sm tracking-widest uppercase">Start Your Journey With Us</p>
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 md:p-12">
+                    <h1 class="font-serif text-2xl md:text-4xl text-white mb-2 md:mb-4">Timeless Elegance.</h1>
+                    <p class="text-white/70 text-[10px] md:text-sm tracking-widest uppercase">Start Your Journey With Us</p>
                 </div>
             </div>
 
