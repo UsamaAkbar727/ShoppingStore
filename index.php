@@ -787,6 +787,77 @@ try {
             </div>
         </section>
 
+        <!-- Curated Seasonal Aesthetics (Browse by Style Vibe) -->
+        <section class="py-36 bg-[#080808] text-white section-3d border-t border-white/10">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+                    <div class="space-y-4">
+                        <span class="text-gold text-xs uppercase tracking-[0.8em] font-black">Style DNA Matrix</span>
+                        <h2 class="font-serif text-5xl md:text-6xl text-white">Curated <span class="italic text-gold">Aesthetics</span></h2>
+                    </div>
+                    <p class="text-gray-400 text-sm font-light max-w-md">Discover hand-picked collections aligned with your personal fashion persona.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Vibe 1 -->
+                    <a href="shop.php?category=All" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                        <div class="relative w-full h-full rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="Minimalist Chic" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 space-y-2 tilt-child-3d">
+                                <span class="text-gold text-[8px] uppercase tracking-[0.3em] font-black">Vibe 01</span>
+                                <h3 class="font-serif text-2xl text-white">Minimalist Chic</h3>
+                                <p class="text-xs text-gray-400 font-light">Neutral palettes, effortless silhouettes & clean tailoring.</p>
+                                <span class="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-gold font-bold pt-2 group-hover:translate-x-2 transition-transform">Explore Line <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Vibe 2 -->
+                    <a href="shop.php?category=Men" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                        <div class="relative w-full h-full rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80" alt="Old Money Prestige" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 space-y-2 tilt-child-3d">
+                                <span class="text-gold text-[8px] uppercase tracking-[0.3em] font-black">Vibe 02</span>
+                                <h3 class="font-serif text-2xl text-white">Old Money Prestige</h3>
+                                <p class="text-xs text-gray-400 font-light">Double-face cashmere, silk scarves & tailored coats.</p>
+                                <span class="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-gold font-bold pt-2 group-hover:translate-x-2 transition-transform">Explore Line <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Vibe 3 -->
+                    <a href="shop.php?category=Women" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                        <div class="relative w-full h-full rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80" alt="Haute Gala Evening" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 space-y-2 tilt-child-3d">
+                                <span class="text-gold text-[8px] uppercase tracking-[0.3em] font-black">Vibe 03</span>
+                                <h3 class="font-serif text-2xl text-white">Haute Gala Evening</h3>
+                                <p class="text-xs text-gray-400 font-light">Silk floor-length gowns & tuxedo tailoring.</p>
+                                <span class="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-gold font-bold pt-2 group-hover:translate-x-2 transition-transform">Explore Line <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Vibe 4 -->
+                    <a href="accessories.php" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                        <div class="relative w-full h-full rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80" alt="Fine Jewelry & Vault" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 space-y-2 tilt-child-3d">
+                                <span class="text-gold text-[8px] uppercase tracking-[0.3em] font-black">Vibe 04</span>
+                                <h3 class="font-serif text-2xl text-white">Aureate Fine Vault</h3>
+                                <p class="text-xs text-gray-400 font-light">24K gold hardware, Italian leather & diamond cuts.</p>
+                                <span class="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest text-gold font-bold pt-2 group-hover:translate-x-2 transition-transform">Explore Line <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- 3D Section: Categories -->
         <section id="collections" class="py-40 bg-white section-3d">
             <div class="container mx-auto px-6">
@@ -856,6 +927,122 @@ try {
             </div>
         </section>
 
+        <!-- Interactive Style Lookbook (Shop The Look) -->
+        <section class="py-32 bg-[#0d0d0d] text-white section-3d border-t border-b border-white/10">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+                    <div class="space-y-4">
+                        <span class="text-gold text-xs uppercase tracking-[0.8em] font-black">Editorial Showcase</span>
+                        <h2 class="font-serif text-5xl md:text-6xl text-white">Shop The <span class="italic text-gold">Lookbook</span></h2>
+                    </div>
+                    <p class="text-gray-400 text-sm font-light max-w-md">Hover over the interactive hotspots on the model below to explore individual couture pieces from the runway.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <!-- Editorial Image with Hotspots -->
+                    <div class="lg:col-span-7 relative rounded-3xl overflow-hidden glass p-3 border border-white/10 group">
+                        <div class="relative aspect-[4/5] w-full rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Lookbook Model" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+
+                            <!-- Hotspot 1: Blazer -->
+                            <div class="absolute top-[32%] left-[48%] group/pin">
+                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <!-- Hotspot Tooltip -->
+                                <div class="absolute left-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Featured Blazer</span>
+                                    <h4 class="font-serif text-white text-base">Asymmetric Silk Blazer</h4>
+                                    <p class="text-xs text-gold font-bold mt-1">$3,100</p>
+                                    <a href="shop.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                </div>
+                            </div>
+
+                            <!-- Hotspot 2: Leather Tote Bag -->
+                            <div class="absolute top-[60%] left-[30%] group/pin">
+                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <!-- Hotspot Tooltip -->
+                                <div class="absolute left-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Luxury Accessory</span>
+                                    <h4 class="font-serif text-white text-base">Aureate Leather Bag</h4>
+                                    <p class="text-xs text-gold font-bold mt-1">$2,450</p>
+                                    <a href="accessories.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                </div>
+                            </div>
+
+                            <!-- Hotspot 3: Trousers -->
+                            <div class="absolute top-[75%] left-[62%] group/pin">
+                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <!-- Hotspot Tooltip -->
+                                <div class="absolute right-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Runway Bottoms</span>
+                                    <h4 class="font-serif text-white text-base">Obsidian Tailored Trousers</h4>
+                                    <p class="text-xs text-gold font-bold mt-1">$1,800</p>
+                                    <a href="shop.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lookbook Description & Quick Breakdown -->
+                    <div class="lg:col-span-5 space-y-10">
+                        <div class="space-y-4">
+                            <span class="text-gold text-[10px] uppercase tracking-[0.5em] font-black">Runway Ensemble #04</span>
+                            <h3 class="font-serif text-4xl text-white">The Midnight Monolith</h3>
+                            <p class="text-gray-400 text-sm font-light leading-relaxed">Curated for high-profile evening events and winter galas. Precision tailored in Milan with organic double-face cashmere and 24K gold plated hardware.</p>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">01</div>
+                                    <div>
+                                        <h4 class="font-serif text-white text-lg">Asymmetric Silk Blazer</h4>
+                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Pure Aureate Weave</p>
+                                    </div>
+                                </div>
+                                <span class="font-serif text-gold text-lg">$3,100</span>
+                            </div>
+
+                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">02</div>
+                                    <div>
+                                        <h4 class="font-serif text-white text-lg">Aureate Leather Bag</h4>
+                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Handcrafted Italian Calfskin</p>
+                                    </div>
+                                </div>
+                                <span class="font-serif text-gold text-lg">$2,450</span>
+                            </div>
+
+                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">03</div>
+                                    <div>
+                                        <h4 class="font-serif text-white text-lg">Obsidian Tailored Trousers</h4>
+                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Pleated Wool Blend</p>
+                                    </div>
+                                </div>
+                                <span class="font-serif text-gold text-lg">$1,800</span>
+                            </div>
+                        </div>
+
+                        <a href="shop.php" class="inline-block w-full py-5 bg-gold text-white text-center text-[10px] font-black uppercase tracking-[0.5em] rounded-2xl hover:bg-white hover:text-black transition-all duration-500 shadow-xl">
+                            Explore Complete Runway Outfits
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 3D Section: Products -->
         <section id="products" class="py-40 bg-[#0a0a0a] text-white section-3d">
             <div class="container mx-auto px-6">
@@ -911,6 +1098,85 @@ try {
                             break;
                     }
                     ?>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connoisseur Reviews & Wall of Trust -->
+        <section class="py-32 bg-black text-white section-3d border-t border-white/10">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                    <span class="text-gold text-xs uppercase tracking-[0.8em] font-black">Client Acclaim</span>
+                    <h2 class="font-serif text-5xl md:text-6xl">Words from the <span class="italic text-gold">Elite</span></h2>
+                    <p class="text-gray-400 font-light text-sm">Read verified feedback from our global clientele across Paris, Milan, London, and New York.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Review 1 -->
+                    <div class="glass p-10 rounded-3xl space-y-8 border border-white/10 hover:border-gold/40 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-gold text-sm gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-[9px] uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 font-bold">Verified Buyer</span>
+                        </div>
+                        <p class="text-gray-300 font-light italic leading-relaxed text-sm">
+                            "The precision of the tailoring and quality of the silk is unprecedented. The garment arrived in luxury custom packaging within 48 hours."
+                        </p>
+                        <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border border-gold/40">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-white text-base">Lady Genevieve Vance</h4>
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest">London, United Kingdom</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="glass p-10 rounded-3xl space-y-8 border border-white/10 hover:border-gold/40 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-gold text-sm gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-[9px] uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 font-bold">VIP Collector</span>
+                        </div>
+                        <p class="text-gray-300 font-light italic leading-relaxed text-sm">
+                            "FashionStore has set a new benchmark for online digital luxury. The piece fits like bespoke couture made directly in Paris."
+                        </p>
+                        <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border border-gold/40">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-white text-base">Julian K. Sterling</h4>
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Milan, Italy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="glass p-10 rounded-3xl space-y-8 border border-white/10 hover:border-gold/40 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex text-gold text-sm gap-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-[9px] uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 font-bold">Verified Buyer</span>
+                        </div>
+                        <p class="text-gray-300 font-light italic leading-relaxed text-sm">
+                            "Extremely fast concierge shipping and exceptional customer service. The leather finish is soft, rich, and timeless."
+                        </p>
+                        <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border border-gold/40">
+                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-white text-base">Sophia Chen</h4>
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest">New York, USA</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
