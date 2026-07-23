@@ -28,6 +28,7 @@ $site_title = $product['productName'] . " | FashionStore";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,17 +47,28 @@ $site_title = $product['productName'] . " | FashionStore";
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
-        body { background-color: #0a0a0a; color: #fff; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
+
 <body class="font-sans">
     <?php include 'components/header.php'; ?>
 
     <main class="pt-40 pb-20 px-6">
         <div class="container mx-auto max-w-7xl">
             <!-- Back Button -->
-            <a href="javascript:history.back()" class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-12 group">
+            <a href="javascript:history.back()"
+                class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gray-400 hover:text-gold transition-colors mb-12 group">
                 <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Return to Collection
             </a>
 
@@ -64,28 +76,37 @@ $site_title = $product['productName'] . " | FashionStore";
                 <!-- Product Image -->
                 <div class="relative group">
                     <div class="aspect-[4/5] overflow-hidden rounded-3xl glass p-4">
-                        <?php 
+                        <?php
                         $imgPath = (strpos($product["file"], 'http') === 0) ? htmlspecialchars($product["file"]) : $base_url . "admin/uploads/" . htmlspecialchars($product["file"]);
                         ?>
-                        <img src="<?php echo $imgPath; ?>" alt="<?php echo htmlspecialchars($product['productName']); ?>" class="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105">
+                        <img src="<?php echo $imgPath; ?>"
+                            alt="<?php echo htmlspecialchars($product['productName']); ?>"
+                            class="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105">
                     </div>
                     <!-- Badge -->
                     <?php if ($product['stock'] < 5 && $product['stock'] > 0): ?>
-                        <div class="absolute top-10 right-10 bg-red-600/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-6 py-3 rounded-full">Limited Stock</div>
+                        <div
+                            class="absolute top-10 right-10 bg-red-600/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-6 py-3 rounded-full">
+                            Limited Stock</div>
                     <?php endif; ?>
                 </div>
 
                 <!-- Product Info -->
                 <div class="flex flex-col justify-center space-y-12">
                     <div class="space-y-4">
-                        <span class="text-gold text-xs uppercase tracking-[0.8em] font-black"><?php echo htmlspecialchars($product['category']); ?></span>
-                        <h1 class="font-serif text-6xl text-white leading-tight"><?php echo htmlspecialchars($product['productName']); ?></h1>
+                        <span
+                            class="text-gold text-xs uppercase tracking-[0.8em] font-black"><?php echo htmlspecialchars($product['category']); ?></span>
+                        <h1 class="font-serif text-6xl text-white leading-tight">
+                            <?php echo htmlspecialchars($product['productName']); ?></h1>
                         <div class="flex items-center gap-6">
                             <?php if ($product['discountedPrice']): ?>
-                                <span class="text-4xl font-serif text-gold">$<?php echo number_format($product['discountedPrice'], 2); ?></span>
-                                <span class="text-2xl font-light text-gray-500 line-through">$<?php echo number_format($product['price'], 2); ?></span>
+                                <span
+                                    class="text-4xl font-serif text-gold">$<?php echo number_format($product['discountedPrice'], 2); ?></span>
+                                <span
+                                    class="text-2xl font-light text-gray-500 line-through">$<?php echo number_format($product['price'], 2); ?></span>
                             <?php else: ?>
-                                <span class="text-4xl font-serif text-white">$<?php echo number_format($product['price'], 2); ?></span>
+                                <span
+                                    class="text-4xl font-serif text-white">$<?php echo number_format($product['price'], 2); ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -96,10 +117,11 @@ $site_title = $product['productName'] . " | FashionStore";
                                 <?php echo nl2br(htmlspecialchars($product['description'])); ?>
                             </p>
                         </div>
-                        
+
                         <div class="flex items-center gap-8 text-xs uppercase tracking-widest font-black text-gray-500">
                             <div class="flex items-center gap-3">
-                                <span class="w-2 h-2 rounded-full <?php echo $product['stock'] > 0 ? 'bg-green-500' : 'bg-red-500'; ?>"></span>
+                                <span
+                                    class="w-2 h-2 rounded-full <?php echo $product['stock'] > 0 ? 'bg-green-500' : 'bg-red-500'; ?>"></span>
                                 <span><?php echo $product['stock'] > 0 ? 'In Stock' : 'Sold Out'; ?></span>
                             </div>
                             <span class="w-1 h-1 bg-white/10 rounded-full"></span>
@@ -111,15 +133,22 @@ $site_title = $product['productName'] . " | FashionStore";
                     <div class="space-y-6">
                         <div class="flex items-center gap-4">
                             <div class="flex items-center border border-white/10 rounded-full overflow-hidden">
-                                <button onclick="updateQty(-1)" class="px-6 py-4 hover:bg-white/5 transition-all text-gray-400"><i class="fas fa-minus"></i></button>
-                                <input type="number" id="qty" value="1" min="1" max="<?php echo $product['stock']; ?>" class="w-16 bg-transparent text-center focus:outline-none font-bold">
-                                <button onclick="updateQty(1)" class="px-6 py-4 hover:bg-white/5 transition-all text-gray-400"><i class="fas fa-plus"></i></button>
+                                <button onclick="updateQty(-1)"
+                                    class="px-6 py-4 hover:bg-white/5 transition-all text-gray-400"><i
+                                        class="fas fa-minus"></i></button>
+                                <input type="number" id="qty" value="1" min="1" max="<?php echo $product['stock']; ?>"
+                                    class="w-16 bg-transparent text-center focus:outline-none font-bold">
+                                <button onclick="updateQty(1)"
+                                    class="px-6 py-4 hover:bg-white/5 transition-all text-gray-400"><i
+                                        class="fas fa-plus"></i></button>
                             </div>
-                            <button onclick="addToCart(<?php echo $product['id']; ?>)" class="flex-grow py-6 bg-gold text-white text-xs font-black uppercase tracking-[0.4em] rounded-full hover:shadow-[0_0_40px_rgba(197,160,89,0.3)] transition-all transform hover:-translate-y-1">
+                            <button onclick="addToCart(<?php echo $product['id']; ?>)"
+                                class="flex-grow py-6 bg-gold text-white text-xs font-black uppercase tracking-[0.4em] rounded-full hover:shadow-[0_0_40px_rgba(197,160,89,0.3)] transition-all transform hover:-translate-y-1">
                                 Add to Archive
                             </button>
                         </div>
-                        <button onclick="buyNow(<?php echo $product['id']; ?>)" class="w-full py-6 border border-white/20 text-white text-xs font-black uppercase tracking-[0.4em] rounded-full hover:bg-white hover:text-black transition-all">
+                        <button onclick="buyNow(<?php echo $product['id']; ?>)"
+                            class="w-full py-6 border border-white/20 text-white text-xs font-black uppercase tracking-[0.4em] rounded-full hover:bg-white hover:text-black transition-all">
                             Immediate Acquisition
                         </button>
                     </div>
@@ -128,11 +157,13 @@ $site_title = $product['productName'] . " | FashionStore";
                     <div class="grid grid-cols-2 gap-8 pt-12 border-t border-white/5">
                         <div class="flex items-center gap-4">
                             <i class="fas fa-shipping-fast text-gold"></i>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400">Global Express Delivery</span>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-400">Global Express
+                                Delivery</span>
                         </div>
                         <div class="flex items-center gap-4">
                             <i class="fas fa-shield-alt text-gold"></i>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-400">Secure Encrypted Checkout</span>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-400">Secure Encrypted
+                                Checkout</span>
                         </div>
                     </div>
                 </div>
@@ -174,4 +205,5 @@ $site_title = $product['productName'] . " | FashionStore";
         }
     </script>
 </body>
+
 </html>
