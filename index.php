@@ -617,7 +617,7 @@ try {
                                 </div>
                                 <div
                                     class="relative aspect-[4/5] overflow-hidden rounded-lg shadow-[0_50px_100px_rgba(0,0,0,0.1)]">
-                                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80"
+                                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1000&q=80"
                                         alt="Brand Story"
                                         class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[3s]">
                                 </div>
@@ -942,7 +942,7 @@ try {
                     <!-- Editorial Image with Hotspots -->
                     <div class="lg:col-span-7 relative rounded-3xl overflow-hidden glass p-3 border border-white/10 group">
                         <div class="relative aspect-[4/5] w-full rounded-2xl overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Lookbook Model" class="w-full h-full object-cover">
+                            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Lookbook Model" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
 
                             <!-- Hotspot 1: Blazer -->
@@ -1125,7 +1125,7 @@ try {
                         </p>
                         <div class="flex items-center gap-4 pt-4 border-t border-white/10">
                             <div class="w-12 h-12 rounded-full overflow-hidden border border-gold/40">
-                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h4 class="font-serif text-white text-base">Lady Genevieve Vance</h4>
@@ -1147,7 +1147,7 @@ try {
                         </p>
                         <div class="flex items-center gap-4 pt-4 border-t border-white/10">
                             <div class="w-12 h-12 rounded-full overflow-hidden border border-gold/40">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h4 class="font-serif text-white text-base">Julian K. Sterling</h4>
