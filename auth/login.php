@@ -243,14 +243,6 @@ $page_title = "Login | FashionStore";
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between gap-3">
-                        <button type="button" id="fillOwnerLogin"
-                                class="w-full py-3.5 border border-gray-200 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition">
-                            Auto-fill owner credentials
-                        </button>
-                        <span class="text-xs text-gray-500">email: Sultanjutt@gmail.com<br>pass: admin123</span>
-                    </div>
-
                     <!-- Remember / Forgot -->
                     <div class="flex items-center justify-between text-xs text-gray-500 pt-1">
                         <label class="flex items-center gap-2 cursor-pointer group">
@@ -273,6 +265,23 @@ $page_title = "Login | FashionStore";
                         </p>
                     </div>
 
+                    <!-- Concierge Quick Access Panel (Modern / Luxury display) -->
+                    <div class="mt-4 p-4 rounded-2xl bg-gold/5 border border-gold/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center text-gold">
+                                <i class="fas fa-key text-[10px]"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-luxury font-bold uppercase tracking-wider text-[10px]">Concierge Access</p>
+                                <p class="text-gray-400 font-light text-[9px] mt-0.5">Sultanjutt@gmail.com | admin123</p>
+                            </div>
+                        </div>
+                        <button type="button" id="fillOwnerLogin" 
+                                class="px-4 py-2 bg-gold/10 hover:bg-gold text-gold hover:text-white transition-all rounded-lg font-bold tracking-wider uppercase text-[9px] border border-gold/25 hover:shadow-md">
+                            Autofill
+                        </button>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -292,10 +301,12 @@ $page_title = "Login | FashionStore";
             eyeIcon.classList.toggle('fa-eye-slash',  show);
         });
 
-        fillOwnerLogin.addEventListener('click', () => {
-            identifierInput.value = 'Sultanjutt@gmail.com';
-            pwInput.value = 'admin123';
-        });
+        if (fillOwnerLogin) {
+            fillOwnerLogin.addEventListener('click', () => {
+                if (identifierInput) identifierInput.value = 'Sultanjutt@gmail.com';
+                if (pwInput) pwInput.value = 'admin123';
+            });
+        }
     </script>
 
 </body>
