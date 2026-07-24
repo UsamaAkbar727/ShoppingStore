@@ -960,7 +960,7 @@ try {
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
 
                             <!-- Hotspot 1: Upper Outfit -->
-                            <div id="hotspot-1" class="absolute top-[32%] left-[50%] -translate-x-1/2 group/pin transition-all duration-500">
+                            <div id="hotspot-1" class="absolute top-[24%] left-[48%] -translate-x-1/2 group/pin transition-all duration-500">
                                 <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
                                 <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-sm shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
@@ -968,29 +968,29 @@ try {
                                 <!-- Hotspot Tooltip -->
                                 <div class="absolute left-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
                                     <span id="pin1-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Upper Piece</span>
-                                    <h4 id="pin1-title" class="font-serif text-white text-base font-bold">Silk Satin Couture Blazer</h4>
-                                    <p id="pin1-price" class="text-xs text-gold font-black mt-1">$3,200</p>
+                                    <h4 id="pin1-title" class="font-serif text-white text-base font-bold">Aura Cropped Hoodie</h4>
+                                    <p id="pin1-price" class="text-xs text-gold font-black mt-1">$1,200</p>
                                     <a href="shop.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
 
-                            <!-- Hotspot 2: Accessory / Bag -->
-                            <div id="hotspot-2" class="absolute top-[58%] left-[38%] group/pin transition-all duration-500">
+                            <!-- Hotspot 2: Pants -->
+                            <div id="hotspot-2" class="absolute top-[58%] left-[42%] group/pin transition-all duration-500">
                                 <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
                                 <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-sm shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
                                 </button>
                                 <!-- Hotspot Tooltip -->
                                 <div class="absolute left-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
-                                    <span id="pin2-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Handcrafted Bag</span>
-                                    <h4 id="pin2-title" class="font-serif text-white text-base font-bold">Aureate Leather Handbag</h4>
-                                    <p id="pin2-price" class="text-xs text-gold font-black mt-1">$2,650</p>
-                                    <a href="accessories.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
+                                    <span id="pin2-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Runway Bottoms</span>
+                                    <h4 id="pin2-title" class="font-serif text-white text-base font-bold">Aura Tailored Joggers</h4>
+                                    <p id="pin2-price" class="text-xs text-gold font-black mt-1">$950</p>
+                                    <a href="shop.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
 
-                            <!-- Hotspot 3: Footwear / Pants -->
-                            <div id="hotspot-3" class="absolute top-[80%] left-[60%] group/pin transition-all duration-500">
+                            <!-- Hotspot 3: Boots -->
+                            <div id="hotspot-3" class="absolute top-[88%] left-[55%] group/pin transition-all duration-500">
                                 <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
                                 <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
@@ -998,8 +998,8 @@ try {
                                 <!-- Hotspot Tooltip -->
                                 <div class="absolute right-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
                                     <span id="pin3-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Footwear</span>
-                                    <h4 id="pin3-title" class="font-serif text-white text-base font-bold">Gold Accent Stiletto Heels</h4>
-                                    <p id="pin3-price" class="text-xs text-gold font-black mt-1">$1,950</p>
+                                    <h4 id="pin3-title" class="font-serif text-white text-base font-bold">Alabaster Platform Boots</h4>
+                                    <p id="pin3-price" class="text-xs text-gold font-black mt-1">$1,400</p>
                                     <a href="shop.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
@@ -1022,33 +1022,33 @@ try {
                                 <div class="flex items-center gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">01</div>
                                     <div>
-                                        <h4 id="card1-title" class="font-serif text-white text-base">Silk Satin Couture Blazer</h4>
-                                        <p id="card1-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Pure Aureate Weave</p>
+                                        <h4 id="card1-title" class="font-serif text-white text-base">Aura Cropped Hoodie</h4>
+                                        <p id="card1-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Vibrant Cotton Fleece</p>
                                     </div>
                                 </div>
-                                <span id="card1-price" class="font-serif text-gold text-base font-bold">$3,200</span>
+                                <span id="card1-price" class="font-serif text-gold text-base font-bold">$1,200</span>
                             </div>
 
                             <div class="glass p-5 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/40 transition-all">
                                 <div class="flex items-center gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">02</div>
                                     <div>
-                                        <h4 id="card2-title" class="font-serif text-white text-base">Aureate Leather Handbag</h4>
-                                        <p id="card2-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Italian Calfskin Leather</p>
+                                        <h4 id="card2-title" class="font-serif text-white text-base">Aura Tailored Joggers</h4>
+                                        <p id="card2-sub" class="text-[9px] uppercase tracking-widest text-gray-400">High-Waist Luxury Fleece</p>
                                     </div>
                                 </div>
-                                <span id="card2-price" class="font-serif text-gold text-base font-bold">$2,650</span>
+                                <span id="card2-price" class="font-serif text-gold text-base font-bold">$950</span>
                             </div>
 
                             <div class="glass p-5 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/40 transition-all">
                                 <div class="flex items-center gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">03</div>
                                     <div>
-                                        <h4 id="card3-title" class="font-serif text-white text-base">Gold Accent Stiletto Heels</h4>
-                                        <p id="card3-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Hand-polished Leather</p>
+                                        <h4 id="card3-title" class="font-serif text-white text-base">Alabaster Platform Boots</h4>
+                                        <p id="card3-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Genuine Leather block heels</p>
                                     </div>
                                 </div>
-                                <span id="card3-price" class="font-serif text-gold text-base font-bold">$1,950</span>
+                                <span id="card3-price" class="font-serif text-gold text-base font-bold">$1,400</span>
                             </div>
                         </div>
 
@@ -1325,16 +1325,16 @@ try {
                     img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80",
                     code: "Runway Ensemble #01",
                     name: "The Aureate Sovereign",
-                    desc: "Unveiled at Paris Fashion Week. Engineered with double-face silk weave, custom 24K gold plated accents, and hand-stitched leather.",
+                    desc: "An iconic urban ensemble featuring a premium cropped cotton hoodie, high-waist track pants, and custom alabaster leather platform boots.",
                     pins: [
-                        { top: "32%", left: "50%", tag: "Upper Piece", title: "Silk Satin Couture Blazer", price: "$3,200" },
-                        { top: "58%", left: "38%", tag: "Handcrafted Bag", title: "Aureate Leather Handbag", price: "$2,650" },
-                        { top: "80%", left: "60%", tag: "Footwear", title: "Gold Accent Stiletto Heels", price: "$1,950" }
+                        { top: "24%", left: "48%", tag: "Upper Piece", title: "Aura Cropped Hoodie", price: "$1,200" },
+                        { top: "58%", left: "42%", tag: "Runway Bottoms", title: "Aura Tailored Joggers", price: "$950" },
+                        { top: "88%", left: "55%", tag: "Footwear", title: "Alabaster Platform Boots", price: "$1,400" }
                     ],
                     cards: [
-                        { title: "Silk Satin Couture Blazer", sub: "Pure Aureate Weave", price: "$3,200" },
-                        { title: "Aureate Leather Handbag", sub: "Italian Calfskin Leather", price: "$2,650" },
-                        { title: "Gold Accent Stiletto Heels", sub: "Hand-polished Leather", price: "$1,950" }
+                        { title: "Aura Cropped Hoodie", sub: "Vibrant Cotton Fleece", price: "$1,200" },
+                        { title: "Aura Tailored Joggers", sub: "High-Waist Luxury Fleece", price: "$950" },
+                        { title: "Alabaster Platform Boots", sub: "Genuine Leather block heels", price: "$1,400" }
                     ]
                 },
                 {
