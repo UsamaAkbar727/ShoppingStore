@@ -370,7 +370,7 @@ try {
 
                         <div class="relative hidden lg:block slide-animate-5">
                             <div class="relative w-full aspect-[4/5] glass rounded-xl overflow-hidden float-3d p-4">
-                                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80"
                                     alt="3D Model" class="w-full h-full object-cover rounded-lg shadow-2xl">
                                 <div
                                     class="absolute bottom-10 left-10 right-10 bg-black/40 backdrop-blur-md p-6 border border-white/10">
@@ -951,7 +951,7 @@ try {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     <!-- Editorial Image Container with Hotspots -->
                     <div class="lg:col-span-7 relative rounded-3xl overflow-hidden glass p-3 border border-white/10 group shadow-2xl">
                         <div class="relative aspect-[4/5] w-full rounded-2xl overflow-hidden">
@@ -960,7 +960,7 @@ try {
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
 
                             <!-- Hotspot 1: Upper Outfit -->
-                            <div id="hotspot-1" class="absolute top-[24%] left-[48%] -translate-x-1/2 group/pin transition-all duration-500">
+                            <div id="hotspot-1" class="absolute top-[22%] left-[48%] -translate-x-1/2 group/pin transition-all duration-500">
                                 <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
                                 <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-sm shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
@@ -1327,7 +1327,7 @@ try {
                     name: "The Aureate Sovereign",
                     desc: "An iconic urban ensemble featuring a premium cropped cotton hoodie, high-waist track pants, and custom alabaster leather platform boots.",
                     pins: [
-                        { top: "24%", left: "48%", tag: "Upper Piece", title: "Aura Cropped Hoodie", price: "$1,200" },
+                        { top: "22%", left: "48%", tag: "Upper Piece", title: "Aura Cropped Hoodie", price: "$1,200" },
                         { top: "58%", left: "42%", tag: "Runway Bottoms", title: "Aura Tailored Joggers", price: "$950" },
                         { top: "88%", left: "55%", tag: "Footwear", title: "Alabaster Platform Boots", price: "$1,400" }
                     ],
