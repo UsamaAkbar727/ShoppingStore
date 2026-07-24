@@ -798,9 +798,13 @@ try {
                     <p class="text-gray-400 text-sm font-light max-w-md">Discover hand-picked collections aligned with your personal fashion persona.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="flex justify-between items-center mb-6 sm:hidden">
+                    <span class="text-xs text-gold font-mono tracking-widest uppercase flex items-center gap-2"><i class="fas fa-arrows-left-right animate-pulse"></i> Swipe to explore</span>
+                </div>
+
+                <div class="flex sm:grid overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory sm:snap-none sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-6 sm:pb-0 scrollbar-none">
                     <!-- Vibe 1 -->
-                    <a href="shop.php?category=All" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                    <a href="shop.php?category=All" class="flex-shrink-0 w-[280px] sm:w-auto snap-center group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
                         <div class="relative w-full h-full rounded-2xl overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="Minimalist Chic" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -814,7 +818,7 @@ try {
                     </a>
 
                     <!-- Vibe 2 -->
-                    <a href="shop.php?category=Men" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                    <a href="shop.php?category=Men" class="flex-shrink-0 w-[280px] sm:w-auto snap-center group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
                         <div class="relative w-full h-full rounded-2xl overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80" alt="Old Money Prestige" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -828,7 +832,7 @@ try {
                     </a>
 
                     <!-- Vibe 3 -->
-                    <a href="shop.php?category=Women" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                    <a href="shop.php?category=Women" class="flex-shrink-0 w-[280px] sm:w-auto snap-center group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
                         <div class="relative w-full h-full rounded-2xl overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80" alt="Haute Gala Evening" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -842,7 +846,7 @@ try {
                     </a>
 
                     <!-- Vibe 4 -->
-                    <a href="accessories.php" class="group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
+                    <a href="accessories.php" class="flex-shrink-0 w-[280px] sm:w-auto snap-center group relative aspect-[3/4] rounded-3xl overflow-hidden glass p-2 border border-white/10 tilt-card-3d" data-tilt-3d="true">
                         <div class="relative w-full h-full rounded-2xl overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80" alt="Fine Jewelry & Vault" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -928,115 +932,128 @@ try {
         </section>
 
         <!-- Interactive Style Lookbook (Shop The Look) -->
-        <section class="py-32 bg-[#0d0d0d] text-white section-3d border-t border-b border-white/10">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+        <section class="py-32 bg-[#0c0c0c] text-white section-3d border-t border-b border-white/10 relative overflow-hidden">
+            <!-- Background Glow -->
+            <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-gold/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div class="space-y-4">
                         <span class="text-gold text-xs uppercase tracking-[0.8em] font-black">Editorial Showcase</span>
                         <h2 class="font-serif text-5xl md:text-6xl text-white">Shop The <span class="italic text-gold">Lookbook</span></h2>
                     </div>
-                    <p class="text-gray-400 text-sm font-light max-w-md">Hover over the interactive hotspots on the model below to explore individual couture pieces from the runway.</p>
+
+                    <!-- Look Selector Pills -->
+                    <div class="flex flex-wrap gap-3 glass p-2 rounded-2xl border border-white/10" id="lookbook-pills">
+                        <button onclick="switchLook(0)" class="look-pill px-6 py-2.5 rounded-xl text-[10px] uppercase font-black tracking-widest transition-all bg-gold text-white shadow-lg">Ensemble #01</button>
+                        <button onclick="switchLook(1)" class="look-pill px-6 py-2.5 rounded-xl text-[10px] uppercase font-black tracking-widest text-gray-400 hover:text-white transition-all">Ensemble #02</button>
+                        <button onclick="switchLook(2)" class="look-pill px-6 py-2.5 rounded-xl text-[10px] uppercase font-black tracking-widest text-gray-400 hover:text-white transition-all">Ensemble #03</button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    <!-- Editorial Image with Hotspots -->
-                    <div class="lg:col-span-7 relative rounded-3xl overflow-hidden glass p-3 border border-white/10 group">
+                    <!-- Editorial Image Container with Hotspots -->
+                    <div class="lg:col-span-7 relative rounded-3xl overflow-hidden glass p-3 border border-white/10 group shadow-2xl">
                         <div class="relative aspect-[4/5] w-full rounded-2xl overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Lookbook Model" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                            <!-- Main Editorial Image -->
+                            <img id="lookbook-main-img" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80" alt="Lookbook Model" class="w-full h-full object-cover transition-all duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
 
-                            <!-- Hotspot 1: Blazer -->
-                            <div class="absolute top-[32%] left-[48%] group/pin">
-                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
-                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                            <!-- Hotspot 1: Upper Outfit -->
+                            <div id="hotspot-1" class="absolute top-[32%] left-[50%] -translate-x-1/2 group/pin transition-all duration-500">
+                                <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-sm shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
                                 </button>
                                 <!-- Hotspot Tooltip -->
-                                <div class="absolute left-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
-                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Featured Blazer</span>
-                                    <h4 class="font-serif text-white text-base">Asymmetric Silk Blazer</h4>
-                                    <p class="text-xs text-gold font-bold mt-1">$3,100</p>
-                                    <a href="shop.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                <div class="absolute left-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span id="pin1-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Upper Piece</span>
+                                    <h4 id="pin1-title" class="font-serif text-white text-base font-bold">Silk Satin Couture Blazer</h4>
+                                    <p id="pin1-price" class="text-xs text-gold font-black mt-1">$3,200</p>
+                                    <a href="shop.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
 
-                            <!-- Hotspot 2: Leather Tote Bag -->
-                            <div class="absolute top-[60%] left-[30%] group/pin">
-                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
-                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                            <!-- Hotspot 2: Accessory / Bag -->
+                            <div id="hotspot-2" class="absolute top-[58%] left-[38%] group/pin transition-all duration-500">
+                                <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-sm shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
                                 </button>
                                 <!-- Hotspot Tooltip -->
-                                <div class="absolute left-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
-                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Luxury Accessory</span>
-                                    <h4 class="font-serif text-white text-base">Aureate Leather Bag</h4>
-                                    <p class="text-xs text-gold font-bold mt-1">$2,450</p>
-                                    <a href="accessories.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                <div class="absolute left-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span id="pin2-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Handcrafted Bag</span>
+                                    <h4 id="pin2-title" class="font-serif text-white text-base font-bold">Aureate Leather Handbag</h4>
+                                    <p id="pin2-price" class="text-xs text-gold font-black mt-1">$2,650</p>
+                                    <a href="accessories.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
 
-                            <!-- Hotspot 3: Trousers -->
-                            <div class="absolute top-[75%] left-[62%] group/pin">
-                                <span class="w-8 h-8 rounded-full bg-gold/30 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
-                                <button class="w-8 h-8 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-lg relative z-10 hover:scale-125 transition-transform">
+                            <!-- Hotspot 3: Footwear / Pants -->
+                            <div id="hotspot-3" class="absolute top-[80%] left-[60%] group/pin transition-all duration-500">
+                                <span class="w-10 h-10 rounded-full bg-gold/40 border border-gold flex items-center justify-center animate-ping absolute inset-0 pointer-events-none"></span>
+                                <button class="w-10 h-10 rounded-full bg-gold text-luxury font-black flex items-center justify-center text-xs shadow-2xl relative z-10 hover:scale-125 transition-transform duration-300">
                                     <i class="fas fa-plus"></i>
                                 </button>
                                 <!-- Hotspot Tooltip -->
-                                <div class="absolute right-10 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
-                                    <span class="text-[8px] uppercase tracking-widest text-gold font-black block">Runway Bottoms</span>
-                                    <h4 class="font-serif text-white text-base">Obsidian Tailored Trousers</h4>
-                                    <p class="text-xs text-gold font-bold mt-1">$1,800</p>
-                                    <a href="shop.php" class="inline-block mt-2 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-1.5 rounded-full font-black hover:bg-white hover:text-black transition-colors">Shop Piece</a>
+                                <div class="absolute right-12 top-1/2 -translate-y-1/2 w-64 glass p-4 rounded-2xl border border-gold/40 shadow-2xl opacity-0 group-hover/pin:opacity-100 transition-all duration-300 pointer-events-none group-hover/pin:pointer-events-auto z-30">
+                                    <span id="pin3-tag" class="text-[8px] uppercase tracking-widest text-gold font-black block">Footwear</span>
+                                    <h4 id="pin3-title" class="font-serif text-white text-base font-bold">Gold Accent Stiletto Heels</h4>
+                                    <p id="pin3-price" class="text-xs text-gold font-black mt-1">$1,950</p>
+                                    <a href="shop.php" class="inline-block mt-3 text-[9px] uppercase tracking-widest bg-gold text-white px-4 py-2 rounded-full font-black hover:bg-white hover:text-black transition-colors">Acquire Piece</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lookbook Description & Quick Breakdown -->
+                    <!-- Lookbook Breakdown Side Details -->
                     <div class="lg:col-span-5 space-y-10">
                         <div class="space-y-4">
-                            <span class="text-gold text-[10px] uppercase tracking-[0.5em] font-black">Runway Ensemble #04</span>
-                            <h3 class="font-serif text-4xl text-white">The Midnight Monolith</h3>
-                            <p class="text-gray-400 text-sm font-light leading-relaxed">Curated for high-profile evening events and winter galas. Precision tailored in Milan with organic double-face cashmere and 24K gold plated hardware.</p>
+                            <span id="ensemble-code" class="text-gold text-[10px] uppercase tracking-[0.5em] font-black">Runway Ensemble #01</span>
+                            <h3 id="ensemble-name" class="font-serif text-4xl text-white">The Aureate Sovereign</h3>
+                            <p id="ensemble-desc" class="text-gray-400 text-sm font-light leading-relaxed">
+                                Unveiled at Paris Fashion Week. Engineered with double-face silk weave, custom 24K gold plated accents, and hand-stitched leather.
+                            </p>
                         </div>
 
-                        <div class="space-y-6">
-                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                        <!-- Itemized Price Card Stack -->
+                        <div class="space-y-4">
+                            <div class="glass p-5 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/40 transition-all">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">01</div>
+                                    <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">01</div>
                                     <div>
-                                        <h4 class="font-serif text-white text-lg">Asymmetric Silk Blazer</h4>
-                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Pure Aureate Weave</p>
+                                        <h4 id="card1-title" class="font-serif text-white text-base">Silk Satin Couture Blazer</h4>
+                                        <p id="card1-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Pure Aureate Weave</p>
                                     </div>
                                 </div>
-                                <span class="font-serif text-gold text-lg">$3,100</span>
+                                <span id="card1-price" class="font-serif text-gold text-base font-bold">$3,200</span>
                             </div>
 
-                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                            <div class="glass p-5 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/40 transition-all">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">02</div>
+                                    <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">02</div>
                                     <div>
-                                        <h4 class="font-serif text-white text-lg">Aureate Leather Bag</h4>
-                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Handcrafted Italian Calfskin</p>
+                                        <h4 id="card2-title" class="font-serif text-white text-base">Aureate Leather Handbag</h4>
+                                        <p id="card2-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Italian Calfskin Leather</p>
                                     </div>
                                 </div>
-                                <span class="font-serif text-gold text-lg">$2,450</span>
+                                <span id="card2-price" class="font-serif text-gold text-base font-bold">$2,650</span>
                             </div>
 
-                            <div class="glass p-6 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/30 transition-all">
+                            <div class="glass p-5 rounded-2xl flex items-center justify-between border border-white/10 hover:border-gold/40 transition-all">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold">03</div>
+                                    <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold font-serif font-bold text-sm">03</div>
                                     <div>
-                                        <h4 class="font-serif text-white text-lg">Obsidian Tailored Trousers</h4>
-                                        <p class="text-[10px] uppercase tracking-widest text-gray-400">Pleated Wool Blend</p>
+                                        <h4 id="card3-title" class="font-serif text-white text-base">Gold Accent Stiletto Heels</h4>
+                                        <p id="card3-sub" class="text-[9px] uppercase tracking-widest text-gray-400">Hand-polished Leather</p>
                                     </div>
                                 </div>
-                                <span class="font-serif text-gold text-lg">$1,800</span>
+                                <span id="card3-price" class="font-serif text-gold text-base font-bold">$1,950</span>
                             </div>
                         </div>
 
-                        <a href="shop.php" class="inline-block w-full py-5 bg-gold text-white text-center text-[10px] font-black uppercase tracking-[0.5em] rounded-2xl hover:bg-white hover:text-black transition-all duration-500 shadow-xl">
-                            Explore Complete Runway Outfits
+                        <a href="shop.php" class="inline-block w-full py-5 bg-gold text-white text-center text-[10px] font-black uppercase tracking-[0.5em] rounded-2xl hover:bg-white hover:text-black transition-all duration-500 shadow-2xl">
+                            Acquire Complete Lookbook Outfit
                         </a>
                     </div>
                 </div>
@@ -1301,6 +1318,113 @@ try {
                 const nextIndex = (currentConcept + 1) % conceptSlides.length;
                 window.goToConceptSlide(nextIndex);
             }
+
+            // Lookbook Interactive Switcher
+            const lookData = [
+                {
+                    img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80",
+                    code: "Runway Ensemble #01",
+                    name: "The Aureate Sovereign",
+                    desc: "Unveiled at Paris Fashion Week. Engineered with double-face silk weave, custom 24K gold plated accents, and hand-stitched leather.",
+                    pins: [
+                        { top: "32%", left: "50%", tag: "Upper Piece", title: "Silk Satin Couture Blazer", price: "$3,200" },
+                        { top: "58%", left: "38%", tag: "Handcrafted Bag", title: "Aureate Leather Handbag", price: "$2,650" },
+                        { top: "80%", left: "60%", tag: "Footwear", title: "Gold Accent Stiletto Heels", price: "$1,950" }
+                    ],
+                    cards: [
+                        { title: "Silk Satin Couture Blazer", sub: "Pure Aureate Weave", price: "$3,200" },
+                        { title: "Aureate Leather Handbag", sub: "Italian Calfskin Leather", price: "$2,650" },
+                        { title: "Gold Accent Stiletto Heels", sub: "Hand-polished Leather", price: "$1,950" }
+                    ]
+                },
+                {
+                    img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=80",
+                    code: "Runway Ensemble #02",
+                    name: "The Riviera Vanguard",
+                    desc: "Tailored in Milan for Mediterranean galas. Features structured wool coats, handcrafted leather duffles, and pleated chinos.",
+                    pins: [
+                        { top: "28%", left: "48%", tag: "Outerwear", title: "Oversized Cashmere Trench Coat", price: "$3,850" },
+                        { top: "55%", left: "32%", tag: "Travel Leather", title: "Italian Leather Duffle Bag", price: "$2,900" },
+                        { top: "75%", left: "55%", tag: "Runway Bottoms", title: "Pleated Silk Chino Pants", price: "$1,450" }
+                    ],
+                    cards: [
+                        { title: "Oversized Cashmere Trench Coat", sub: "Double-face Organic Cashmere", price: "$3,850" },
+                        { title: "Italian Leather Duffle Bag", sub: "Hand-stitched Calfskin", price: "$2,900" },
+                        { title: "Pleated Silk Chino Pants", sub: "Pure Mulberry Silk", price: "$1,450" }
+                    ]
+                },
+                {
+                    img: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80",
+                    code: "Runway Ensemble #03",
+                    name: "Elysian Evening Flora",
+                    desc: "Hand-crafted silk evening gown with 3D floral accents, accompanied by a 24K gold minaudière clutch.",
+                    pins: [
+                        { top: "35%", left: "52%", tag: "Haute Gown", title: "Hand-embroidered Silk Gown", price: "$4,500" },
+                        { top: "52%", left: "68%", tag: "Vault Clutch", title: "24K Gold Plated Minaudière", price: "$3,100" },
+                        { top: "82%", left: "45%", tag: "Footwear", title: "Obsidian Velvet Pumps", price: "$1,850" }
+                    ],
+                    cards: [
+                        { title: "Hand-embroidered Silk Gown", sub: "Custom Atelier Fit", price: "$4,500" },
+                        { title: "24K Gold Plated Minaudière", sub: "Limited Vault Edition", price: "$3,100" },
+                        { title: "Obsidian Velvet Pumps", sub: "Italian Suede Finish", price: "$1,850" }
+                    ]
+                }
+            ];
+
+            window.switchLook = function(index) {
+                const data = lookData[index];
+                if (!data) return;
+
+                // Update Pills
+                const pills = document.querySelectorAll('.look-pill');
+                pills.forEach((p, idx) => {
+                    if (idx === index) {
+                        p.className = "look-pill px-6 py-2.5 rounded-xl text-[10px] uppercase font-black tracking-widest transition-all bg-gold text-white shadow-lg";
+                    } else {
+                        p.className = "look-pill px-6 py-2.5 rounded-xl text-[10px] uppercase font-black tracking-widest text-gray-400 hover:text-white transition-all";
+                    }
+                });
+
+                // Update Image
+                const mainImg = document.getElementById('lookbook-main-img');
+                if (mainImg) {
+                    mainImg.style.opacity = '0';
+                    setTimeout(() => {
+                        mainImg.src = data.img;
+                        mainImg.style.opacity = '1';
+                    }, 200);
+                }
+
+                // Update Main Text
+                document.getElementById('ensemble-code').textContent = data.code;
+                document.getElementById('ensemble-name').textContent = data.name;
+                document.getElementById('ensemble-desc').textContent = data.desc;
+
+                // Update Hotspots
+                data.pins.forEach((pin, i) => {
+                    const hs = document.getElementById(`hotspot-${i+1}`);
+                    if (hs) {
+                        hs.style.top = pin.top;
+                        hs.style.left = pin.left;
+                    }
+                    const tag = document.getElementById(`pin${i+1}-tag`);
+                    const title = document.getElementById(`pin${i+1}-title`);
+                    const price = document.getElementById(`pin${i+1}-price`);
+                    if (tag) tag.textContent = pin.tag;
+                    if (title) title.textContent = pin.title;
+                    if (price) price.textContent = pin.price;
+                });
+
+                // Update Cards
+                data.cards.forEach((card, i) => {
+                    const title = document.getElementById(`card${i+1}-title`);
+                    const sub = document.getElementById(`card${i+1}-sub`);
+                    const price = document.getElementById(`card${i+1}-price`);
+                    if (title) title.textContent = card.title;
+                    if (sub) sub.textContent = card.sub;
+                    if (price) price.textContent = card.price;
+                });
+            };
         });
     </script>
 </body>
